@@ -24,6 +24,7 @@ class Game:
             self.screen.fill('black')
             self.clock.tick(FPS)
             self.level.run()
+            self.level.rock_sprites.update()
             pygame.display.update()
 
 

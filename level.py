@@ -9,6 +9,7 @@ from ui import UI
 from enemy import Enemy
 from debug import debug
 from rock import Rock
+from Object_level import Object_level
 
 class Level:
 
@@ -27,6 +28,8 @@ class Level:
         self.level_objects = pygame.sprite.Group()
         #roches
         self.rock_sprites = pygame.sprite.Group()
+        #boss
+        self.boss_sprite = pygame.sprite.Group()
 
 
         # creation de la map
@@ -59,14 +62,12 @@ class Level:
 
                         if  style == 'rock1':
                             if i%4 == 0 :
-                                rock = pygame.image.load('Graphics/08.png')
-                                Rock((x, y), [self.visible_sprites,self.rock_sprites], 'rock',rock)
+                                Rock((x, y), [self.visible_sprites,self.rock_sprites])
                             i+=1
 
                         if style == 'rock2' :
                             if j%4 == 0 :
-                                rock = pygame.image.load('Graphics/rocks/08_0.png')
-                                Rock((x, y), [self.visible_sprites,self.rock_sprites], 'rock',rock)
+                                Rock((x, y), [self.visible_sprites,self.rock_sprites])
                             j+=1
 
 
@@ -77,12 +78,15 @@ class Level:
                                     Enemy('bamboo', (2600, 6500),
                                           [self.visible_sprites, self.attackable_sprites],
                                           self.obstacle_sprites,self.damage_player)
+                                    Enemy('raccoon', (4200, 1100),
+                                          [self.visible_sprites, self.attackable_sprites,self.boss_sprite],
+                                          self.obstacle_sprites, self.damage_player)
                                     image = pygame.image.load('NinjaAdventure/Items/Food/Beaf.png')
                                     image = pygame.transform.scale(image,(64,64))
-                                    Tile((2700, 6700), [self.visible_sprites,self.level_objects], 'auto_collect',image)
+                                    Object_level((2700, 6700), [self.visible_sprites,self.level_objects], 'auto_collect',image)
                                     image2 = pygame.image.load('NinjaAdventure/Items/Potion/Hear.png')
                                     image2 = pygame.transform.scale(image2,(64,64))
-                                    Tile((2700, 6800), [self.visible_sprites,self.level_objects], 'press_to_collect',image2)
+                                    Object_level((2700, 6800), [self.visible_sprites,self.level_objects], 'press_to_collect',image2)
 
 
 
@@ -158,13 +162,23 @@ class Level:
         text = font.render("Press R to collect", True, 'white')
         self.display_surface.blit(text, (WIDTH/2-100, 100))
 
+    def boss_1(self):
+        if self.boss_sprite :
+            if self.player.rect.centerx >= 3960 and self.player.rect.centery <= 1698 :
+                for rock in self.rock_sprites :
+                    rock.animating = True
+                    self.obstacle_sprites.add(rock)
+        else :
+            for rock in self.rock_sprites:
+                rock.kill()
+
+
 
     def run(self):
-        if self.player.rect.centerx >= 4064 and self.player.rect.centery <= 1698 :
-            pass
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
         self.visible_sprites.enemy_update(self.player)
+        self.boss_1()
 
         self.player_attack_logic()
         self.ui.display(self.player)
