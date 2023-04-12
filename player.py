@@ -7,7 +7,7 @@ class Player(Entity):
     def __init__(self, pos, groups, obstacle_sprites,create_attack,destroy_attack,create_magic):
         super().__init__(groups)
         self.image = pygame.image.load("Graphics/enfin.png").convert_alpha()
-        self.image = pygame.transform.scale(self.image, (64, 64))
+        self.image = pygame.transform.scale(self.image, (16,16))
         self.rect = self.image.get_rect(topleft=pos)
         self.hitbox = self.rect.inflate(0, -0.5)
 
@@ -39,7 +39,7 @@ class Player(Entity):
         self.stats = {'health': 100,'energy': 60, 'attack': 10,'magic': 4,'speed': 5}
         self.health = self.stats['health']
         self.energy = self.stats['energy']
-        self.exp = 123
+        self.exp = 0
         self.speed = self.stats['speed']
 
         #damage timer
@@ -161,6 +161,7 @@ class Player(Entity):
 
         # set the image
         self.image = animation[int(self.frame_index)]
+        self.image = pygame.transform.scale(self.image,(32,32))
         self.rect = self.image.get_rect(center = self.hitbox.center)
 
         # flicker

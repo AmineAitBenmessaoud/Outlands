@@ -13,7 +13,7 @@ class Game:
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         self.clock = pygame.time.Clock()
         pygame.display.set_caption("outlands")
-        self.level = Level()
+        self.level = Level(1)
 
     def run(self):
         while True:
@@ -24,6 +24,13 @@ class Game:
             self.screen.fill('black')
             self.clock.tick(FPS)
             self.level.run()
+            self.playerx = self.level.player.rect.centerx
+            self.playery = self.level.player.rect.centery
+            if self.playerx >= 164*TILESIZE and self.level.scene == 1:
+                if self.playery <= 241*TILESIZE :
+                    self.level = Level(1,2)
+
+            pygame.display.update()
             self.level.rock_sprites.update()
             pygame.display.update()
 

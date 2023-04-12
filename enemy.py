@@ -36,13 +36,13 @@ class Enemy(Entity):
         #player interaction
         self.can_attack = True
         self.attack_time = None
-        self.attack_cooldown = 400
+        self.attack_cooldown = 500
         self.damage_palyer = damage_player
 
         #invinsibility timer
         self.vulnerable = True
         self.hit_time = None
-        self.invicibility_duration = 300
+        self.invicibility_duration = 500
 
     def import_graphics(self,name):
         self.animations = {'idle':[] , 'move':[] ,'attack':[]}

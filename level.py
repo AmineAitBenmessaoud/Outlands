@@ -11,14 +11,16 @@ from debug import debug
 from rock import Rock
 from Object_level import Object_level
 
+
+
 class Level:
 
-    def __init__(self):
+    def __init__(self,level_number,scene_number=1):
         # surface principale
         self.player = None
         self.display_surface = pygame.display.get_surface()
         # types des sprites :
-        self.visible_sprites = YSortCameraGroup()
+        self.visible_sprites = YSortCameraGroup(level_number,scene_number)
         self.obstacle_sprites = pygame.sprite.Group()
         #attack sprites
         self.current_attack = None
@@ -30,26 +32,40 @@ class Level:
         self.rock_sprites = pygame.sprite.Group()
         #boss
         self.boss_sprite = pygame.sprite.Group()
+        #level data
+        self.number = level_number
+        self.scene = scene_number
 
 
-        # creation de la map
-        self.create_map()
 
         #user interface
         self.ui = UI()
 
+        # creation de la map
+        if level_number == 1:
+            if scene_number == 1:
+                self.create_map1_scene1()
+            if scene_number == 2:
+                self.create_map1_scene2()
+        if level_number == 2:
+            self.create_map2()
 
 
 
-    def create_map(self):
+    def create_map1_scene1(self):
         layouts = {
-            'boundary': import_csv_layout('csv_new/outlandsmapboop_floor blocks2.csv'),
-            'rock1': import_csv_layout('csv_new/outlandsmapboop_rocks1floorblocks.csv'),
-            'rock2': import_csv_layout('csv_new/outlandsmapboop_rocks2floorblocks.csv'),
-            'entities':import_csv_layout('csv_new/playerenemies_player.csv')
+            'grass' : import_csv_layout('real level/CSV/Level_1 map_grass.csv'),
+            'plants': import_csv_layout('real level/CSV/Level_1 map_plants.csv'),
+            'house': import_csv_layout('real level/CSV/Level_1 map_House.csv'),
+
+            'boundary': import_csv_layout('real level/CSV/Level_1 map_Trees.csv'),
+            'rocks': import_csv_layout('real level/CSV/Level_1 map_Rocks.csv'),
+            'water_rocks' : import_csv_layout('real level/CSV/Level_1 map_water rocks.csv'),
+            'wood' : import_csv_layout('real level/CSV/Level_1 map_Wood.csv'),
+            'player' : import_csv_layout('real level/CSV/Level_1 map_player.csv'),
+
         }
         i = 0
-        j = 0
         for style, layout in layouts.items():
             for row_index, row in enumerate(layout):
                 for col_index, col in enumerate(row):
@@ -57,62 +73,55 @@ class Level:
                         x = col_index * TILESIZE
                         y = row_index * TILESIZE
                         #test
-                        if style == 'boundary':
+                        if style == 'boundary' or style == 'rocks' or style == 'wood' or style== 'house':
+                            Tile((x, y), [self.obstacle_sprites], 'invisible')
+                        if style == 'player' and i==0:
+                            self.player = Player((60*16,40*16),
+                                                 [self.visible_sprites],
+                                                 self.obstacle_sprites,
+                                                 self.create_attack,
+                                                 self.destroy_attack,
+                                                 self.create_magic)
+                            Enemy('flying_rock', (x + 200, y + 600),
+                                  [self.visible_sprites,self.obstacle_sprites],
+                                  self.obstacle_sprites, self.damage_player)
+                            Enemy('dragon', (x + 700, y + 600),
+                                  [self.visible_sprites, self.attackable_sprites],
+                                  '', self.damage_player)
+
+
+                            i = 1
+                        if style == 'water_rocks' :
                             Tile((x, y), [self.obstacle_sprites], 'invisible')
 
-                        if  style == 'rock1':
-                            if i%4 == 0 :
-                                Rock((x, y), [self.visible_sprites,self.rock_sprites])
-                            i+=1
+    def create_map1_scene2(self):
+        layouts = {
+            'floor' : import_csv_layout("real level/CSV/First gym/interior_floor.csv"),
+            'meubles': import_csv_layout("real level/CSV/First gym/interior_meubles.csv"),
+            'tapis': import_csv_layout("real level/CSV/First gym/interior_Tapis.csv"),
+            'wall': import_csv_layout("real level/CSV/First gym/interior_wall.csv"),
+            'player' : import_csv_layout('real level/CSV/First gym/interior_player.csv')
+        }
+        i = 0
+        for style, layout in layouts.items():
+            for row_index, row in enumerate(layout):
+                for col_index, col in enumerate(row):
+                    if col != '-1':
+                        x = col_index * TILESIZE
+                        y = row_index * TILESIZE
+                        #test
+                        if style == 'meubles' or style == 'wall' :
+                            Tile((x, y), [self.obstacle_sprites], 'invisible')
+                        if style == 'player' and col == '163':
+                            print(x,y)
+                            self.player = Player((x,y),
+                                                 [self.visible_sprites],
+                                                 self.obstacle_sprites,
+                                                 self.create_attack,
+                                                 self.destroy_attack,
+                                                 self.create_magic)
 
-                        if style == 'rock2' :
-                            if j%4 == 0 :
-                                Rock((x, y), [self.visible_sprites,self.rock_sprites])
-                            j+=1
-
-
-
-
-                        if style == 'entities' :
-                                if col == '394' :
-                                    Enemy('bamboo', (2600, 6500),
-                                          [self.visible_sprites, self.attackable_sprites],
-                                          self.obstacle_sprites,self.damage_player)
-                                    Enemy('raccoon', (4200, 1100),
-                                          [self.visible_sprites, self.attackable_sprites,self.boss_sprite],
-                                          self.obstacle_sprites, self.damage_player)
-                                    image = pygame.image.load('NinjaAdventure/Items/Food/Beaf.png')
-                                    image = pygame.transform.scale(image,(64,64))
-                                    Object_level((2700, 6700), [self.visible_sprites,self.level_objects], 'auto_collect',image)
-                                    image2 = pygame.image.load('NinjaAdventure/Items/Potion/Hear.png')
-                                    image2 = pygame.transform.scale(image2,(64,64))
-                                    Object_level((2700, 6800), [self.visible_sprites,self.level_objects], 'press_to_collect',image2)
-
-
-
-                                    print(x,y)
-                                    self.player = Player((x,y),
-                                                         [self.visible_sprites],
-                                                         self.obstacle_sprites,
-                                                         self.create_attack,
-                                                         self.destroy_attack,
-                                                         self.create_magic)
-                                else :
-                                    if col == '390':
-                                        monster_name = 'bamboo'
-                                    elif col == '391' :
-                                        monster_name = 'spirit'
-                                    elif col == '392' :
-                                        monster_name = 'raccoon'
-                                    else :
-                                        monster_name = 'squid'
-                                    Enemy(monster_name,(x,y),
-                                          [self.visible_sprites,self.attackable_sprites],
-                                          self.obstacle_sprites,self.damage_player)
-
-
-
-
+                            i = 1
 
     def create_attack(self):
         self.current_attack = Weapon(self.player,[self.visible_sprites,self.attack_sprites])
@@ -123,7 +132,7 @@ class Level:
         print(cost)
 
     def destroy_attack(self):
-        if self.current_attack:
+        if self.current_attack != None:
             self.current_attack.kill()
         self.current_attack = None
 
@@ -178,7 +187,6 @@ class Level:
         self.visible_sprites.custom_draw(self.player)
         self.visible_sprites.update()
         self.visible_sprites.enemy_update(self.player)
-        self.boss_1()
 
         self.player_attack_logic()
         self.ui.display(self.player)
@@ -186,7 +194,7 @@ class Level:
 
 
 class YSortCameraGroup(pygame.sprite.Group):
-    def __init__(self):
+    def __init__(self, level_number, scene_number=1):
         # general setup
         super().__init__()
         self.display_surface = pygame.display.get_surface()
@@ -195,7 +203,13 @@ class YSortCameraGroup(pygame.sprite.Group):
         self.offset = pygame.math.Vector2()
 
         # floor
-        self.floor_surface = pygame.image.load('Graphics/outlandsmapboop.png').convert()
+        if level_number == 1:
+            if scene_number == 1:
+                self.floor_surface = pygame.image.load('real level/Level_1 map.png').convert()
+            if scene_number == 2:
+                self.floor_surface = pygame.image.load('real level/gym1-1.png').convert()
+        if level_number == 2:
+            self.floor_surface = pygame.image.load('Graphics/outlandssmap.png').convert()
 
         self.floor_rect = self.floor_surface.get_rect(topleft=(0, 0))
 
@@ -212,8 +226,9 @@ class YSortCameraGroup(pygame.sprite.Group):
             offset_pos = sprite.rect.topleft - self.offset
             self.display_surface.blit(sprite.image, offset_pos)
 
-    def enemy_update(self,player):
-        enemy_sprites = [sprite for sprite in self.sprites() if hasattr(sprite,'sprite_type') and sprite.sprite_type == 'enemy']
+    def enemy_update(self, player):
+        enemy_sprites = [sprite for sprite in self.sprites() if
+                         hasattr(sprite, 'sprite_type') and sprite.sprite_type == 'enemy']
         for enemy in enemy_sprites:
             enemy.enemy_update(player)
 
