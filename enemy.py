@@ -12,7 +12,7 @@ class Enemy(Entity):
 
         # graphics setup
         self.import_graphics(monster_name)
-        self.status = 'idle'
+        self.status = 'idle_left'
         self.image = self.animations[self.status][self.frame_index]
         self.rect = self.image.get_rect(topleft = pos)
 
@@ -37,15 +37,16 @@ class Enemy(Entity):
         self.can_attack = True
         self.attack_time = None
         self.attack_cooldown = 500
-        self.damage_palyer = damage_player
+        self.damage_player = damage_player
 
         #invinsibility timer
         self.vulnerable = True
         self.hit_time = None
-        self.invicibility_duration = 500
+        self.invincibility_duration = 500
 
     def import_graphics(self,name):
-        self.animations = {'idle':[] , 'move':[] ,'attack':[]}
+        self.animations = {'idle_left':[] , 'move_left':[] ,'attack_left':[],
+                           'idle_right':[] , 'move_right':[] ,'attack_right':[]}
         main_path = f'Graphics/{name}/'
         for animation in self.animations.keys():
             self.animations[animation] = import_folder(main_path + animation)
@@ -64,19 +65,28 @@ class Enemy(Entity):
         distance = self.get_player_distance_direction(player)[0]
 
         if distance <= self.attack_radius and self.can_attack:
-            if self.status != 'attack' :
+            if self.status != 'attack_left' and self.status != 'attack_right' :
                 self.frame_index = 0
-            self.status = 'attack'
+                if player.rect.x < self.rect.x :
+                    self.status = 'attack_left'
+                else :
+                    self.status = 'attack_right'
         elif distance <= self.notice_radius:
-            self.status = 'move'
+            if player.rect.x < self.rect.x:
+                self.status = 'move_left'
+            else :
+                self.status = 'move_right'
         else :
-            self.status = 'idle'
+            if player.rect.x < self.rect.x:
+                self.status = 'idle_left'
+            else :
+                self.status = 'idle_right'
 
     def actions(self,player):
-        if self.status == 'attack' :
+        if 'attack' in self.status  :
             self.attack_time = pygame.time.get_ticks()
-            self.damage_palyer(self.attack_damage,self.attack_type)
-        elif self.status == 'move' :
+            self.damage_player(self.attack_damage,self.attack_type)
+        elif 'move' in self.status  :
             self.direction = self.get_player_distance_direction(player)[1]
 
         else :
@@ -86,7 +96,7 @@ class Enemy(Entity):
         animation = self.animations[self.status]
         self.frame_index += self.animation_speed
         if self.frame_index >= len(animation):
-            if self.status == 'attack':
+            if 'attack' in self.status :
                 self.can_attack = False
             self.frame_index = 0
 
@@ -107,7 +117,7 @@ class Enemy(Entity):
             if current_time - self.attack_time >= self.attack_cooldown :
                 self.can_attack = True
         if not self.vulnerable :
-            if current_time - self.hit_time >= self.invicibility_duration:
+            if current_time - self.hit_time >= self.invincibility_duration:
                 self.vulnerable = True
 
     def get_damage(self,player,attack_type):
