@@ -29,6 +29,11 @@ class Game:
             if self.playerx >= 164*TILESIZE and self.level.scene == 1:
                 if self.playery <= 241*TILESIZE :
                     self.level = Level(1,2)
+            if self.level.scene == 2 and self.playery <= 16 :
+                if self.playerx >= 15*TILESIZE and self.playerx <= 21*TILESIZE :
+                    self.level = Level(1,3)
+
+
 
             pygame.display.update()
             self.level.rock_sprites.update()

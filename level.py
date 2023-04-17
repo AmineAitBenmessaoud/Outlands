@@ -47,8 +47,11 @@ class Level:
                 self.create_map1_scene1()
             if scene_number == 2:
                 self.create_map1_scene2()
+            if scene_number == 3 :
+                self.create_map1_scene3()
         if level_number == 2:
             self.create_map2()
+
 
 
 
@@ -122,6 +125,32 @@ class Level:
                                                  self.create_magic)
 
                             i = 1
+
+    def create_map1_scene3(self):
+        layouts = {
+            'grass': import_csv_layout("real level/CSV/boss/mini_boss_grass.csv"),
+            'wall': import_csv_layout("real level/CSV/boss/mini_boss_mur.csv"),
+            'rocks': import_csv_layout("real level/CSV/boss/mini_boss_rocks.csv"),
+            'sol': import_csv_layout('real level/CSV/boss/mini_boss_sol.csv'),
+            'player' : import_csv_layout('real level/CSV/boss/mini_boss_player.csv'),
+        }
+        i = 0
+        for style, layout in layouts.items():
+            for row_index, row in enumerate(layout):
+                for col_index, col in enumerate(row):
+                    if col != '-1':
+                        x = col_index * TILESIZE
+                        y = row_index * TILESIZE
+                        if style == 'wall' :
+                            Tile((x,y),[self.obstacle_sprites,self.visible_sprites],'wall')
+                        if style == 'player' and row != 0  :
+                            print(60*TILESIZE,70*TILESIZE)
+                            self.player = Player((x, y),
+                                                 [self.visible_sprites],
+                                                 self.obstacle_sprites,
+                                                 self.create_attack,
+                                                 self.destroy_attack,
+                                                 self.create_magic)
 
     def create_attack(self):
         self.current_attack = Weapon(self.player,[self.visible_sprites,self.attack_sprites])
@@ -208,8 +237,11 @@ class YSortCameraGroup(pygame.sprite.Group):
                 self.floor_surface = pygame.image.load('real level/Level_1 map.png').convert()
             if scene_number == 2:
                 self.floor_surface = pygame.image.load('real level/gym1-1.png').convert()
+            if scene_number == 3:
+                self.floor_surface = pygame.image.load('real level/boss_fight.png').convert()
         if level_number == 2:
             self.floor_surface = pygame.image.load('Graphics/outlandssmap.png').convert()
+
 
         self.floor_rect = self.floor_surface.get_rect(topleft=(0, 0))
 
