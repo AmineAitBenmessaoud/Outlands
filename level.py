@@ -151,6 +151,39 @@ class Level:
                                                  self.create_attack,
                                                  self.destroy_attack,
                                                  self.create_magic)
+                            
+    def create_map2(self):
+        layouts = {
+            'grass' : import_csv_layout('Level 2\BIGMAP_Surface.csv'),
+
+
+
+            'boundary': import_csv_layout('Level 2\BIGMAP_Boundary.csv'),
+            'wood' : import_csv_layout('Level 2\BIGMAP_Boundary.csv'),
+            'player' : import_csv_layout('real level/CSV/Level_1 map_player.csv'),
+
+        }
+        i = 0
+        for style, layout in layouts.items():
+            for row_index, row in enumerate(layout):
+                for col_index, col in enumerate(row):
+                    if col != '-1':
+                        x = col_index * TILESIZE
+                        y = row_index * TILESIZE
+                        #test
+                        if style == 'boundary' or style == 'rocks' or style == 'wood' or style== 'house':
+                            Tile((x, y), [self.obstacle_sprites], 'invisible')
+                        if style == 'player' and i==0:
+                            self.player = Player((60*16,40*16),
+                                                 [self.visible_sprites],
+                                                 self.obstacle_sprites,
+                                                 self.create_attack,
+                                                 self.destroy_attack,
+                                                 self.create_magic) 
+
+                            i = 1
+                        if style == 'water_rocks' :
+                            Tile((x, y), [self.obstacle_sprites], 'invisible')
 
     def create_attack(self):
         self.current_attack = Weapon(self.player,[self.visible_sprites,self.attack_sprites])
@@ -240,7 +273,7 @@ class YSortCameraGroup(pygame.sprite.Group):
             if scene_number == 3:
                 self.floor_surface = pygame.image.load('real level/boss_fight.png').convert()
         if level_number == 2:
-            self.floor_surface = pygame.image.load('Graphics/outlandssmap.png').convert()
+            self.floor_surface = pygame.image.load('Level 2\BIGMAP.png').convert()
 
 
         self.floor_rect = self.floor_surface.get_rect(topleft=(0, 0))

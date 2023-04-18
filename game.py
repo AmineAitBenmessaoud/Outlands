@@ -31,7 +31,8 @@ class Game:
                     self.level = Level(1,2)
             if self.level.scene == 2 and self.playery <= 16 :
                 if self.playerx >= 15*TILESIZE and self.playerx <= 21*TILESIZE :
-                    self.level = Level(1,3)
+                    self.level = Level(2)
+        
 
 
 
