@@ -242,7 +242,6 @@ class Level:
                                     self.add_xp,
                                 )
 
-                                print(x,y)
 
     def create_attack(self):
         self.current_attack = Weapon(self.player,[self.visible_sprites,self.attack_sprites])
@@ -333,7 +332,8 @@ class YSortCameraGroup(pygame.sprite.Group):
                 self.floor_surface = pygame.image.load('real level/boss_fight.png').convert()
         if level_number == 2:
             self.floor_surface = pygame.image.load('Level 2\BIGMAP.png').convert()
-
+        if level_number == 3:
+            self.floor_surface = pygame.image.load("Graphics\passage\map.png").convert()
 
         self.floor_rect = self.floor_surface.get_rect(topleft=(0, 0))
 
