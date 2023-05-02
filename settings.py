@@ -1,7 +1,7 @@
 FPS = 60
 HEIGHT = 700
 WIDTH = 1300
-TILESIZE = 16
+TILESIZE = 60
 
 weapon_data = {
     'sword' : {'cooldown':100,'damage':15,'graphic':'NinjaAdventure/Items/Weapons/Sword/Sprite.png'},

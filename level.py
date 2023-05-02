@@ -188,14 +188,14 @@ class Level:
                             Tile((x, y), [self.obstacle_sprites], 'invisible')
     def create_map3(self):
         layouts = {
-            "boundary": import_csv_layout("../graphics/passage/files_collision_boundaries.csv"),
-            "grass": import_csv_layout("../graphics/passage/files_collision_movable.csv"),
-            "object": import_csv_layout("../graphics/passage/files_collision_object.csv"),
-            "entities": import_csv_layout("../graphics/passage/files_collision_entities.csv"),
+            "boundary": import_csv_layout("Graphics/passage/files_collision_boundaries.csv"),
+            "grass": import_csv_layout("Graphics/passage/files_collision_movable.csv"),
+            "object": import_csv_layout("Graphics/passage/files_collision_object.csv"),
+            "entities": import_csv_layout("Graphics/passage/files_collision_entities.csv"),
         }
         graphics = {
-            "grass": import_folder("../graphics/grass"),
-            "objects": import_folder("../graphics/objects"),
+            "grass": import_folder("Graphics/grass"),
+            "objects": import_folder("Graphics/objects"),
         }
 
         # row gives us y position
@@ -226,20 +226,20 @@ class Level:
                             else:
                                 if col == "4":
                                     monster_name = "bamboo"
-                                elif col == "391":
-                                    monster_name = "spirit"
-                                elif col == "31":
-                                    monster_name = "raccoon"
-                                else:
-                                    monster_name = "squid"
+                                #elif col == "391":
+                                 #   monster_name = "spirit"
+                                #elif col == "31":
+                                 #   monster_name = "raccoon"
+                                #else:
+                                  #  monster_name = "squid"
                                 Enemy(
                                     monster_name,
                                     (x, y),
                                     [self.visible_sprites, self.attackable_sprites],
                                     self.obstacle_sprites,
                                     self.damage_player,
-                                    self.trigger_death_particles,
-                                    self.add_xp,
+                                    #self.destroy_attack,
+                                    #self.create_magic
                                 )
 
 
