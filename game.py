@@ -5,7 +5,7 @@ from level import Level
 from settings import *
 from debug import debug
 
-
+#kiilimi
 
 class Game:
     def __init__(self):
