@@ -1,7 +1,7 @@
 FPS = 60
 HEIGHT = 700
 WIDTH = 1300
-TILESIZE = 60
+TILESIZE = 16
 
 weapon_data = {
     'sword' : {'cooldown':100,'damage':15,'graphic':'NinjaAdventure/Items/Weapons/Sword/Sprite.png'},
@@ -49,3 +49,4 @@ monster_data = {
 	'dragon': {'health' : 300 , 'exp': 100, 'damage': 10, 'attack_type': 'firebreath', 'attack_sound': '../audio/attack/slash.wav','speed': 0.05, 'resistance': 3, 'attack_radius': 180, 'notice_radius': 500},
 
 }
+
