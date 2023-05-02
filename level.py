@@ -51,6 +51,8 @@ class Level:
                 self.create_map1_scene3()
         if level_number == 2:
             self.create_map2()
+        if level_number == 3: #This is Amine level (it will have also a slight modification on the size of the tiles)
+            self.create_map3()
 
 
 
@@ -184,6 +186,62 @@ class Level:
                             i = 1
                         if style == 'water_rocks' :
                             Tile((x, y), [self.obstacle_sprites], 'invisible')
+    def create_map3(self):
+        layouts = {
+            "boundary": import_csv_layout("Graphics/passage/files_collision_boundaries.csv"),
+            "grass": import_csv_layout("Graphics/passage/files_collision_movable.csv"),
+            "object": import_csv_layout("Graphics/passage/files_collision_object.csv"),
+            "entities": import_csv_layout("Graphics/passage/files_collision_entities.csv"),
+        }
+        graphics = {
+            "grass": import_folder("Graphics/grass"),
+            "objects": import_folder("Graphics/objects"),
+        }
+
+        # row gives us y position
+        for style, layout in layouts.items():
+            for row_index, row in enumerate(layout):
+                for col_index, col in enumerate(row):
+
+                    if col != "-1":
+                        x = col_index * TILESIZE
+                        y = row_index * TILESIZE
+                        if style == "boundary":
+                            Tile(
+                                (x, y),
+                                [self.obstacle_sprites],
+                                "invisible",
+                            )
+
+                        if style == "entities":
+                            if col == "68":
+                                self.player = Player(
+                                    (x,y),
+                                    [self.visible_sprites],
+                                    self.obstacle_sprites,
+                                    self.create_attack,
+                                    self.destroy_attack,
+                                    self.create_magic,
+                                )
+                            else:
+                                if col == "4":
+                                    monster_name = "bamboo"
+                                #elif col == "391":
+                                 #   monster_name = "spirit"
+                                #elif col == "31":
+                                 #   monster_name = "raccoon"
+                                #else:
+                                  #  monster_name = "squid"
+                                Enemy(
+                                    monster_name,
+                                    (x, y),
+                                    [self.visible_sprites, self.attackable_sprites],
+                                    self.obstacle_sprites,
+                                    self.damage_player,
+                                    #self.destroy_attack,
+                                    #self.create_magic
+                                )
+
 
     def create_attack(self):
         self.current_attack = Weapon(self.player,[self.visible_sprites,self.attack_sprites])
@@ -274,7 +332,8 @@ class YSortCameraGroup(pygame.sprite.Group):
                 self.floor_surface = pygame.image.load('real level/boss_fight.png').convert()
         if level_number == 2:
             self.floor_surface = pygame.image.load('Level 2\BIGMAP.png').convert()
-
+        if level_number == 3:
+            self.floor_surface = pygame.image.load("Graphics\passage\map.png").convert()
 
         self.floor_rect = self.floor_surface.get_rect(topleft=(0, 0))
 
