@@ -15,36 +15,135 @@ class Game:
         self.screen = pygame.display.set_mode((WIDTH,HEIGHT))
         pygame.display.set_caption('Outlands')
         self.clock = pygame.time.Clock()
-        pygame.display.set_caption("outlands")
-        self.level = Level(3)
+        self.game_active=True
+        self.player_stand = pygame.image.load('player/gameover_right_6.png').convert_alpha()
+        self.player_stand_rect = self.player_stand.get_rect(center = (WIDTH/2,HEIGHT*5/8))
+        self.test_font = pygame.font.Font('font/Pixeltype.ttf', 250)
+        self.game_name = self.test_font.render('GAME OVER',False,(0, 9, 94))
+
+        self.game_name_rect = self.game_name.get_rect(center = (WIDTH/2,HEIGHT*2/8))
+
+        self.test_font_message = pygame.font.Font('font/Pixeltype.ttf', 150)
+        self.game_message = self.test_font_message.render('You Looser',False,(0, 9, 94))
+        self.game_message_rect = self.game_message.get_rect(center = (WIDTH/2,HEIGHT*4/8))
+
+        self.test_font_message_0 = pygame.font.Font('font/Pixeltype.ttf', 250)
+        self.game_message_0 = self.test_font_message_0.render('press enter to restart',False,(148, 201, 255))
+        self.game_message_rect_0 = self.game_message_0.get_rect(center = (WIDTH/2,HEIGHT*7/8))
+        #waiting screen
+        self.test_font_message_0 = pygame.font.Font('font/Pixeltype.ttf', 150)
+        self.game_message_0 = self.test_font_message_0.render('waiting the player to get trough',False,(0, 9, 94))
+        self.game_message_rect_0 = self.game_message_0.get_rect(center = (WIDTH/2,HEIGHT*7/8))
+
+        self.player_wait = pygame.image.load('wait.png').convert_alpha()
+        self.player_wait_rect = self.player_stand.get_rect(center = (WIDTH/2,HEIGHT*1/2))
+
+
+
+
+        self.number_gameover=0
+
+        self.level = Level(4,(2500,2500),1)
 
     def run(self):
         while True:
             keys = pygame.key.get_pressed()
-            
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT :
                     pygame.quit()
                     sys.exit()
-            self.screen.fill('black')
-            self.clock.tick(FPS)
-            self.level.run()
-            self.playerx = self.level.player.rect.centerx
-            self.playery = self.level.player.rect.centery
-            #if self.playerx >= 164*TILESIZE and self.level.scene == 1:
-             #   if self.playery <= 241*TILESIZE :
-              #     self.level = Level(1,2)
-            #if self.level.scene == 2 and self.playery <= 16 :
-             #   if self.playerx >= 15*TILESIZE and self.playerx <= 21*TILESIZE :
-              #      self.level = Level(3) #just testing
-            #Here comes the modification based on the position of the player        
-            #if self.level == 2:
-             #   if self.playerx >= 15*TILESIZE and self.playerx <= 21*TILESIZE :
-              #      self.level = Level(3)
-        
+            if keys[pygame.K_l]:
+                pygame.quit()
+                sys.exit()
+            if self.game_active:
+
+                self.screen.fill('black')
+
+                self.level.run(self,self.number_gameover)
+                #changement de maps
+                self.playerx = self.level.player.rect.centerx
+                self.playery = self.level.player.rect.centery
+                #if self.playerx >= 164*TILESIZE and self.level.scene == 1:
+                #   if self.playery <= 241*TILESIZE :
+                #     self.level = Level(1,2)
+                #if self.level.scene == 2 and self.playery <= 16 :
+                #   if self.playerx >= 15*TILESIZE and self.playerx <= 21*TILESIZE :
+                #      self.level = Level(3) #just testing
+                #Here comes the modification based on the position of the player
+                #if self.level == 2:
+                #   if self.playerx >= 15*TILESIZE and self.playerx <= 21*TILESIZE :
+                #      self.level = Level(3)
+                if (self.playerx>=2610 and self.playerx<=2748 ) and self.level.scene == 1 and self.level.number==4:
+                    if self.playery >= 5500 and self.playery <= 5550 :
+                        self.level = Level(4,(0,0),2)
+                        self.playerx = 1336
+                        self.playery = 2954
+                if self.level.scene == 2 and self.level.number==4:
+                    if   self.playery >= 3100 :
+                        self.screen.fill((69,174,116))
+                        self.screen.blit(self.game_message_0,self.game_message_rect_0)
+                        self.screen.blit(self.player_wait,self.player_wait_rect)
+                        self.playery+=60
+                    if self.playery >=3200:
+                        self.level = Level(4,(2690,5650))
+                if (self.playerx>=22600 and self.playerx<=22808 ) and self.level.scene == 1 and self.level.number==4:
+                    if self.playery >= 4700 and self.playery <= 5220 :
+                        self.level = Level(4,(0,0),3)
+                        self.playerx = 1624
+                        self.playery = 2046
+                if (self.playerx>=2000 and self.playerx<=2300 ) and self.level.scene == 3 and self.level.number==4:
+                    if  self.playery <= 1450 :
+                        self.level = Level(4,(0,0),4)
+                        self.playerx = 1016
+                        self.playery = 1438
+                if (self.playerx>=1900 and self.playerx<=2200 ) and self.level.scene == 4 and self.level.number==4:
+                    if  self.playery >= 3110 :
+                        self.level = Level(4,(2150,1510),3)
+                if (self.playerx>=1900 and self.playerx<=2200 ) and self.level.scene == 4 and self.level.number==4:
+                    if  self.playery <= 1780 :
+                        self.level = Level(4,(0,0),5)
+                if (self.playerx>=1900 and self.playerx<=2200 ) and self.level.scene == 5 and self.level.number==4:
+                    if  self.playery >= 3050 :
+                        self.level = Level(4,(2000,1840),4)
+                if (self.playerx>=1900 and self.playerx<=2200 ) and self.level.scene == 5 and self.level.number==4:
+                    if  self.playery <= 1780 :
+                        self.level = Level(4,(0,0),6)
+                if (self.playerx>=1800 and self.playerx<=2090 ) and self.level.scene == 6 and self.level.number==4:
+                    if  self.playery >= 4180 :
+                        self.level = Level(4,(1000,920),5)
+                if (self.playerx>=1800 and self.playerx<=2090 ) and self.level.scene == 6 and self.level.number==4:
+                    if  self.playery <= 1520 :
+                        self.level = Level(4,(0,0),7)
+                if (self.playerx>=1800 and self.playerx<=2090 ) and self.level.scene == 7 and self.level.number==4:
+                    if  self.playery >= 1280 :
+                        self.level = Level(4,(1900,1350),6)
+
+                if self.number_gameover:
+                    self.number_gameover=0
+                pygame.display.update()
+                self.clock.tick(FPS)
+            else:
+                if keys[pygame.K_RETURN]:
+                    self.game_active=True
+                self.screen.fill((69,174,116))
+                self.screen.blit(self.player_stand,self.player_stand_rect)
+                self.screen.blit(self.game_name,self.game_name_rect)
+                self.screen.blit(self.game_message,self.game_message_rect)
+                if not keys[pygame.K_RETURN]:
+                    alpha = self.wave_value(1/800,255,1,0)
+
+                    self.game_message_0.set_alpha(alpha)
+                    self.screen.blit(self.game_message_0,self.game_message_rect_0)
+                    self.game_name_rect = self.game_name.get_rect(center = (WIDTH/2+self.wave_value(1/1600,255,0,0),HEIGHT*2/8))
+                    self.game_message_rect = self.game_message.get_rect(center = (WIDTH/2+self.wave_value(1/2000,100,0,0),HEIGHT*4/8+self.wave_value(1/2000,100,0,pi/2)))
+                self.number_gameover=1
+                pygame.display.update()
+                self.clock.tick(FPS)
 
 
-           
+
+
     def wave_value(self,f,a,boolean,phase):
         if boolean:
             return a*abs(sin(2*pi*f*pygame.time.get_ticks()+phase))

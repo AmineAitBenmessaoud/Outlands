@@ -267,6 +267,7 @@ class Level:
                                     self.number
                                 )
     def create_map4_scene1(self):
+        TILESIZE=32
         layouts = {
             'boundary': import_csv_layout('map_csv/scene1/fairy_floor_blocks_bare.csv'),
             'entities': import_csv_layout('map_csv/scene1/fairy_Entity_pos_0.csv')
@@ -303,6 +304,7 @@ class Level:
                                 else: monster_name = 'boss'
                                 Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player,self.number)
     def create_map4_scene2(self):
+        TILESIZE=32
         layouts = {
             'boundary': import_csv_layout('map_csv/scene2/tree._floor_blocks.csv'),
             'entities': import_csv_layout('map_csv/scene2/tree._pos.csv')
@@ -339,6 +341,7 @@ class Level:
                                 #else: monster_name = 'boss'
                                 #Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player)
     def create_map4_scene3(self):
+        TILESIZE=32
         layouts = {
             'boundary': import_csv_layout('map_csv/scene3/chateaux_floor_blocks.csv'),
             'entities': import_csv_layout('map_csv/scene3/chateaux_perso.csv')
@@ -375,6 +378,7 @@ class Level:
                                 #else: monster_name = 'boss'
                                 #Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player)
     def create_map4_scene4(self):
+        TILESIZE=32
         layouts = {
             'boundary': import_csv_layout('map_csv/scene4/etage1_floor_blocks.csv'),
             'entities': import_csv_layout('map_csv/scene4/etage1_pos.csv')
@@ -411,6 +415,7 @@ class Level:
                                 #else: monster_name = 'boss'
                                 #Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player)
     def create_map4_scene5(self):
+        TILESIZE=32
         layouts = {
             'boundary': import_csv_layout('map_csv/scene5/etage1_floor_blocks.csv'),
             'entities': import_csv_layout('map_csv/scene5/etage1_pos.csv')
@@ -447,6 +452,7 @@ class Level:
                                 #else: monster_name = 'boss'
                                 #Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player)
     def create_map4_scene6(self):
+        TILESIZE=32
         layouts = {
             'boundary': import_csv_layout('map_csv/scene6/roof_floor_blocks.csv'),
             'entities': import_csv_layout('map_csv/scene6/roof_pos.csv')
@@ -483,6 +489,7 @@ class Level:
                                 #else: monster_name = 'boss'
                                 #Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player)
     def create_map4_scene7(self):
+        TILESIZE=32
         layouts = {
             'boundary': import_csv_layout('map_csv/scene7/sky_floorblocks.csv'),
             'entities': import_csv_layout('map_csv/scene7/sky_pos.csv')
@@ -596,7 +603,7 @@ class Level:
                                     self.destroy_attack,
                                     self.create_magic)
             self.player.game_over=False
-            self.player.health=200
+            self.player.health=100
             self.player.game_over_screen=False
             self.player.status='right'
             #self.player.rect.topleft=self.initial_point

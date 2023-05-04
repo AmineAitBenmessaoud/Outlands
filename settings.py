@@ -6,7 +6,7 @@ from math import *
 info = pygame.display.Info()
 WIDTH    = info.current_w
 HEIGHT   = info.current_h
-TILESIZE = 60
+TILESIZE = 32
 
 weapon_data = {
     'sword' : {'cooldown':100,'damage':15,'graphic':'NinjaAdventure/Items/Weapons/Sword/Sprite.png'},
