@@ -1,5 +1,4 @@
 import pygame
-from settings import *
 from support import *
 from tile import Tile
 from player import Player
@@ -10,7 +9,6 @@ from enemy import Enemy
 from debug import debug
 from rock import Rock
 from Object_level import Object_level
-
 
 
 class Level:
@@ -78,6 +76,7 @@ class Level:
 
 
     def create_map1_scene1(self):
+        TILESIZE = 16
         layouts = {
             'grass' : import_csv_layout('real level/CSV/Level_1 map_grass.csv'),
             'plants': import_csv_layout('real level/CSV/Level_1 map_plants.csv'),
@@ -92,6 +91,7 @@ class Level:
         }
         i = 0
         for style, layout in layouts.items():
+            TILESIZE = 16
             for row_index, row in enumerate(layout):
                 for col_index, col in enumerate(row):
                     if col != '-1':
@@ -99,7 +99,7 @@ class Level:
                         y = row_index * TILESIZE
                         #test
                         if style == 'boundary' or style == 'rocks' or style == 'wood' or style== 'house':
-                            Tile((x, y), [self.obstacle_sprites], 'invisible')
+                            Tile((x, y), [self.obstacle_sprites], 'invisible',pygame.Surface((TILESIZE,TILESIZE)))
                         if style == 'player' and i==0:
                             self.player = Player((60*16,40*16),
                                                  [self.visible_sprites,self.attacker_sprites],
@@ -117,9 +117,10 @@ class Level:
 
                             i = 1
                         if style == 'water_rocks' :
-                            Tile((x, y), [self.obstacle_sprites], 'invisible')
+                            Tile((x, y), [self.obstacle_sprites], 'invisible',pygame.Surface((TILESIZE,TILESIZE)))
 
     def create_map1_scene2(self):
+        TILESIZE = 16
         layouts = {
             'floor' : import_csv_layout("real level/CSV/First gym/interior_floor.csv"),
             'meubles': import_csv_layout("real level/CSV/First gym/interior_meubles.csv"),
@@ -136,7 +137,7 @@ class Level:
                         y = row_index * TILESIZE
                         #test
                         if style == 'meubles' or style == 'wall' :
-                            Tile((x, y), [self.obstacle_sprites], 'invisible')
+                            Tile((x, y), [self.obstacle_sprites], 'invisible',pygame.Surface((TILESIZE,TILESIZE)))
                         if style == 'player' and col == '163':
                             print(x,y)
                             self.player = Player((x,y),
@@ -164,7 +165,7 @@ class Level:
                         x = col_index * TILESIZE
                         y = row_index * TILESIZE
                         if style == 'wall' :
-                            Tile((x,y),[self.obstacle_sprites,self.visible_sprites],'wall')
+                            Tile((x,y),[self.obstacle_sprites,self.visible_sprites],'wall',pygame.Surface((TILESIZE,TILESIZE)))
                         if style == 'player' and row != 0  :
                             print(60*TILESIZE,70*TILESIZE)
                             self.player = Player((x, y),
@@ -175,13 +176,12 @@ class Level:
                                                  self.create_magic)
                             
     def create_map2(self):
+        TILESIZE = 32
         layouts = {
             'grass' : import_csv_layout('Level 2\BIGMAP_Surface.csv'),
+            'ennemi' : import_csv_layout('Level 2\BIGMA_Ennemi.csv'),
 
-
-
-            'boundary': import_csv_layout('Level 2\BIGMAP_Boundary.csv'),
-            'wood' : import_csv_layout('Level 2\BIGMAP_Boundary.csv'),
+            'boundary': import_csv_layout('Level 2\BIGMAP_Trees.csv'),
             'player' : import_csv_layout('real level/CSV/Level_1 map_player.csv'),
 
         }
@@ -193,8 +193,8 @@ class Level:
                         x = col_index * TILESIZE
                         y = row_index * TILESIZE
                         #test
-                        if style == 'boundary' or style == 'rocks' or style == 'wood' or style== 'house':
-                            Tile((x, y), [self.obstacle_sprites], 'invisible')
+                        if style == 'boundary':
+                            Tile((x, y), [self.obstacle_sprites], 'invisible',pygame.Surface((TILESIZE,TILESIZE)))
                         if style == 'player' and i==0:
                             self.player = Player((60*16,40*16),
                                                  [self.visible_sprites,self.attacker_sprites],
@@ -204,9 +204,12 @@ class Level:
                                                  self.create_magic) 
 
                             i = 1
-                        if style == 'water_rocks' :
-                            Tile((x, y), [self.obstacle_sprites], 'invisible')
+                        if style == 'ennemi' and col == '10':
+                            Enemy('bamboo', (x, y),
+                                  [self.visible_sprites, self.attackable_sprites],
+                                  self.obstacle_sprites, self.damage_player)
     def create_map3(self):
+        TILESIZE = 60
         layouts = {
             "boundary": import_csv_layout("Graphics/passage/files_collision_boundaries.csv"),
             "grass": import_csv_layout("Graphics/passage/files_collision_movable.csv"),
@@ -231,6 +234,7 @@ class Level:
                                 (x, y),
                                 [self.obstacle_sprites],
                                 "invisible",
+                                pygame.Surface((TILESIZE,TILESIZE))
                             )
 
                         if style == "entities":
