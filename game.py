@@ -38,12 +38,13 @@ class Game:
         self.player_wait = pygame.image.load('wait.png').convert_alpha()
         self.player_wait_rect = self.player_stand.get_rect(center = (WIDTH/2,HEIGHT*1/2))
 
-
+        #health
+        self.health=100
 
 
         self.number_gameover=0
 
-        self.level = Level(4,(2500,2500),1)
+        self.level = Level(self,4,(22000,5500),1)
 
     def run(self):
         while True:
@@ -77,7 +78,7 @@ class Game:
                 print(self.playerx,self.playery)
                 if (self.playerx>=2610 and self.playerx<=2748 ) and self.level.scene == 1 and self.level.number==4:
                     if self.playery >= 5500 and self.playery <= 5550 :
-                        self.level = Level(4,(0,0),2)
+                        self.level = Level(self,4,(0,0),2)
                         self.playerx = 1336
                         self.playery = 2954
                 if self.level.scene == 2 and self.level.number==4:
@@ -87,38 +88,38 @@ class Game:
                         self.screen.blit(self.player_wait,self.player_wait_rect)
                         self.playery+=60
                     if self.playery >=3200:
-                        self.level = Level(4,(2690,5650))
+                        self.level = Level(self,4,(2690,5650))
                 if (self.playerx>=22600 and self.playerx<=22808 ) and self.level.scene == 1 and self.level.number==4:
                     if self.playery >= 4900 and self.playery <= 5190 :
-                        self.level = Level(4,(0,0),3)
+                        self.level = Level(self,4,(0,0),3)
                         self.playerx = 1624
                         self.playery = 2046
                 if (self.playerx>=2100 and self.playerx<=2200 ) and self.level.scene == 3 and self.level.number==4:
                     if  self.playery <= 1450 :
-                        self.level = Level(4,(0,0),4)
+                        self.level = Level(self,4,(0,0),4)
                         self.playerx = 1016
                         self.playery = 1438
                 if (self.playerx>=1900 and self.playerx<=2200 ) and self.level.scene == 4 and self.level.number==4:
                     if  self.playery >= 3110 :
-                        self.level = Level(4,(2150,1510),3)
+                        self.level = Level(self,4,(2150,1510),3)
                 if (self.playerx>=1900 and self.playerx<=2200 ) and self.level.scene == 4 and self.level.number==4:
                     if  self.playery <= 1780 :
-                        self.level = Level(4,(0,0),5)
+                        self.level = Level(self,4,(0,0),5)
                 if (self.playerx>=1900 and self.playerx<=2200 ) and self.level.scene == 5 and self.level.number==4:
                     if  self.playery >= 3050 :
-                        self.level = Level(4,(2000,1840),4)
+                        self.level = Level(self,4,(2000,1840),4)
                 if (self.playerx>=1900 and self.playerx<=2200 ) and self.level.scene == 5 and self.level.number==4:
                     if  self.playery <= 1760 :
-                        self.level = Level(4,(0,0),6)
+                        self.level = Level(self,4,(0,0),6)
                 if (self.playerx>=2800 and self.playerx<=2990 ) and self.level.scene == 6 and self.level.number==4:
                     if  self.playery >= 4190 :
-                        self.level = Level(4,(2000,1840),5)
+                        self.level = Level(self,4,(2000,1840),5)
                 if (self.playerx>=2800 and self.playerx<=2950 ) and self.level.scene == 6 and self.level.number==4:
                     if  self.playery <= 1380 :
-                        self.level = Level(4,(0,0),7)
+                        self.level = Level(self,4,(0,0),7)
                 if (self.playerx>=1500 and self.playerx<=1700 ) and self.level.scene == 7 and self.level.number==4:
                     if  self.playery >= 2070 :
-                        self.level = Level(4,(2820,1450),6)
+                        self.level = Level(self,4,(2820,1450),6)
 
                 if self.number_gameover:
                     self.number_gameover=0
