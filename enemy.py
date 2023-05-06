@@ -330,7 +330,6 @@ class Enemy(Entity):
                 self.vulnerable = True
 
     def get_damage(self,player):
-        print('HI')
         if self.vulnerable :
             self.direction = self.get_player_distance_direction(player)[1]
             if player.attacking :

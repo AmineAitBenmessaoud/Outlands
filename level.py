@@ -87,7 +87,7 @@ class Level:
             'water_rocks' : import_csv_layout('real level/CSV/Level_1 map_water rocks.csv'),
             'wood' : import_csv_layout('real level/CSV/Level_1 map_Wood.csv'),
             'player' : import_csv_layout('real level/CSV/Level_1 map_player.csv'),
-
+            'ennemies' : import_csv_layout('real level\CSV\Level_1 map_ennemies.csv')
         }
         i = 0
         for style, layout in layouts.items():
@@ -106,15 +106,19 @@ class Level:
                                                  self.create_attack,
                                                  self.destroy_attack,
                                                  self.create_magic)
-                            Enemy('flying_rock', (x + 200, y + 600),
-                                  [self.visible_sprites,self.obstacle_sprites],
-                                  self.obstacle_sprites, self.damage_player,self.number)
-                            Enemy('dragon', (x + 700, y + 600),
-                                  [self.visible_sprites, self.attackable_sprites],
-                                  '', self.damage_player,self.number)
+                            i = 1                   
+                        if style == 'ennemies' :
+                            if col == '4150' :
+                                monster_name = 'dragon'
+                            elif col == '3308':
+                                monster_name = 'bamboo' 
+                            else :
+                                monster_name = 'flying_rock'
+                            
+                            Enemy(monster_name, (x,y), [self.visible_sprites,self.attackable_sprites], self.obstacle_sprites, self.damage_player,1)
 
 
-                            i = 1
+                            
                         if style == 'water_rocks' :
                             Tile((x, y), [self.obstacle_sprites], 'invisible',pygame.Surface((TILESIZE,TILESIZE)))
 
@@ -138,7 +142,6 @@ class Level:
                         if style == 'meubles' or style == 'wall' :
                             Tile((x, y), [self.obstacle_sprites], 'invisible',pygame.Surface((TILESIZE,TILESIZE)))
                         if style == 'player' and col == '163':
-                            print(x,y)
                             self.player = Player((x,y),
                                                  [self.visible_sprites,self.attacker_sprites],
                                                  self.obstacle_sprites,
@@ -166,7 +169,6 @@ class Level:
                         if style == 'wall' :
                             Tile((x,y),[self.obstacle_sprites,self.visible_sprites],'wall',pygame.Surface((TILESIZE,TILESIZE)))
                         if style == 'player' and row != 0  :
-                            print(60*TILESIZE,70*TILESIZE)
                             self.player = Player((x, y),
                                                  [self.visible_sprites,self.attacker_sprites],
                                                  self.obstacle_sprites,
@@ -542,13 +544,10 @@ class Level:
         self.current_attack = None
 
     def player_attack_logic(self):
-        print('hello')
         if self.attacker_sprites and self.player.attacking:
-            print('10')
             for attack_sprite in self.attacker_sprites:
                 collision_sprites = pygame.sprite.spritecollide(attack_sprite,self.attackable_sprites,False)
                 if collision_sprites :
-                    print('20')
                     for target_sprite in collision_sprites:
                         target_sprite.get_damage(self.player)
 
@@ -607,7 +606,6 @@ class Level:
             self.player.status='right'
             #self.player.rect.topleft=self.initial_point
         self.visible_sprites.custom_draw(self.player)
-        print(99)
         self.visible_sprites.update()
         self.visible_sprites.enemy_update(self.player)
 
