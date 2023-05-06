@@ -13,7 +13,7 @@ from Object_level import Object_level
 
 class Level:
 
-    def __init__(self,level_number,init=(0,0),scene_number=1):
+    def __init__(self,main,level_number,init=(0,0),scene_number=1):
         # surface principale
         self.player = None
         self.display_surface = pygame.display.get_surface()
@@ -39,7 +39,7 @@ class Level:
         if self.number==4: 
             self.initial_point=(1056,1536)
 
-
+        self.game=main
         #user interface
         self.ui = UI()
 
@@ -105,7 +105,7 @@ class Level:
                                                  self.obstacle_sprites,
                                                  self.create_attack,
                                                  self.destroy_attack,
-                                                 self.create_magic)
+                                                 self.create_magic,self.game.health)
                             i = 1                   
                         if style == 'ennemies' :
                             if col == '4150' :
@@ -148,7 +148,7 @@ class Level:
                                                  self.obstacle_sprites,
                                                  self.create_attack,
                                                  self.destroy_attack,
-                                                 self.create_magic)
+                                                 self.create_magic,self.game.health)
 
                             i = 1
 
@@ -178,7 +178,7 @@ class Level:
                                                  self.obstacle_sprites,
                                                  self.create_attack,
                                                  self.destroy_attack,
-                                                 self.create_magic)
+                                                 self.create_magic,self.game.health)
                         if style == 'boss' :
                             if col == '1' :
                                 Enemy('dragon', (x,y), [self.visible_sprites,self.attackable_sprites], self.obstacle_sprites, self.damage_player,1)
@@ -211,7 +211,7 @@ class Level:
                                                  self.obstacle_sprites,
                                                  self.create_attack,
                                                  self.destroy_attack,
-                                                 self.create_magic) 
+                                                 self.create_magic,self.game.health) 
 
                             i = 1
                         if style == 'ennemi' and col == '10':
@@ -255,7 +255,7 @@ class Level:
                                     self.obstacle_sprites,
                                     self.create_attack,
                                     self.destroy_attack,
-                                    self.create_magic,
+                                    self.create_magic
                                 )
                             else:
                                 if col == "4":
@@ -298,14 +298,14 @@ class Level:
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
-                                        self.create_magic)
+                                        self.create_magic,self.game.health)
                                 else:
                                     self.player = Player(
                                         self.init,
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
-                                        self.create_magic)
+                                        self.create_magic,self.game.health)
                             else:
                                 if col == '1': monster_name = 'ghost'
                                 elif col == '4': monster_name = 'dark_fairy'
@@ -335,14 +335,14 @@ class Level:
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
-                                        self.create_magic)
+                                        self.create_magic,self.game.health)
                                 else:
                                     self.player = Player(
                                         self.init,
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
-                                        self.create_magic)
+                                        self.create_magic,self.game.health)
                             #else:
                                 #if col == '1': monster_name = 'ghost'
                                 #elif col == '4': monster_name = 'dark_fairy'
@@ -372,14 +372,14 @@ class Level:
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
-                                        self.create_magic)
+                                        self.create_magic,self.game.health)
                                 else:
                                     self.player = Player(
                                         self.init,
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
-                                        self.create_magic)
+                                        self.create_magic,self.game.health)
                             #else:
                                 #if col == '1': monster_name = 'ghost'
                                 #elif col == '4': monster_name = 'dark_fairy'
@@ -409,14 +409,14 @@ class Level:
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
-                                        self.create_magic)
+                                        self.create_magic,self.game.health)
                                 else:
                                     self.player = Player(
                                         self.init,
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
-                                        self.create_magic)
+                                        self.create_magic,self.game.health)
                             #else:
                                 #if col == '1': monster_name = 'ghost'
                                 #elif col == '4': monster_name = 'dark_fairy'
@@ -448,7 +448,7 @@ class Level:
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
-                                        self.create_magic)
+                                        self.create_magic,self.game.health)
                                 else:
                                     print(self.init)
                                     self.player = Player(
@@ -456,7 +456,7 @@ class Level:
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
-                                        self.create_magic)
+                                        self.create_magic,self.game.health)
                                 #else:
                                 #if col == '1': monster_name = 'ghost'
                                 #elif col == '4': monster_name = 'dark_fairy'
@@ -486,14 +486,14 @@ class Level:
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
-                                        self.create_magic)
+                                        self.create_magic,self.game.health)
                                 else:
                                     self.player = Player(
                                         self.init,
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
-                                        self.create_magic)
+                                        self.create_magic,self.game.health)
                             #else:
                                 #if col == '1': monster_name = 'ghost'
                                 #elif col == '4': monster_name = 'dark_fairy'
@@ -523,14 +523,14 @@ class Level:
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
                                         self.destroy_attack,
-                                        self.create_magic)
+                                        self.create_magic,self.game.health)
                                 else:
                                     self.player = Player(
                                         self.init,
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
                                         self.destroy_attack,
-                                        self.create_magic)
+                                        self.create_magic,self.game.health)
                             #else:
                                 #if col == '1': monster_name = 'ghost'
                                 #elif col == '4': monster_name = 'dark_fairy'
@@ -568,6 +568,7 @@ class Level:
 
     def damage_player(self,amount,attack_type):
         if self.player.vulnerable and not self.player.attacking:
+            self.game.health-=amount
             self.player.health -= amount
             self.player.vulnerable = False
             self.player.hurt_time = pygame.time.get_ticks()
@@ -614,8 +615,9 @@ class Level:
                                     [self.visible_sprites,self.attacker_sprites],
                                     self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
-                                    self.create_magic)
+                                    self.create_magic,self.game.health)
             self.player.game_over=False
+            self.game.health=100
             self.player.health=100
             self.player.game_over_screen=False
             self.player.status='right'
@@ -670,7 +672,7 @@ class YSortCameraGroup(pygame.sprite.Group):
             if scene_number == 5:
                 self.floor_surface = pygame.image.load('maps/etage2.png').convert()
             if scene_number == 6:
-                self.floor_surface = pygame.image.load('maps/moop.png').convert()
+                self.floor_surface = pygame.image.load('maps/roof.png').convert()
             if scene_number == 7:
                 self.floor_surface = pygame.image.load('maps/sky.png').convert()
         
