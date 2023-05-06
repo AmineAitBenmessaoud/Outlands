@@ -659,7 +659,7 @@ class YSortCameraGroup(pygame.sprite.Group):
             if scene_number == 5:
                 self.floor_surface = pygame.image.load('maps/etage2.png').convert()
             if scene_number == 6:
-                self.floor_surface = pygame.image.load('maps/moop.png').convert()
+                self.floor_surface = pygame.image.load('maps/roof.png').convert()
             if scene_number == 7:
                 self.floor_surface = pygame.image.load('maps/sky.png').convert()
         
