@@ -1,5 +1,6 @@
 import pygame
 from settings import *
+from support import *
 
 class UI:
 	def __init__(self):
@@ -11,13 +12,18 @@ class UI:
 		# bar setup
 		self.health_bar_rect = pygame.Rect(10,10,HEALTH_BAR_WIDTH,BAR_HEIGHT)
 		self.energy_bar_rect = pygame.Rect(10,34,ENERGY_BAR_WIDTH,BAR_HEIGHT)
+		#index of gem
+		self.frame_index=0
 
 		# convert weapon dictionary
 		self.weapon_graphics = []
 		for weapon in weapon_data.values():
 			path = weapon['graphic']
-			weapon = pygame.image.load(path).convert_alpha()
-			self.weapon_graphics.append(weapon)
+			weapon_list = import_folder(path)
+			weapon_list=weapon_list[5:]+weapon_list[0:5]
+			print(weapon_list)
+			weapon = weapon_list[self.frame_index].convert_alpha()
+			self.weapon_graphics.append(weapon_list)
 		# convert magic dictionary
 		self.magic_graphics = []
 		for magic in magic_data.values():
@@ -27,7 +33,9 @@ class UI:
 		self.HEALTH_COLOR ='#000000'
 
 
-
+	def refresh_gem(self) :
+		weapon = self.weapon_graphics[self.frame_index].convert_alpha()
+		print(self.frame_index)
 
 
 	def show_bar(self,current,max_amount,bg_rect,color,health):
@@ -77,7 +85,7 @@ class UI:
 
 	def weapon_overlay(self,weapon_index,has_switched):
 		bg_rect = self.selection_box(10,HEIGHT-140,has_switched)
-		weapon_surf = self.weapon_graphics[weapon_index]
+		weapon_surf = self.weapon_graphics[weapon_index][self.frame_index]
 		weapon_rect = weapon_surf.get_rect(center = bg_rect.center)
 
 		self.display_surface.blit(weapon_surf,weapon_rect)

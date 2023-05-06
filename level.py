@@ -556,15 +556,15 @@ class Level:
         self.current_attack = None
 
     def player_attack_logic(self):
-        print('hello')
+        
         if self.attacker_sprites and self.player.attacking:
-            print('10')
+            
             for attack_sprite in self.attacker_sprites:
                 collision_sprites = pygame.sprite.spritecollide(attack_sprite,self.attackable_sprites,False)
                 if collision_sprites :
-                    print('20')
+                    
                     for target_sprite in collision_sprites:
-                        target_sprite.get_damage(self.player)
+                        target_sprite.get_damage(self.player,self)
 
     def damage_player(self,amount,attack_type):
         if self.player.vulnerable and not self.player.attacking:
@@ -624,6 +624,7 @@ class Level:
             #self.player.rect.topleft=self.initial_point
         self.visible_sprites.custom_draw(self.player)
         print(99)
+        self.player.input(self)
         self.visible_sprites.update()
         self.visible_sprites.enemy_update(self.player)
 

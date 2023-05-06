@@ -9,15 +9,15 @@ HEIGHT   = info.current_h
 TILESIZE = 32
 
 weapon_data = {
-    'gem_blue' : {'cooldown':100,'damage':15,'graphic':'gems/gem_blue/gem__01.png'},
-    'gem_blue2' : {'cooldown':250,'damage':30,'graphic':'gems/gem_blue2/gem__01.png'},
-    'gem_green' : {'cooldown':100,'damage':15,'graphic':'gems/gem_green/gem__01.png'},
-    'gem_green2' : {'cooldown':250,'damage':30,'graphic':'gems/gem_green2/gem__01.png'},
-    'gem_pink' : {'cooldown':100,'damage':15,'graphic':'gems/gem_pink/gem__01.png'},
-    'gem_purpel' : {'cooldown':250,'damage':30,'graphic':'gems/gem_purpel/gem__01.png'},
-    'gem_red' : {'cooldown':100,'damage':15,'graphic':'gems/gem_red/gem__01_.png'},
-    'gem_redorange' : {'cooldown':250,'damage':30,'graphic':'gems/gem_redorange/gem__01.png'},
-    'gem_orange' : {'cooldown':100,'damage':15,'graphic':'gems/gem_orange/gem__1.png'},
+    'gem_blue' : {'cooldown':100,'damage':15,'graphic':'gems/gem_blue'},
+    'gem_blue2' : {'cooldown':250,'damage':30,'graphic':'gems/gem_blue2'},
+    'gem_green' : {'cooldown':100,'damage':15,'graphic':'gems/gem_green'},
+    'gem_green2' : {'cooldown':250,'damage':30,'graphic':'gems/gem_green2'},
+    'gem_pink' : {'cooldown':100,'damage':15,'graphic':'gems/gem_pink'},
+    'gem_purpel' : {'cooldown':250,'damage':30,'graphic':'gems/gem_purpel'},
+    'gem_red' : {'cooldown':100,'damage':15,'graphic':'gems/gem_red'},
+    'gem_redorange' : {'cooldown':250,'damage':30,'graphic':'gems/gem_redorange'},
+    'gem_orange' : {'cooldown':100,'damage':15,'graphic':'gems/gem_orange'},
     
 }
 

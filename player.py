@@ -80,7 +80,7 @@ class Player(Entity):
             full_path = character_path + animation + '/images'
             self.animations[animation] = import_folder(full_path)
 
-    def input(self):
+    def input(self,level):
             if not self.game_over:
                 
                 if not self.attacking:
@@ -161,6 +161,9 @@ class Player(Entity):
                             self.magic_index = 0
 
                         self.magic = list(magic_data.keys())[self.magic_index]
+                    if keys[pygame.K_a] and self.can_switch_weapon:
+                        level.ui.frame_index=0
+
 
 
                 self.magic = list(magic_data.keys())[self.magic_index]
@@ -276,7 +279,7 @@ class Player(Entity):
     # to understand
     def update(self):
         
-        self.input()
+        
         self.cooldowns()
         self.get_status()
         self.animate()
