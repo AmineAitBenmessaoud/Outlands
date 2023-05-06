@@ -67,6 +67,8 @@ monster_data = {
     'bat': {'health': 120,'exp':2,'damage':20,'attack_type': 'thunder', 'attack_sound':'../audio/attack/fireball.wav',
                             'speed': 9, 'resistance': 3, 'attack_radius': 90, 'notice_radius': 1000,'animation_speed':0.8,'near_distance':200},
     'boss': {'health': 300,'exp':10,'damage':30,'attack_type': 'leaf_attack', 'attack_sound':'../audio/attack/slash.wav', 
+                           'speed': 12, 'resistance': 60, 'attack_radius': 140,'notice_radius': 1000,'animation_speed':0.5,'near_distance':80},
+    'lv1_boss' : {'health': 300,'exp':10,'damage':30,'attack_type': 'leaf_attack', 'attack_sound':'../audio/attack/slash.wav', 
                            'speed': 12, 'resistance': 60, 'attack_radius': 140,'notice_radius': 1000,'animation_speed':0.5,'near_distance':80}
 }
 

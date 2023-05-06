@@ -20,7 +20,7 @@ class Enemy(Entity):
             self.status = 'idle_left'
         self.frame_index=0
 
-        
+        print(self.animations[self.status])
         self.image = self.animations[self.status][self.frame_index]
         self.rect = self.image.get_rect(topleft = pos)
 
@@ -89,7 +89,13 @@ class Enemy(Entity):
         
         else:
             for animation in self.animations.keys():
-                self.animations[animation] = import_folder(main_path + animation)
+                if name == 'lv1_boss' :
+                    folder = import_folder(main_path + animation)
+                    for image in  folder :
+                        image2 = pygame.transform.rotozoom(image, 0, 4)
+                        self.animations[animation].append(image2)
+                else :
+                    self.animations[animation] = import_folder(main_path + animation)
         
 
     def get_player_distance_direction(self,player):

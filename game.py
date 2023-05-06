@@ -44,7 +44,7 @@ class Game:
 
         self.number_gameover=0
 
-        self.level = Level(self,4,(22000,5500),1)
+        self.level = Level(self,1,(0,0),3)
 
     def run(self):
         while True:
@@ -65,9 +65,9 @@ class Game:
                 #changement de maps
                 self.playerx = self.level.player.rect.centerx
                 self.playery = self.level.player.rect.centery
-                #if self.playerx >= 164*TILESIZE and self.level.scene == 1:
-                #   if self.playery <= 241*TILESIZE :
-                #     self.level = Level(1,2)
+                if self.playerx == 5500 and self.level.scene == 1:
+                   if self.playery == 7803 :
+                     self.level = Level(self,1,(0,0),2)
                 #if self.level.scene == 2 and self.playery <= 16 :
                 #   if self.playerx >= 15*TILESIZE and self.playerx <= 21*TILESIZE :
                 #      self.level = Level(3) #just testing
