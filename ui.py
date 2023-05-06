@@ -67,7 +67,7 @@ class UI:
 		pygame.draw.rect(self.display_surface,UI_BORDER_COLOR,text_rect.inflate(20,20),3)
 
 	def selection_box(self,left,top, has_switched):
-		bg_rect = pygame.Rect(left,top,ITEM_BOX_SIZE,ITEM_BOX_SIZE)
+		bg_rect = pygame.Rect(left,top,(3/2)*ITEM_BOX_SIZE,(3/2)*ITEM_BOX_SIZE)
 		pygame.draw.rect(self.display_surface,UI_BG_COLOR,bg_rect)
 		if has_switched:
 			pygame.draw.rect(self.display_surface,UI_BORDER_COLOR_ACTIVE,bg_rect,3)
@@ -76,13 +76,13 @@ class UI:
 		return bg_rect
 
 	def weapon_overlay(self,weapon_index,has_switched):
-		bg_rect = self.selection_box(10,HEIGHT-100,has_switched)
+		bg_rect = self.selection_box(10,HEIGHT-140,has_switched)
 		weapon_surf = self.weapon_graphics[weapon_index]
 		weapon_rect = weapon_surf.get_rect(center = bg_rect.center)
 
 		self.display_surface.blit(weapon_surf,weapon_rect)
 	def magic_overlay(self,magic_index,has_switched):
-		bg_rect = self.selection_box(80,HEIGHT-100,has_switched)
+		bg_rect = self.selection_box(140,HEIGHT-140,has_switched)
 		magic_surf = self.magic_graphics[magic_index]
 		magic_rect = magic_surf.get_rect(center = bg_rect.center)
 
