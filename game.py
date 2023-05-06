@@ -74,6 +74,7 @@ class Game:
                 #if self.level == 2:
                 #   if self.playerx >= 15*TILESIZE and self.playerx <= 21*TILESIZE :
                 #      self.level = Level(3)
+                
                 if (self.playerx>=2610 and self.playerx<=2748 ) and self.level.scene == 1 and self.level.number==4:
                     if self.playery >= 5500 and self.playery <= 5550 :
                         self.level = Level(4,(0,0),2)
@@ -88,11 +89,11 @@ class Game:
                     if self.playery >=3200:
                         self.level = Level(4,(2690,5650))
                 if (self.playerx>=22600 and self.playerx<=22808 ) and self.level.scene == 1 and self.level.number==4:
-                    if self.playery >= 4700 and self.playery <= 5220 :
+                    if self.playery >= 4900 and self.playery <= 5190 :
                         self.level = Level(4,(0,0),3)
                         self.playerx = 1624
                         self.playery = 2046
-                if (self.playerx>=2000 and self.playerx<=2300 ) and self.level.scene == 3 and self.level.number==4:
+                if (self.playerx>=2100 and self.playerx<=2200 ) and self.level.scene == 3 and self.level.number==4:
                     if  self.playery <= 1450 :
                         self.level = Level(4,(0,0),4)
                         self.playerx = 1016
@@ -107,17 +108,17 @@ class Game:
                     if  self.playery >= 3050 :
                         self.level = Level(4,(2000,1840),4)
                 if (self.playerx>=1900 and self.playerx<=2200 ) and self.level.scene == 5 and self.level.number==4:
-                    if  self.playery <= 1780 :
+                    if  self.playery <= 1760 :
                         self.level = Level(4,(0,0),6)
                 if (self.playerx>=1800 and self.playerx<=2090 ) and self.level.scene == 6 and self.level.number==4:
                     if  self.playery >= 4180 :
-                        self.level = Level(4,(1000,920),5)
-                if (self.playerx>=1800 and self.playerx<=2090 ) and self.level.scene == 6 and self.level.number==4:
-                    if  self.playery <= 1520 :
+                        self.level = Level(4,(2000,1840),5)
+                if (self.playerx>=1900 and self.playerx<=2090 ) and self.level.scene == 6 and self.level.number==4:
+                    if  self.playery <= 1380 :
                         self.level = Level(4,(0,0),7)
-                if (self.playerx>=1800 and self.playerx<=2090 ) and self.level.scene == 7 and self.level.number==4:
-                    if  self.playery >= 1280 :
-                        self.level = Level(4,(1900,1350),6)
+                if (self.playerx>=1500 and self.playerx<=1700 ) and self.level.scene == 7 and self.level.number==4:
+                    if  self.playery >= 2070 :
+                        self.level = Level(4,(1900,1450),6)
 
                 if self.number_gameover:
                     self.number_gameover=0

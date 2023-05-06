@@ -142,6 +142,7 @@ class Level:
                         if style == 'meubles' or style == 'wall' :
                             Tile((x, y), [self.obstacle_sprites], 'invisible',pygame.Surface((TILESIZE,TILESIZE)))
                         if style == 'player' and col == '163':
+                            
                             self.player = Player((x,y),
                                                  [self.visible_sprites,self.attacker_sprites],
                                                  self.obstacle_sprites,
@@ -171,6 +172,7 @@ class Level:
                         if style == 'wall' :
                             Tile((x,y),[self.obstacle_sprites],'wall',pygame.Surface((TILESIZE,TILESIZE)))
                         if style == 'player' and row != 0  :
+                            print(60*TILESIZE,70*TILESIZE)
                             self.player = Player((x, y),
                                                  [self.visible_sprites,self.attacker_sprites],
                                                  self.obstacle_sprites,
@@ -327,7 +329,7 @@ class Level:
                             Tile((x,y),[self.obstacle_sprites],'invisible')
                         if style == 'entities':
                             if col == '1536':
-                                if not(self.init[0] or self.init[1]):
+                                if not (self.init[0] or self.init[1]):
                                     self.player = Player(
                                         (x,y),
                                         [self.visible_sprites,self.attacker_sprites],
@@ -425,8 +427,8 @@ class Level:
     def create_map4_scene5(self):
         TILESIZE=32
         layouts = {
-            'boundary': import_csv_layout('map_csv/scene5/etage1_floor_blocks.csv'),
-            'entities': import_csv_layout('map_csv/scene5/etage1_pos.csv')
+            'boundary': import_csv_layout('map_csv/scene5/etage2_floor_blocks.csv'),
+            'entities': import_csv_layout('map_csv/scene5/etage2_pos.csv')
         }
         for style,layout in layouts.items():
             for row_index,row in enumerate(layout):
@@ -438,7 +440,9 @@ class Level:
                             Tile((x,y),[self.obstacle_sprites],'invisible')
                         if style == 'entities':
                             if col == '1536':
+                                
                                 if not(self.init[0] or self.init[1]):
+                                    print(x,y)
                                     self.player = Player(
                                         (x,y),
                                         [self.visible_sprites,self.attacker_sprites],
@@ -446,6 +450,7 @@ class Level:
                                     self.destroy_attack,
                                         self.create_magic)
                                 else:
+                                    print(self.init)
                                     self.player = Player(
                                         self.init,
                                         [self.visible_sprites,self.attacker_sprites],
@@ -517,14 +522,14 @@ class Level:
                                         (x,y),
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
-                                    self.destroy_attack,
+                                        self.destroy_attack,
                                         self.create_magic)
                                 else:
                                     self.player = Player(
                                         self.init,
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
-                                    self.destroy_attack,
+                                        self.destroy_attack,
                                         self.create_magic)
                             #else:
                                 #if col == '1': monster_name = 'ghost'
@@ -551,10 +556,13 @@ class Level:
         self.current_attack = None
 
     def player_attack_logic(self):
+        print('hello')
         if self.attacker_sprites and self.player.attacking:
+            print('10')
             for attack_sprite in self.attacker_sprites:
                 collision_sprites = pygame.sprite.spritecollide(attack_sprite,self.attackable_sprites,False)
                 if collision_sprites :
+                    print('20')
                     for target_sprite in collision_sprites:
                         target_sprite.get_damage(self.player)
 
@@ -613,6 +621,7 @@ class Level:
             self.player.status='right'
             #self.player.rect.topleft=self.initial_point
         self.visible_sprites.custom_draw(self.player)
+        print(99)
         self.visible_sprites.update()
         self.visible_sprites.enemy_update(self.player)
 
@@ -659,7 +668,7 @@ class YSortCameraGroup(pygame.sprite.Group):
             if scene_number == 4:
                 self.floor_surface = pygame.image.load('maps/etage11.png').convert()
             if scene_number == 5:
-                self.floor_surface = pygame.image.load('maps/etage11.png').convert()
+                self.floor_surface = pygame.image.load('maps/etage2.png').convert()
             if scene_number == 6:
                 self.floor_surface = pygame.image.load('maps/moop.png').convert()
             if scene_number == 7:
