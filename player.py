@@ -162,7 +162,8 @@ class Player(Entity):
 
                         self.magic = list(magic_data.keys())[self.magic_index]
                     if keys[pygame.K_a] and self.can_switch_weapon:
-                        level.ui.frame_index=0
+                        if level.ui.frame_index==8:
+                            level.ui.frame_index=0
 
 
 
