@@ -123,7 +123,7 @@ class Level:
                             Tile((x, y), [self.obstacle_sprites], 'invisible',pygame.Surface((TILESIZE,TILESIZE)))
 
     def create_map1_scene2(self):
-        TILESIZE = 16
+        TILESIZE = 16*4
         layouts = {
             'floor' : import_csv_layout("real level/CSV/First gym/interior_floor.csv"),
             'meubles': import_csv_layout("real level/CSV/First gym/interior_meubles.csv"),
@@ -153,12 +153,14 @@ class Level:
                             i = 1
 
     def create_map1_scene3(self):
+        TILESIZE = 32
         layouts = {
             'grass': import_csv_layout("real level/CSV/boss/mini_boss_grass.csv"),
             'wall': import_csv_layout("real level/CSV/boss/mini_boss_mur.csv"),
             'rocks': import_csv_layout("real level/CSV/boss/mini_boss_rocks.csv"),
             'sol': import_csv_layout('real level/CSV/boss/mini_boss_sol.csv'),
             'player' : import_csv_layout('real level/CSV/boss/mini_boss_player.csv'),
+            'boss' : import_csv_layout('real level/CSV/boss/mini_boss_boss.csv')
         }
         i = 0
         for style, layout in layouts.items():
@@ -168,7 +170,7 @@ class Level:
                         x = col_index * TILESIZE
                         y = row_index * TILESIZE
                         if style == 'wall' :
-                            Tile((x,y),[self.obstacle_sprites,self.visible_sprites],'wall',pygame.Surface((TILESIZE,TILESIZE)))
+                            Tile((x,y),[self.obstacle_sprites],'wall',pygame.Surface((TILESIZE,TILESIZE)))
                         if style == 'player' and row != 0  :
                             print(60*TILESIZE,70*TILESIZE)
                             self.player = Player((x, y),
@@ -177,6 +179,11 @@ class Level:
                                                  self.create_attack,
                                                  self.destroy_attack,
                                                  self.create_magic)
+                        if style == 'boss' :
+                            if col == '1' :
+                                Enemy('dragon', (x,y), [self.visible_sprites,self.attackable_sprites], self.obstacle_sprites, self.damage_player,1)
+ 
+                        
                             
     def create_map2(self):
         TILESIZE = 32
@@ -640,9 +647,13 @@ class YSortCameraGroup(pygame.sprite.Group):
                 tr_image = pygame.transform.scale(image,(10240,11264))
                 self.floor_surface = tr_image.convert()
             if scene_number == 2:
-                self.floor_surface = pygame.image.load('real level/gym1-1.png').convert()
+                image = pygame.image.load('real level/gym1-1.png')
+                tr_image = pygame.transform.scale(image,(768*4,521*4))
+                self.floor_surface = tr_image.convert()
             if scene_number == 3:
-                self.floor_surface = pygame.image.load('real level/boss_fight.png').convert()
+                image = pygame.image.load('real level/mini_boss.png')
+                tr_image = pygame.transform.scale(image,(2048*2,1536*2))
+                self.floor_surface = tr_image.convert()
         if level_number == 2:
             self.floor_surface = pygame.image.load('Level 2\BIGMAP.png').convert()
         if level_number == 3:
