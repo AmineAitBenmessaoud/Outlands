@@ -76,7 +76,7 @@ class Level:
 
 
     def create_map1_scene1(self):
-        TILESIZE = 16
+        TILESIZE = 32
         layouts = {
             'grass' : import_csv_layout('real level/CSV/Level_1 map_grass.csv'),
             'plants': import_csv_layout('real level/CSV/Level_1 map_plants.csv'),
@@ -91,7 +91,6 @@ class Level:
         }
         i = 0
         for style, layout in layouts.items():
-            TILESIZE = 16
             for row_index, row in enumerate(layout):
                 for col_index, col in enumerate(row):
                     if col != '-1':
@@ -630,7 +629,9 @@ class YSortCameraGroup(pygame.sprite.Group):
         # floor
         if level_number == 1:
             if scene_number == 1:
-                self.floor_surface = pygame.image.load('real level/Level_1 map.png').convert()
+                image = pygame.image.load('real level/Level_1 map.png')
+                tr_image = pygame.transform.scale(image,(10240,11264))
+                self.floor_surface = tr_image.convert()
             if scene_number == 2:
                 self.floor_surface = pygame.image.load('real level/gym1-1.png').convert()
             if scene_number == 3:
