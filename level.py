@@ -181,7 +181,7 @@ class Level:
                                                  self.create_magic,self.game.health)
                         if style == 'boss' :
                             if col == '1' :
-                                Enemy('dragon', (x,y), [self.visible_sprites,self.attackable_sprites], self.obstacle_sprites, self.damage_player,1)
+                                Enemy('lv1_boss', (x,y), [self.visible_sprites,self.attackable_sprites], self.obstacle_sprites, self.damage_player,1)
  
                         
                             
