@@ -272,8 +272,8 @@ class Level:
                                     [self.visible_sprites, self.attackable_sprites],
                                     self.obstacle_sprites,
                                     self.damage_player,
-                                    #self.destroy_attack,
-                                    #self.create_magic,
+                                    # self.destroy_attack,
+                                    # self.create_magic,
                                     self.number
                                 )
     def create_map4_scene1(self):
