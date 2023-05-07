@@ -255,7 +255,7 @@ class Level:
                                     self.obstacle_sprites,
                                     self.create_attack,
                                     self.destroy_attack,
-                                    self.create_magic
+                                    self.create_magic,self.game.health
                                 )
                             else:
                                 if col == "4":
