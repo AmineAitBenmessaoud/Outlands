@@ -86,6 +86,9 @@ class UI:
 	def weapon_overlay(self,weapon_index,has_switched):
 		bg_rect = self.selection_box(10,HEIGHT-140,has_switched)
 		weapon_surf = self.weapon_graphics[weapon_index][self.frame_index]
+		if self.frame_index==8:
+			alpha= self.wave_value(1/1600,255,1,0)
+			weapon_surf.set_alpha(alpha)
 		weapon_rect = weapon_surf.get_rect(center = bg_rect.center)
 
 		self.display_surface.blit(weapon_surf,weapon_rect)
@@ -95,6 +98,11 @@ class UI:
 		magic_rect = magic_surf.get_rect(center = bg_rect.center)
 
 		self.display_surface.blit(magic_surf,magic_rect)
+	def wave_value(self,f,a,boolean,phase):
+		if boolean:
+			return a*abs(sin(2*pi*f*pygame.time.get_ticks()+phase))
+		else:
+			return a*(sin(2*pi*f*pygame.time.get_ticks()+phase))
 
 	def display(self,player):
 
