@@ -13,7 +13,7 @@ class Game:
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         self.clock = pygame.time.Clock()
         pygame.display.set_caption("outlands")
-        self.level = Level(2)
+        self.level = Level(1)
         global TILESIZE
 
     def run(self):
