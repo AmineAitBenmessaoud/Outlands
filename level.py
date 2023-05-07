@@ -13,7 +13,7 @@ from Object_level import Object_level
 
 class Level:
 
-    def __init__(self,level_number,scene_number=1):
+    def __init__(self,main,level_number,init=(0,0),scene_number=1):
         # surface principale
         self.player = None
         self.display_surface = pygame.display.get_surface()
@@ -24,6 +24,8 @@ class Level:
         self.current_attack = None
         self.attack_sprites = pygame.sprite.Group()
         self.attackable_sprites = pygame.sprite.Group()
+        self.attacker_sprites =pygame.sprite.Group()
+        self.nothing=pygame.sprite.Group()
         #objets à prendre
         self.level_objects = pygame.sprite.Group()
         #roches
@@ -33,9 +35,11 @@ class Level:
         #level data
         self.number = level_number
         self.scene = scene_number
+        self.init=init
+        if self.number==4: 
+            self.initial_point=(1056,1536)
 
-
-
+        self.game=main
         #user interface
         self.ui = UI()
 
@@ -51,12 +55,28 @@ class Level:
             self.create_map2()
         if level_number == 3: #This is Amine level (it will have also a slight modification on the size of the tiles)
             self.create_map3()
+        # creation de la map4
+        if level_number==4:
+            if scene_number == 1:
+                self.create_map4_scene1()
+            if scene_number == 2:
+                self.create_map4_scene2()
+            if scene_number == 3 :
+                self.create_map4_scene3()
+            if scene_number == 4 :
+                self.create_map4_scene4()
+            if scene_number == 5 :
+                self.create_map4_scene5()
+            if scene_number == 6 :
+                self.create_map4_scene6()
+            if scene_number == 7 :
+                self.create_map4_scene7()
 
 
 
 
     def create_map1_scene1(self):
-        TILESIZE = 16
+        TILESIZE = 32
         layouts = {
             'grass' : import_csv_layout('real level/CSV/Level_1 map_grass.csv'),
             'plants': import_csv_layout('real level/CSV/Level_1 map_plants.csv'),
@@ -67,11 +87,10 @@ class Level:
             'water_rocks' : import_csv_layout('real level/CSV/Level_1 map_water rocks.csv'),
             'wood' : import_csv_layout('real level/CSV/Level_1 map_Wood.csv'),
             'player' : import_csv_layout('real level/CSV/Level_1 map_player.csv'),
-
+            'ennemies' : import_csv_layout('real level\CSV\Level_1 map_ennemies.csv')
         }
         i = 0
         for style, layout in layouts.items():
-            TILESIZE = 16
             for row_index, row in enumerate(layout):
                 for col_index, col in enumerate(row):
                     if col != '-1':
@@ -82,25 +101,29 @@ class Level:
                             Tile((x, y), [self.obstacle_sprites], 'invisible',pygame.Surface((TILESIZE,TILESIZE)))
                         if style == 'player' and i==0:
                             self.player = Player((60*16,40*16),
-                                                 [self.visible_sprites],
+                                                 [self.visible_sprites,self.attacker_sprites],
                                                  self.obstacle_sprites,
                                                  self.create_attack,
                                                  self.destroy_attack,
-                                                 self.create_magic)
-                            Enemy('flying_rock', (x + 200, y + 600),
-                                  [self.visible_sprites,self.obstacle_sprites],
-                                  self.obstacle_sprites, self.damage_player)
-                            Enemy('dragon', (x + 700, y + 600),
-                                  [self.visible_sprites, self.attackable_sprites],
-                                  '', self.damage_player)
+                                                 self.create_magic,self.game.health)
+                            i = 1                   
+                        if style == 'ennemies' :
+                            if col == '4150' :
+                                monster_name = 'dragon'
+                            elif col == '3308':
+                                monster_name = 'bamboo' 
+                            else :
+                                monster_name = 'flying_rock'
+                            
+                            Enemy(monster_name, (x,y), [self.visible_sprites,self.attackable_sprites], self.obstacle_sprites, self.damage_player,1)
 
 
-                            i = 1
+                            
                         if style == 'water_rocks' :
                             Tile((x, y), [self.obstacle_sprites], 'invisible',pygame.Surface((TILESIZE,TILESIZE)))
 
     def create_map1_scene2(self):
-        TILESIZE = 16
+        TILESIZE = 16*4
         layouts = {
             'floor' : import_csv_layout("real level/CSV/First gym/interior_floor.csv"),
             'meubles': import_csv_layout("real level/CSV/First gym/interior_meubles.csv"),
@@ -119,23 +142,25 @@ class Level:
                         if style == 'meubles' or style == 'wall' :
                             Tile((x, y), [self.obstacle_sprites], 'invisible',pygame.Surface((TILESIZE,TILESIZE)))
                         if style == 'player' and col == '163':
-                            print(x,y)
+                            
                             self.player = Player((x,y),
-                                                 [self.visible_sprites],
+                                                 [self.visible_sprites,self.attacker_sprites],
                                                  self.obstacle_sprites,
                                                  self.create_attack,
                                                  self.destroy_attack,
-                                                 self.create_magic)
+                                                 self.create_magic,self.game.health)
 
                             i = 1
 
     def create_map1_scene3(self):
+        TILESIZE = 32
         layouts = {
             'grass': import_csv_layout("real level/CSV/boss/mini_boss_grass.csv"),
             'wall': import_csv_layout("real level/CSV/boss/mini_boss_mur.csv"),
             'rocks': import_csv_layout("real level/CSV/boss/mini_boss_rocks.csv"),
             'sol': import_csv_layout('real level/CSV/boss/mini_boss_sol.csv'),
             'player' : import_csv_layout('real level/CSV/boss/mini_boss_player.csv'),
+            'boss' : import_csv_layout('real level/CSV/boss/mini_boss_boss.csv')
         }
         i = 0
         for style, layout in layouts.items():
@@ -145,15 +170,20 @@ class Level:
                         x = col_index * TILESIZE
                         y = row_index * TILESIZE
                         if style == 'wall' :
-                            Tile((x,y),[self.obstacle_sprites,self.visible_sprites],'wall',pygame.Surface((TILESIZE,TILESIZE)))
+                            Tile((x,y),[self.obstacle_sprites],'wall',pygame.Surface((TILESIZE,TILESIZE)))
                         if style == 'player' and row != 0  :
                             print(60*TILESIZE,70*TILESIZE)
                             self.player = Player((x, y),
-                                                 [self.visible_sprites],
+                                                 [self.visible_sprites,self.attacker_sprites],
                                                  self.obstacle_sprites,
                                                  self.create_attack,
                                                  self.destroy_attack,
-                                                 self.create_magic)
+                                                 self.create_magic,self.game.health)
+                        if style == 'boss' :
+                            if col == '1' :
+                                Enemy('lv1_boss', (x,y), [self.visible_sprites,self.attackable_sprites], self.obstacle_sprites, self.damage_player,1)
+ 
+                        
                             
     def create_map2(self):
         TILESIZE = 32
@@ -177,11 +207,11 @@ class Level:
                             Tile((x, y), [self.obstacle_sprites], 'invisible',pygame.Surface((TILESIZE,TILESIZE)))
                         if style == 'player' and i==0:
                             self.player = Player((60*16,40*16),
-                                                 [self.visible_sprites],
+                                                 [self.visible_sprites,self.attacker_sprites],
                                                  self.obstacle_sprites,
                                                  self.create_attack,
                                                  self.destroy_attack,
-                                                 self.create_magic) 
+                                                 self.create_magic,self.game.health) 
 
                             i = 1
                         if style == 'ennemi' and col == '10':
@@ -221,11 +251,11 @@ class Level:
                             if col == "68":
                                 self.player = Player(
                                     (x,y),
-                                    [self.visible_sprites],
+                                    [self.visible_sprites,self.attacker_sprites],
                                     self.obstacle_sprites,
                                     self.create_attack,
                                     self.destroy_attack,
-                                    self.create_magic,
+                                    self.create_magic
                                 )
                             else:
                                 if col == "4":
@@ -243,8 +273,273 @@ class Level:
                                     self.obstacle_sprites,
                                     self.damage_player,
                                     #self.destroy_attack,
-                                    #self.create_magic
+                                    #self.create_magic,
+                                    self.number
                                 )
+    def create_map4_scene1(self):
+        TILESIZE=32
+        layouts = {
+            'boundary': import_csv_layout('map_csv/scene1/fairy_floor_blocks_bare.csv'),
+            'entities': import_csv_layout('map_csv/scene1/fairy_Entity_pos_0.csv')
+        }
+        for style,layout in layouts.items():
+            for row_index,row in enumerate(layout):
+                for col_index, col in enumerate(row):
+                    if col != '-1':
+                        x = col_index * TILESIZE
+                        y = row_index * TILESIZE
+                        if style == 'boundary':
+                            Tile((x,y),[self.obstacle_sprites],'invisible')
+                        if style == 'entities':
+                            if col == '0':
+                                if not(self.init[0] or self.init[1]):
+                                    self.player = Player(
+                                        (x,y),
+                                        [self.visible_sprites,self.attacker_sprites],
+                                        self.obstacle_sprites,self.create_attack,
+                                    self.destroy_attack,
+                                        self.create_magic,self.game.health)
+                                else:
+                                    self.player = Player(
+                                        self.init,
+                                        [self.visible_sprites,self.attacker_sprites],
+                                        self.obstacle_sprites,self.create_attack,
+                                    self.destroy_attack,
+                                        self.create_magic,self.game.health)
+                            else:
+                                if col == '1': monster_name = 'ghost'
+                                elif col == '4': monster_name = 'dark_fairy'
+                                elif col == '2': monster_name ='bat'
+                                
+                                else: monster_name = 'boss'
+                                Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player,self.number)
+    def create_map4_scene2(self):
+        TILESIZE=32
+        layouts = {
+            'boundary': import_csv_layout('map_csv/scene2/tree._floor_blocks.csv'),
+            'entities': import_csv_layout('map_csv/scene2/tree._pos.csv')
+        }
+        for style,layout in layouts.items():
+            for row_index,row in enumerate(layout):
+                for col_index, col in enumerate(row):
+                    if col != '-1':
+                        x = col_index * TILESIZE
+                        y = row_index * TILESIZE
+                        if style == 'boundary':
+                            Tile((x,y),[self.obstacle_sprites],'invisible')
+                        if style == 'entities':
+                            if col == '1536':
+                                if not (self.init[0] or self.init[1]):
+                                    self.player = Player(
+                                        (x,y),
+                                        [self.visible_sprites,self.attacker_sprites],
+                                        self.obstacle_sprites,self.create_attack,
+                                    self.destroy_attack,
+                                        self.create_magic,self.game.health)
+                                else:
+                                    self.player = Player(
+                                        self.init,
+                                        [self.visible_sprites,self.attacker_sprites],
+                                        self.obstacle_sprites,self.create_attack,
+                                    self.destroy_attack,
+                                        self.create_magic,self.game.health)
+                            #else:
+                                #if col == '1': monster_name = 'ghost'
+                                #elif col == '4': monster_name = 'dark_fairy'
+                                #elif col == '2': monster_name ='bat'
+                                
+                                #else: monster_name = 'boss'
+                                #Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player)
+    def create_map4_scene3(self):
+        TILESIZE=32
+        layouts = {
+            'boundary': import_csv_layout('map_csv/scene3/chateaux_floor_blocks.csv'),
+            'entities': import_csv_layout('map_csv/scene3/chateaux_perso.csv')
+        }
+        for style,layout in layouts.items():
+            for row_index,row in enumerate(layout):
+                for col_index, col in enumerate(row):
+                    if col != '-1':
+                        x = col_index * TILESIZE
+                        y = row_index * TILESIZE
+                        if style == 'boundary':
+                            Tile((x,y),[self.obstacle_sprites],'invisible')
+                        if style == 'entities':
+                            if col == '1536':
+                                if not(self.init[0] or self.init[1]):
+                                    self.player = Player(
+                                        (x,y),
+                                        [self.visible_sprites,self.attacker_sprites],
+                                        self.obstacle_sprites,self.create_attack,
+                                    self.destroy_attack,
+                                        self.create_magic,self.game.health)
+                                else:
+                                    self.player = Player(
+                                        self.init,
+                                        [self.visible_sprites,self.attacker_sprites],
+                                        self.obstacle_sprites,self.create_attack,
+                                    self.destroy_attack,
+                                        self.create_magic,self.game.health)
+                            #else:
+                                #if col == '1': monster_name = 'ghost'
+                                #elif col == '4': monster_name = 'dark_fairy'
+                                #elif col == '2': monster_name ='bat'
+                                
+                                #else: monster_name = 'boss'
+                                #Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player)
+    def create_map4_scene4(self):
+        TILESIZE=32
+        layouts = {
+            'boundary': import_csv_layout('map_csv/scene4/etage1_floor_blocks.csv'),
+            'entities': import_csv_layout('map_csv/scene4/etage1_pos.csv')
+        }
+        for style,layout in layouts.items():
+            for row_index,row in enumerate(layout):
+                for col_index, col in enumerate(row):
+                    if col != '-1':
+                        x = col_index * TILESIZE
+                        y = row_index * TILESIZE
+                        if style == 'boundary':
+                            Tile((x,y),[self.obstacle_sprites],'invisible')
+                        if style == 'entities':
+                            if col == '1536':
+                                if not(self.init[0] or self.init[1]):
+                                    self.player = Player(
+                                        (x,y),
+                                        [self.visible_sprites,self.attacker_sprites],
+                                        self.obstacle_sprites,self.create_attack,
+                                    self.destroy_attack,
+                                        self.create_magic,self.game.health)
+                                else:
+                                    self.player = Player(
+                                        self.init,
+                                        [self.visible_sprites,self.attacker_sprites],
+                                        self.obstacle_sprites,self.create_attack,
+                                    self.destroy_attack,
+                                        self.create_magic,self.game.health)
+                            #else:
+                                #if col == '1': monster_name = 'ghost'
+                                #elif col == '4': monster_name = 'dark_fairy'
+                                #elif col == '2': monster_name ='bat'
+                                
+                                #else: monster_name = 'boss'
+                                #Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player)
+    def create_map4_scene5(self):
+        TILESIZE=32
+        layouts = {
+            'boundary': import_csv_layout('map_csv/scene5/etage2_floor_blocks.csv'),
+            'entities': import_csv_layout('map_csv/scene5/etage2_pos.csv')
+        }
+        for style,layout in layouts.items():
+            for row_index,row in enumerate(layout):
+                for col_index, col in enumerate(row):
+                    if col != '-1':
+                        x = col_index * TILESIZE
+                        y = row_index * TILESIZE
+                        if style == 'boundary':
+                            Tile((x,y),[self.obstacle_sprites],'invisible')
+                        if style == 'entities':
+                            if col == '1536':
+                                
+                                if not(self.init[0] or self.init[1]):
+                                    print(x,y)
+                                    self.player = Player(
+                                        (x,y),
+                                        [self.visible_sprites,self.attacker_sprites],
+                                        self.obstacle_sprites,self.create_attack,
+                                    self.destroy_attack,
+                                        self.create_magic,self.game.health)
+                                else:
+                                    print(self.init)
+                                    self.player = Player(
+                                        self.init,
+                                        [self.visible_sprites,self.attacker_sprites],
+                                        self.obstacle_sprites,self.create_attack,
+                                    self.destroy_attack,
+                                        self.create_magic,self.game.health)
+                                #else:
+                                #if col == '1': monster_name = 'ghost'
+                                #elif col == '4': monster_name = 'dark_fairy'
+                                #elif col == '2': monster_name ='bat'
+                                
+                                #else: monster_name = 'boss'
+                                #Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player)
+    def create_map4_scene6(self):
+        TILESIZE=32
+        layouts = {
+            'boundary': import_csv_layout('map_csv/scene6/roof_floor_blocks.csv'),
+            'entities': import_csv_layout('map_csv/scene6/roof_pos.csv')
+        }
+        for style,layout in layouts.items():
+            for row_index,row in enumerate(layout):
+                for col_index, col in enumerate(row):
+                    if col != '-1':
+                        x = col_index * TILESIZE
+                        y = row_index * TILESIZE
+                        if style == 'boundary':
+                            Tile((x,y),[self.obstacle_sprites],'invisible')
+                        if style == 'entities':
+                            if col == '1536':
+                                if not(self.init[0] or self.init[1]):
+                                    self.player = Player(
+                                        (x,y),
+                                        [self.visible_sprites,self.attacker_sprites],
+                                        self.obstacle_sprites,self.create_attack,
+                                    self.destroy_attack,
+                                        self.create_magic,self.game.health)
+                                else:
+                                    self.player = Player(
+                                        self.init,
+                                        [self.visible_sprites,self.attacker_sprites],
+                                        self.obstacle_sprites,self.create_attack,
+                                    self.destroy_attack,
+                                        self.create_magic,self.game.health)
+                            #else:
+                                #if col == '1': monster_name = 'ghost'
+                                #elif col == '4': monster_name = 'dark_fairy'
+                                #elif col == '2': monster_name ='bat'
+                                
+                                #else: monster_name = 'boss'
+                                #Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player)
+    def create_map4_scene7(self):
+        TILESIZE=32
+        layouts = {
+            'boundary': import_csv_layout('map_csv/scene7/sky_floorblocks.csv'),
+            'entities': import_csv_layout('map_csv/scene7/sky_pos.csv')
+        }
+        for style,layout in layouts.items():
+            for row_index,row in enumerate(layout):
+                for col_index, col in enumerate(row):
+                    if col != '-1':
+                        x = col_index * TILESIZE
+                        y = row_index * TILESIZE
+                        if style == 'boundary':
+                            Tile((x,y),[self.obstacle_sprites],'invisible')
+                        if style == 'entities':
+                            if col == '1536':
+                                if not(self.init[0] or self.init[1]):
+                                    self.player = Player(
+                                        (x,y),
+                                        [self.visible_sprites,self.attacker_sprites],
+                                        self.obstacle_sprites,self.create_attack,
+                                        self.destroy_attack,
+                                        self.create_magic,self.game.health)
+                                else:
+                                    self.player = Player(
+                                        self.init,
+                                        [self.visible_sprites,self.attacker_sprites],
+                                        self.obstacle_sprites,self.create_attack,
+                                        self.destroy_attack,
+                                        self.create_magic,self.game.health)
+                            #else:
+                                #if col == '1': monster_name = 'ghost'
+                                #elif col == '4': monster_name = 'dark_fairy'
+                                #elif col == '2': monster_name ='bat'
+                                
+                                #else: monster_name = 'boss'
+                                #Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player)
+
+    
 
 
     def create_attack(self):
@@ -261,15 +556,19 @@ class Level:
         self.current_attack = None
 
     def player_attack_logic(self):
-        if self.attack_sprites:
-            for attack_sprite in self.attack_sprites:
+        
+        if self.attacker_sprites and self.player.attacking:
+            
+            for attack_sprite in self.attacker_sprites:
                 collision_sprites = pygame.sprite.spritecollide(attack_sprite,self.attackable_sprites,False)
                 if collision_sprites :
+                    
                     for target_sprite in collision_sprites:
-                        target_sprite.get_damage(self.player,attack_sprite.sprite_type)
+                        target_sprite.get_damage(self.player,self)
 
     def damage_player(self,amount,attack_type):
-        if self.player.vulnerable:
+        if self.player.vulnerable and not self.player.attacking:
+            self.game.health-=amount
             self.player.health -= amount
             self.player.vulnerable = False
             self.player.hurt_time = pygame.time.get_ticks()
@@ -307,15 +606,33 @@ class Level:
 
 
 
-    def run(self):
+    def run(self,main,num):
+		# update and draw the game
+        if num:
+            self.player.kill()
+            self.player = Player(
+                                    self.initial_point,
+                                    [self.visible_sprites,self.attacker_sprites],
+                                    self.obstacle_sprites,self.create_attack,
+                                    self.destroy_attack,
+                                    self.create_magic,self.game.health)
+            self.player.game_over=False
+            self.game.health=100
+            self.player.health=100
+            self.player.game_over_screen=False
+            self.player.status='right'
+            #self.player.rect.topleft=self.initial_point
         self.visible_sprites.custom_draw(self.player)
+        print(99)
+        self.player.input(self)
         self.visible_sprites.update()
         self.visible_sprites.enemy_update(self.player)
 
         self.player_attack_logic()
         self.ui.display(self.player)
         self.collect_object()
-
+        if self.player.game_over_screen:
+            main.game_active=False
 
 class YSortCameraGroup(pygame.sprite.Group):
     def __init__(self, level_number, scene_number=1):
@@ -329,15 +646,37 @@ class YSortCameraGroup(pygame.sprite.Group):
         # floor
         if level_number == 1:
             if scene_number == 1:
-                self.floor_surface = pygame.image.load('real level/Level_1 map.png').convert()
+                image = pygame.image.load('real level/Level_1 map.png')
+                tr_image = pygame.transform.scale(image,(10240,11264))
+                self.floor_surface = tr_image.convert()
             if scene_number == 2:
-                self.floor_surface = pygame.image.load('real level/gym1-1.png').convert()
+                image = pygame.image.load('real level/gym1-1.png')
+                tr_image = pygame.transform.scale(image,(768*4,521*4))
+                self.floor_surface = tr_image.convert()
             if scene_number == 3:
-                self.floor_surface = pygame.image.load('real level/boss_fight.png').convert()
+                image = pygame.image.load('real level/mini_boss.png')
+                tr_image = pygame.transform.scale(image,(2048*2,1536*2))
+                self.floor_surface = tr_image.convert()
         if level_number == 2:
             self.floor_surface = pygame.image.load('Level 2\BIGMAP.png').convert()
         if level_number == 3:
             self.floor_surface = pygame.image.load("Graphics\passage\map.png").convert()
+        if level_number == 4:
+            if scene_number == 1:
+                self.floor_surface = pygame.image.load('maps/fairy.png').convert()
+            if scene_number == 2:
+                self.floor_surface = pygame.image.load('maps/tree1.png').convert()
+            if scene_number == 3:
+                self.floor_surface = pygame.image.load('maps/chateaux1.png').convert()
+            if scene_number == 4:
+                self.floor_surface = pygame.image.load('maps/etage11.png').convert()
+            if scene_number == 5:
+                self.floor_surface = pygame.image.load('maps/etage2.png').convert()
+            if scene_number == 6:
+                self.floor_surface = pygame.image.load('maps/roof.png').convert()
+            if scene_number == 7:
+                self.floor_surface = pygame.image.load('maps/sky.png').convert()
+        
 
         self.floor_rect = self.floor_surface.get_rect(topleft=(0, 0))
 
