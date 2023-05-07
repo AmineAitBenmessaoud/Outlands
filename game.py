@@ -15,11 +15,6 @@ class Game:
         self.screen = pygame.display.set_mode((WIDTH,HEIGHT))
         pygame.display.set_caption('Outlands')
         self.clock = pygame.time.Clock()
-<<<<<<< HEAD
-        pygame.display.set_caption("outlands")
-        self.level = Level(1)
-        global TILESIZE
-=======
         self.game_active=True
         self.player_stand = pygame.image.load('player/gameover_right_6.png').convert_alpha()
         self.player_stand_rect = self.player_stand.get_rect(center = (WIDTH/2,HEIGHT*5/8))
@@ -50,7 +45,6 @@ class Game:
         self.number_gameover=0
 
         self.level = Level(self,1,(0,0),3)
->>>>>>> 6011e6de7189f1c584fc2d38e58916f515ea2f0f
 
     def run(self):
         while True:
