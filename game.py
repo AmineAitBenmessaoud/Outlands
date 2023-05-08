@@ -65,9 +65,9 @@ class Game:
                 #changement de maps
                 self.playerx = self.level.player.rect.centerx
                 self.playery = self.level.player.rect.centery
-                if self.playerx == 5500 and self.level.scene == 1:
-                   if self.playery == 7803 :
+                if self.playery <= -33 and self.level == 3:
                      self.level = Level(self,1,(0,0),2)
+                     print("bingo")
                 #if self.level.scene == 2 and self.playery <= 16 :
                 #   if self.playerx >= 15*TILESIZE and self.playerx <= 21*TILESIZE :
                 #      self.level = Level(3) #just testing
