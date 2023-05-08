@@ -13,7 +13,7 @@ class UI:
 		self.health_bar_rect = pygame.Rect(10,10,HEALTH_BAR_WIDTH,BAR_HEIGHT)
 		self.energy_bar_rect = pygame.Rect(10,34,ENERGY_BAR_WIDTH,BAR_HEIGHT)
 		#index of gem
-		self.frame_index=0
+		self.frame_index=7
 
 		# convert weapon dictionary
 		self.weapon_graphics = []
@@ -21,7 +21,7 @@ class UI:
 			path = weapon['graphic']
 			weapon_list = import_folder(path)
 			weapon_list=weapon_list[5:]+weapon_list[0:5]
-			print(weapon_list)
+			
 			weapon = weapon_list[self.frame_index].convert_alpha()
 			self.weapon_graphics.append(weapon_list)
 		# convert magic dictionary
@@ -35,7 +35,7 @@ class UI:
 
 	def refresh_gem(self) :
 		weapon = self.weapon_graphics[self.frame_index].convert_alpha()
-		print(self.frame_index)
+		
 
 
 	def show_bar(self,current,max_amount,bg_rect,color,health):

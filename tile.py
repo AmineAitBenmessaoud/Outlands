@@ -1,3 +1,4 @@
+from typing import Any
 import pygame
 from settings import *
 
@@ -8,3 +9,4 @@ class Tile(pygame.sprite.Sprite):
         self.image = surface
         self.rect = self.image.get_rect(topleft=pos)
         self.hitbox = self.rect.inflate(0, -5)
+        self.pos=pos

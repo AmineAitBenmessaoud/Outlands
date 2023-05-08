@@ -44,7 +44,7 @@ class Game:
 
         self.number_gameover=0
 
-        self.level = Level(self,3,(0,0),1)
+        self.level = Level(self,4,(0,0),1)
 
     def run(self):
         while True:
@@ -75,7 +75,7 @@ class Game:
                 #if self.level == 2:
                 #   if self.playerx >= 15*TILESIZE and self.playerx <= 21*TILESIZE :
                 #      self.level = Level(3)
-                print(self.playerx,self.playery)
+                
                 if (self.playerx>=2610 and self.playerx<=2748 ) and self.level.scene == 1 and self.level.number==4:
                     if self.playery >= 5500 and self.playery <= 5550 :
                         self.level = Level(self,4,(0,0),2)
