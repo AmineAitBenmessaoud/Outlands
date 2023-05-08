@@ -264,7 +264,7 @@ class Level:
                                 )
                             else:
                                 if col == "4":
-                                    monster_name = "bamboo"
+                                    monster_name = "squeleton"
                                 #elif col == "391":
                                  #   monster_name = "spirit"
                                 #elif col == "31":
@@ -277,8 +277,8 @@ class Level:
                                     [self.visible_sprites, self.attackable_sprites],
                                     self.obstacle_sprites_ennemie,
                                     self.damage_player,
-                                    #self.destroy_attack,
-                                    #self.create_magic,
+                                    # self.destroy_attack,
+                                    # self.create_magic,
                                     self.number
                                 )
     def create_map4_scene1(self):
