@@ -3,6 +3,8 @@ from settings import *
 from support import import_folder
 from entity import Entity
 from tile import Tile
+from particles import AnimationPlayer
+from random import randint
 class Player(Entity):
     def __init__(self, pos, groups, obstacle_sprites,create_attack,destroy_attack,create_magic,health):
         super().__init__(groups)
@@ -64,6 +66,8 @@ class Player(Entity):
         self.game_over_screen=False
         #shield
         self.activate=False
+        #gem 0 
+        self.animation_player = AnimationPlayer()
         
 
 
@@ -169,6 +173,10 @@ class Player(Entity):
                             self.activate=True
                             level.shield=Tile((self.rect.centerx-170,self.rect.centery-160),[level.nothing,level.visible_sprites,level.obstacle_sprites_ennemie],'shield',pygame.image.load('shield/shield.png').convert_alpha())
                             level.shield_timer=pygame.time.get_ticks()
+                        if self.weapon_index==0 and level.ui.frame_index==0:
+                            pos = self.rect.center
+                            offset = pygame.math.Vector2(0,75)
+                            self.animation_player.create_projectile(pos - offset,[level.visible_sprites])
                         if level.ui.frame_index==8:
                             level.ui.frame_index=0
                     
