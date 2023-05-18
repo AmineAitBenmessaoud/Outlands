@@ -120,11 +120,8 @@ class Level:
                         if style == 'ennemies' :
                             if col == '4150' :
                                 monster_name = 'dragon'
-                            elif col == '3308':
-                                monster_name = 'bamboo' 
                             else :
                                 monster_name = 'flying_rock'
-                            
                             Enemy(monster_name, (x,y), [self.visible_sprites,self.attackable_sprites], self.obstacle_sprites_ennemie, self.damage_player,1)
 
 
