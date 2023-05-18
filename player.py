@@ -175,8 +175,12 @@ class Player(Entity):
                             level.shield_timer=pygame.time.get_ticks()
                         if self.weapon_index==0 and level.ui.frame_index==0:
                             pos = self.rect.center
-                            offset = pygame.math.Vector2(0,75)
-                            self.animation_player.create_projectile(pos - offset,[level.visible_sprites])
+                            player_width = self.rect.width
+                            player_height = self.rect.height
+                            if 'right' in self.status :
+                                self.animation_player.create_projectile_left((pos[0]+player_width//2,pos[1]),[level.visible_sprites])
+                            else :
+                                self.animation_player.create_projectile_right((pos[0]-player_width//2,pos[1]),[level.visible_sprites])
                         if level.ui.frame_index==8:
                             level.ui.frame_index=0
                     

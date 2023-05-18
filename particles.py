@@ -5,7 +5,8 @@ from random import choice
 class AnimationPlayer:
 	def __init__(self):
 		self.frames = {
-			'projectile': import_folder('Graphics/projectile/left'),
+			'projectile_left': import_folder('Graphics/projectile/left'),
+			'projectile_right': import_folder('Graphics/projectile/right'),
 			}
 	
 	def reflect_images(self,frames):
@@ -16,10 +17,14 @@ class AnimationPlayer:
 	 		new_frames.append(flipped_frame)
 		return new_frames
 
-	def create_projectile(self,pos,groups):
-	 	animation_frames = self.frames['projectile']
+	def create_projectile_left(self,pos,groups):
+	 	animation_frames = self.frames['projectile_left'];print(animation_frames,len(animation_frames))
 	 	ParticleEffect(pos,animation_frames,groups)
-
+	
+	def create_projectile_right(self,pos,groups):
+	 	animation_frames = self.frames['projectile_right'];print(animation_frames,len(animation_frames))
+	 	ParticleEffect(pos,animation_frames,groups)
+		
 	def create_particles(self,animation_type,pos,groups):
 		animation_frames = self.frames[animation_type]
 		ParticleEffect(pos,animation_frames,groups)
