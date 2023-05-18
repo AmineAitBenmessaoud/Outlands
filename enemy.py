@@ -20,7 +20,7 @@ class Enemy(Entity):
             self.status = 'idle_left'
         self.frame_index=0
 
-        print(self.animations[self.status])
+        
         self.image = self.animations[self.status][self.frame_index]
         self.rect = self.image.get_rect(topleft = pos)
 

@@ -2,6 +2,7 @@ import pygame
 from settings import *
 from support import import_folder
 from entity import Entity
+from tile import Tile
 class Player(Entity):
     def __init__(self, pos, groups, obstacle_sprites,create_attack,destroy_attack,create_magic,health):
         super().__init__(groups)
@@ -61,7 +62,9 @@ class Player(Entity):
         self.game_over=False
         self.gameover_index=0
         self.game_over_screen=False
-
+        #shield
+        self.activate=False
+        
 
 
 
@@ -162,8 +165,15 @@ class Player(Entity):
 
                         self.magic = list(magic_data.keys())[self.magic_index]
                     if keys[pygame.K_a] and self.can_switch_weapon:
+                        if self.weapon_index==6 and level.ui.frame_index==8:
+                            self.activate=True
+                            level.shield=Tile((self.rect.centerx-170,self.rect.centery-160),[level.nothing,level.visible_sprites,level.obstacle_sprites_ennemie],'shield',pygame.image.load('shield/shield.png').convert_alpha())
+                            level.shield_timer=pygame.time.get_ticks()
                         if level.ui.frame_index==8:
                             level.ui.frame_index=0
+                    
+                            
+
 
 
 
@@ -266,7 +276,11 @@ class Player(Entity):
             self.image.set_alpha(255)
             
 
-
+    def wave_value2(self,f,a,boolean,phase):
+        if boolean:
+            return a*abs(sin(2*pi*f*pygame.time.get_ticks()+phase))
+        else:
+            return a*(sin(2*pi*f*pygame.time.get_ticks()+phase))
 
     #oui
     def get_full_weapon_damage(self):
@@ -279,6 +293,7 @@ class Player(Entity):
         return self.direction
     # to understand
     def update(self):
+        
         
         
         self.cooldowns()

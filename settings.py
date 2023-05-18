@@ -11,12 +11,12 @@ TILESIZE = 32
 weapon_data = {
     'gem_blue' : {'cooldown':100,'damage':15,'graphic':'gems/gem_blue'},
     'gem_blue2' : {'cooldown':250,'damage':30,'graphic':'gems/gem_blue2'},
-    'gem_green' : {'cooldown':100,'damage':15,'graphic':'gems/gem_green'},
     'gem_green2' : {'cooldown':250,'damage':30,'graphic':'gems/gem_green2'},
     'gem_pink' : {'cooldown':100,'damage':15,'graphic':'gems/gem_pink'},
-    'gem_purpel' : {'cooldown':250,'damage':30,'graphic':'gems/gem_purpel'},
     'gem_red' : {'cooldown':100,'damage':15,'graphic':'gems/gem_red'},
     'gem_redorange' : {'cooldown':250,'damage':30,'graphic':'gems/gem_redorange'},
+    'gem_green' : {'cooldown':100,'damage':15,'graphic':'gems/gem_green'},
+    'gem_purpel' : {'cooldown':250,'damage':30,'graphic':'gems/gem_purpel'},
     'gem_orange' : {'cooldown':100,'damage':15,'graphic':'gems/gem_orange'},
     
 }
@@ -60,7 +60,7 @@ monster_data = {
 	'flying_rock': {'health': 150,'exp':0,'damage':0,'attack_type': 'none', 'attack_sound':'../audio/attack/slash.wav', 'speed': 0, 'resistance': 3, 'attack_radius': 0, 'notice_radius' : 0,'animation_speed':0.8,'near_distance':200},
 	'Tower': {'health': 150,'exp':0,'damage':0,'attack_type': 'none', 'attack_sound':'../audio/attack/slash.wav', 'speed': 0, 'resistance': 3, 'attack_radius': 0, 'notice_radius' : 0,'animation_speed':0.8,'near_distance':200},
 	'dragon': {'health' : 300 , 'exp': 100, 'damage': 10, 'attack_type': 'firebreath', 'attack_sound': '../audio/attack/slash.wav','speed': 0.05, 'resistance': 3, 'attack_radius': 180, 'notice_radius': 500,'animation_speed':0.8,'near_distance':200},
-	'ghost': {'health': 60,'exp':1,'damage':15,'attack_type': 'slash', 'attack_sound':'../audio/attack/slash.wav',
+	'ghost': {'health': 600,'exp':1,'damage':15,'attack_type': 'slash', 'attack_sound':'../audio/attack/slash.wav',
                            'speed': 11, 'resistance':100 , 'attack_radius': 25, 'notice_radius': 600,'animation_speed':0.7,'near_distance':30},
     'dark_fairy': {'health': 30,'exp':0,'damage':2,'attack_type': 'claw',  'attack_sound':'../audio/attack/claw.wav',
                             'speed': 6, 'resistance': 30, 'attack_radius': 10, 'notice_radius': 250,'animation_speed':0.2,'near_distance':60},

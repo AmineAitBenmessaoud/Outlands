@@ -9,7 +9,8 @@ from enemy import Enemy
 from debug import debug
 from rock import Rock
 from Object_level import Object_level
-
+from math import *
+from settings import *
 
 class Level:
 
@@ -20,6 +21,7 @@ class Level:
         # types des sprites :
         self.visible_sprites = YSortCameraGroup(level_number,scene_number)
         self.obstacle_sprites = pygame.sprite.Group()
+        self.obstacle_sprites_ennemie=pygame.sprite.Group()
         #attack sprites
         self.current_attack = None
         self.attack_sprites = pygame.sprite.Group()
@@ -42,7 +44,10 @@ class Level:
         self.game=main
         #user interface
         self.ui = UI()
-
+        #shield
+        self.shield=None
+        self.shield_timer=0
+        self.coef=180
         # creation de la map
         if level_number == 1:
             if scene_number == 1:
@@ -98,7 +103,7 @@ class Level:
                         y = row_index * TILESIZE
                         #test
                         if style == 'boundary' or style == 'rocks' or style == 'wood' or style== 'house':
-                            Tile((x, y), [self.obstacle_sprites], 'invisible',pygame.Surface((TILESIZE,TILESIZE)))
+                            Tile((x, y), [self.obstacle_sprites,self.obstacle_sprites_ennemie], 'invisible',pygame.Surface((TILESIZE,TILESIZE)))
                         if style == 'player' and i==0:
                             self.player = Player((60*16,40*16),
                                                  [self.visible_sprites,self.attacker_sprites],
@@ -115,12 +120,12 @@ class Level:
                             else :
                                 monster_name = 'flying_rock'
                             
-                            Enemy(monster_name, (x,y), [self.visible_sprites,self.attackable_sprites], self.obstacle_sprites, self.damage_player,1)
+                            Enemy(monster_name, (x,y), [self.visible_sprites,self.attackable_sprites], self.obstacle_sprites_ennemie, self.damage_player,1)
 
 
                             
                         if style == 'water_rocks' :
-                            Tile((x, y), [self.obstacle_sprites], 'invisible',pygame.Surface((TILESIZE,TILESIZE)))
+                            Tile((x, y), [self.obstacle_sprites,self.obstacle_sprites_ennemie], 'invisible',pygame.Surface((TILESIZE,TILESIZE)))
 
     def create_map1_scene2(self):
         TILESIZE = 16*4
@@ -140,7 +145,7 @@ class Level:
                         y = row_index * TILESIZE
                         #test
                         if style == 'meubles' or style == 'wall' :
-                            Tile((x, y), [self.obstacle_sprites], 'invisible',pygame.Surface((TILESIZE,TILESIZE)))
+                            Tile((x, y), [self.obstacle_sprites,self.obstacle_sprites_ennemie], 'invisible',pygame.Surface((TILESIZE,TILESIZE)))
                         if style == 'player' and col == '163':
                             
                             self.player = Player((x,y),
@@ -170,9 +175,9 @@ class Level:
                         x = col_index * TILESIZE
                         y = row_index * TILESIZE
                         if style == 'wall' :
-                            Tile((x,y),[self.obstacle_sprites],'wall',pygame.Surface((TILESIZE,TILESIZE)))
+                            Tile((x,y),[self.obstacle_sprites,self.obstacle_sprites_ennemie],'wall',pygame.Surface((TILESIZE,TILESIZE)))
                         if style == 'player' and row != 0  :
-                            print(60*TILESIZE,70*TILESIZE)
+                            
                             self.player = Player((x, y),
                                                  [self.visible_sprites,self.attacker_sprites],
                                                  self.obstacle_sprites,
@@ -181,7 +186,7 @@ class Level:
                                                  self.create_magic,self.game.health)
                         if style == 'boss' :
                             if col == '1' :
-                                Enemy('lv1_boss', (x,y), [self.visible_sprites,self.attackable_sprites], self.obstacle_sprites, self.damage_player,1)
+                                Enemy('lv1_boss', (x,y), [self.visible_sprites,self.attackable_sprites], self.obstacle_sprites_ennemie, self.damage_player,1)
  
                         
                             
@@ -204,7 +209,7 @@ class Level:
                         y = row_index * TILESIZE
                         #test
                         if style == 'boundary':
-                            Tile((x, y), [self.obstacle_sprites], 'invisible',pygame.Surface((TILESIZE,TILESIZE)))
+                            Tile((x, y), [self.obstacle_sprites,self.obstacle_sprites_ennemie], 'invisible',pygame.Surface((TILESIZE,TILESIZE)))
                         if style == 'player' and i==0:
                             self.player = Player((60*16,40*16),
                                                  [self.visible_sprites,self.attacker_sprites],
@@ -217,7 +222,7 @@ class Level:
                         if style == 'ennemi' and col == '10':
                             Enemy('bamboo', (x, y),
                                   [self.visible_sprites, self.attackable_sprites],
-                                  self.obstacle_sprites, self.damage_player)
+                                  self.obstacle_sprites_ennemie, self.damage_player)
     def create_map3(self):
         TILESIZE = 60
         layouts = {
@@ -242,7 +247,7 @@ class Level:
                         if style == "boundary":
                             Tile(
                                 (x, y),
-                                [self.obstacle_sprites],
+                                [self.obstacle_sprites,self.obstacle_sprites_ennemie],
                                 "invisible",
                                 pygame.Surface((TILESIZE,TILESIZE))
                             )
@@ -270,7 +275,7 @@ class Level:
                                     monster_name,
                                     (x, y),
                                     [self.visible_sprites, self.attackable_sprites],
-                                    self.obstacle_sprites,
+                                    self.obstacle_sprites_ennemie,
                                     self.damage_player,
                                     # self.destroy_attack,
                                     # self.create_magic,
@@ -289,7 +294,7 @@ class Level:
                         x = col_index * TILESIZE
                         y = row_index * TILESIZE
                         if style == 'boundary':
-                            Tile((x,y),[self.obstacle_sprites],'invisible')
+                            Tile((x,y),[self.obstacle_sprites,self.obstacle_sprites_ennemie],'invisible',pygame.Surface((TILESIZE,TILESIZE)))
                         if style == 'entities':
                             if col == '0':
                                 if not(self.init[0] or self.init[1]):
@@ -326,7 +331,7 @@ class Level:
                         x = col_index * TILESIZE
                         y = row_index * TILESIZE
                         if style == 'boundary':
-                            Tile((x,y),[self.obstacle_sprites],'invisible')
+                            Tile((x,y),[self.obstacle_sprites,self.obstacle_sprites_ennemie],'invisible',pygame.Surface((TILESIZE,TILESIZE)))
                         if style == 'entities':
                             if col == '1536':
                                 if not (self.init[0] or self.init[1]):
@@ -363,7 +368,7 @@ class Level:
                         x = col_index * TILESIZE
                         y = row_index * TILESIZE
                         if style == 'boundary':
-                            Tile((x,y),[self.obstacle_sprites],'invisible')
+                            Tile((x,y),[self.obstacle_sprites,self.obstacle_sprites_ennemie],'invisible',pygame.Surface((TILESIZE,TILESIZE)))
                         if style == 'entities':
                             if col == '1536':
                                 if not(self.init[0] or self.init[1]):
@@ -400,7 +405,7 @@ class Level:
                         x = col_index * TILESIZE
                         y = row_index * TILESIZE
                         if style == 'boundary':
-                            Tile((x,y),[self.obstacle_sprites],'invisible')
+                            Tile((x,y),[self.obstacle_sprites,self.obstacle_sprites_ennemie],'invisible',pygame.Surface((TILESIZE,TILESIZE)))
                         if style == 'entities':
                             if col == '1536':
                                 if not(self.init[0] or self.init[1]):
@@ -437,12 +442,12 @@ class Level:
                         x = col_index * TILESIZE
                         y = row_index * TILESIZE
                         if style == 'boundary':
-                            Tile((x,y),[self.obstacle_sprites],'invisible')
+                            Tile((x,y),[self.obstacle_sprites,self.obstacle_sprites_ennemie],'invisible',pygame.Surface((TILESIZE,TILESIZE)))
                         if style == 'entities':
                             if col == '1536':
                                 
                                 if not(self.init[0] or self.init[1]):
-                                    print(x,y)
+                                    
                                     self.player = Player(
                                         (x,y),
                                         [self.visible_sprites,self.attacker_sprites],
@@ -450,7 +455,7 @@ class Level:
                                     self.destroy_attack,
                                         self.create_magic,self.game.health)
                                 else:
-                                    print(self.init)
+                                    
                                     self.player = Player(
                                         self.init,
                                         [self.visible_sprites,self.attacker_sprites],
@@ -477,7 +482,7 @@ class Level:
                         x = col_index * TILESIZE
                         y = row_index * TILESIZE
                         if style == 'boundary':
-                            Tile((x,y),[self.obstacle_sprites],'invisible')
+                            Tile((x,y),[self.obstacle_sprites,self.obstacle_sprites_ennemie],'invisible',pygame.Surface((TILESIZE,TILESIZE)))
                         if style == 'entities':
                             if col == '1536':
                                 if not(self.init[0] or self.init[1]):
@@ -514,7 +519,7 @@ class Level:
                         x = col_index * TILESIZE
                         y = row_index * TILESIZE
                         if style == 'boundary':
-                            Tile((x,y),[self.obstacle_sprites],'invisible')
+                            Tile((x,y),[self.obstacle_sprites,self.obstacle_sprites_ennemie],'invisible',pygame.Surface((TILESIZE,TILESIZE)))
                         if style == 'entities':
                             if col == '1536':
                                 if not(self.init[0] or self.init[1]):
@@ -622,17 +627,40 @@ class Level:
             self.player.game_over_screen=False
             self.player.status='right'
             #self.player.rect.topleft=self.initial_point
+        
+        if self.player.activate:
+            self.coef-=0.5
+            alpha= ((0.6*self.wave_value2(1/1600,255,0,0))/153)*40+self.coef
+            
+            self.shield.image.set_alpha(alpha)
+            self.shield.rect.centerx=self.player.rect.centerx-10
+            self.shield.rect.centery=self.player.rect.centery
+            self.shield.hitbox.centerx=self.player.rect.centerx-10
+            self.shield.hitbox.centery=self.player.rect.centery
+            
+        if ((pygame.time.get_ticks()-self.shield_timer))>10000 and self.player.activate:
+            self.player.activate=False
+            self.shield.kill()
+            self.coef=180
+
+
+
         self.visible_sprites.custom_draw(self.player)
-        print(99)
+        
         self.player.input(self)
         self.visible_sprites.update()
         self.visible_sprites.enemy_update(self.player)
-
+        
         self.player_attack_logic()
         self.ui.display(self.player)
         self.collect_object()
         if self.player.game_over_screen:
             main.game_active=False
+    def wave_value2(self,f,a,boolean,phase):
+        if boolean:
+            return a*abs(sin(2*pi*f*pygame.time.get_ticks()+phase))
+        else:
+            return a*(sin(2*pi*f*pygame.time.get_ticks()+phase))
 
 class YSortCameraGroup(pygame.sprite.Group):
     def __init__(self, level_number, scene_number=1):
