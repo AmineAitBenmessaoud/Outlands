@@ -66,8 +66,6 @@ class Player(Entity):
         self.game_over_screen=False
         #shield
         self.activate=False
-        #gem 0 
-        self.animation_player = AnimationPlayer()
         
 
 
@@ -169,18 +167,20 @@ class Player(Entity):
 
                         self.magic = list(magic_data.keys())[self.magic_index]
                     if keys[pygame.K_a] and self.can_switch_weapon:
+                        #gem 0 
+                        self.animation_player = AnimationPlayer(level)
                         if self.weapon_index==6 and level.ui.frame_index==8:
                             self.activate=True
                             level.shield=Tile((self.rect.centerx-170,self.rect.centery-160),[level.nothing,level.visible_sprites,level.obstacle_sprites_ennemie],'shield',pygame.image.load('shield/shield.png').convert_alpha())
                             level.shield_timer=pygame.time.get_ticks()
-                        if self.weapon_index==0 and level.ui.frame_index==0:
+                        if self.weapon_index==0 and level.ui.frame_index==8:
                             pos = self.rect.center
                             player_width = self.rect.width
                             player_height = self.rect.height
                             if 'right' in self.status :
-                                self.animation_player.create_projectile_left((pos[0]+player_width//2,pos[1]),[level.visible_sprites])
+                                self.animation_player.create_projectile_left((pos[0]+player_width//2,pos[1]),[level.visible_sprites],level)
                             else :
-                                self.animation_player.create_projectile_right((pos[0]-player_width//2,pos[1]),[level.visible_sprites])
+                                self.animation_player.create_projectile_right((pos[0]-player_width//2,pos[1]),[level.visible_sprites],level)
                         if level.ui.frame_index==8:
                             level.ui.frame_index=0
                     
