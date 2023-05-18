@@ -63,8 +63,8 @@ class Level:
                 self.create_map3()
             if scene_number == 2:
                 self.create_map3_scene2()
-            #if scene_number == 3:
-             #   self.create_map3_scene3()
+            if scene_number == 3:
+                self.create_map3_scene3()
         # creation de la map4
         if level_number==4:
             if scene_number == 1:
@@ -326,6 +326,63 @@ class Level:
                                 )
                             else:
                                 if col == "305":
+                                    monster_name = "squeleton"
+                                #elif col == "391":
+                                 #   monster_name = "spirit"
+                                #elif col == "31":
+                                 #   monster_name = "raccoon"
+                                #else:
+                                  #  monster_name = "squid"
+                                Enemy(
+                                    monster_name,
+                                    (x, y),
+                                    [self.visible_sprites, self.attackable_sprites],
+                                    self.obstacle_sprites_ennemie,
+                                    self.damage_player,
+                                    # self.destroy_attack,
+                                    # self.create_magic,
+                                    self.number
+                                )
+    def create_map3_scene3(self):
+        TILESIZE = 60
+        layouts = {
+            "boundary": import_csv_layout("Graphics/boss_map_2/boss_obstacle.csv"),
+            "grass": import_csv_layout("Graphics/boss_map_2/boss_movable.csv"),
+            "entities": import_csv_layout("Graphics/boss_map_2/boss_entities.csv"),
+        }
+        graphics = {
+            "grass": import_folder("Graphics/grass"),
+            "objects": import_folder("Graphics/objects"),
+        }
+
+        # row gives us y position
+        for style, layout in layouts.items():
+            for row_index, row in enumerate(layout):
+                for col_index, col in enumerate(row):
+
+                    if col != "-1":
+                        x = col_index * TILESIZE
+                        y = row_index * TILESIZE
+                        if style == "boundary":
+                            Tile(
+                                (x, y),
+                                [self.obstacle_sprites,self.obstacle_sprites_ennemie],
+                                "invisible",
+                                pygame.Surface((TILESIZE,TILESIZE))
+                            )
+
+                        if style == "entities":
+                            if col == "23":
+                                self.player = Player(
+                                    (x,y),
+                                    [self.visible_sprites,self.attacker_sprites],
+                                    self.obstacle_sprites,
+                                    self.create_attack,
+                                    self.destroy_attack,
+                                    self.create_magic,self.game.health
+                                )
+                            else:
+                                if col == "35":
                                     monster_name = "squeleton"
                                 #elif col == "391":
                                  #   monster_name = "spirit"
@@ -756,6 +813,8 @@ class YSortCameraGroup(pygame.sprite.Group):
                 image = pygame.image.load("Graphics/boss_map/map.png").convert() 
                 tr_image = pygame.transform.scale(image,(480*3.75,480*3.75))
                 self.floor_surface = tr_image.convert()   
+            if scene_number == 3:
+                self.floor_surface = pygame.image.load("Graphics/boss_map_2/boss.png").convert()
         if level_number == 4:
             if scene_number == 1:
                 self.floor_surface = pygame.image.load('maps/fairy.png').convert()
