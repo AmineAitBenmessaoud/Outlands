@@ -173,7 +173,7 @@ class Player(Entity):
                             self.activate=True
                             level.shield=Tile((self.rect.centerx-170,self.rect.centery-160),[level.nothing,level.visible_sprites,level.obstacle_sprites_ennemie],'shield',pygame.image.load('shield/shield.png').convert_alpha())
                             level.shield_timer=pygame.time.get_ticks()
-                        if self.weapon_index==0 and level.ui.frame_index==0:
+                        if self.weapon_index==0 and level.ui.frame_index==8:
                             pos = self.rect.center
                             player_width = self.rect.width
                             player_height = self.rect.height
