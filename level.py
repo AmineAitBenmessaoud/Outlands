@@ -40,6 +40,13 @@ class Level:
         self.number = level_number
         self.scene = scene_number
         self.init=init
+        #point de depart dans differents scene après mort
+        if self.number==1 and self.scene==1: 
+            self.initial_point=(984,670)
+        if self.number==1 and self.scene==3: 
+            self.initial_point=(2200,3038)
+        if self.number==3: 
+            self.initial_point=(5004,1410)
         if self.number==4: 
             self.initial_point=(1056,1536)
 
