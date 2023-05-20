@@ -24,16 +24,16 @@ class Game:
         self.game_name_rect = self.game_name.get_rect(center = (WIDTH/2,HEIGHT*2/8))
 
         self.test_font_message = pygame.font.Font('font/Pixeltype.ttf', 150)
-        self.game_message = self.test_font_message.render('You Looser',False,(0, 9, 94))
+        self.game_message = self.test_font_message.render('You Loooser',False,(0, 9, 94))
         self.game_message_rect = self.game_message.get_rect(center = (WIDTH/2,HEIGHT*4/8))
 
         self.test_font_message_0 = pygame.font.Font('font/Pixeltype.ttf', 250)
         self.game_message_0 = self.test_font_message_0.render('press enter to restart',False,(148, 201, 255))
         self.game_message_rect_0 = self.game_message_0.get_rect(center = (WIDTH/2,HEIGHT*7/8))
         #waiting screen
-        self.test_font_message_0 = pygame.font.Font('font/Pixeltype.ttf', 150)
-        self.game_message_0 = self.test_font_message_0.render('waiting the player to get trough',False,(0, 9, 94))
-        self.game_message_rect_0 = self.game_message_0.get_rect(center = (WIDTH/2,HEIGHT*7/8))
+        self.test_font_message_1 = pygame.font.Font('font/Pixeltype.ttf', 150)
+        self.game_message_1 = self.test_font_message_1.render('waiting the player to get trough',False,(0, 9, 94))
+        self.game_message_rect_1 = self.game_message_1.get_rect(center = (WIDTH/2,HEIGHT*7/8))
 
         self.player_wait = pygame.image.load('wait.png').convert_alpha()
         self.player_wait_rect = self.player_stand.get_rect(center = (WIDTH/2,HEIGHT*1/2))
@@ -44,7 +44,7 @@ class Game:
 
         self.number_gameover=0
 
-        self.level = Level(self,4,(0,0),1)
+        self.level = Level(self,1,(0,0),3)
 
     def run(self):
         while True:
@@ -84,7 +84,7 @@ class Game:
                 if self.level.scene == 2 and self.level.number==4:
                     if   self.playery >= 3100 :
                         self.screen.fill((69,174,116))
-                        self.screen.blit(self.game_message_0,self.game_message_rect_0)
+                        self.screen.blit(self.game_message_1,self.game_message_rect_1)
                         self.screen.blit(self.player_wait,self.player_wait_rect)
                         self.playery+=60
                     if self.playery >=3200:

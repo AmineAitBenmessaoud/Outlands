@@ -3,6 +3,7 @@ from settings import *
 from support import import_folder
 from entity import Entity
 from tile import Tile
+from enemy import Enemy
 class Player(Entity):
     def __init__(self, pos, groups, obstacle_sprites,create_attack,destroy_attack,create_magic,health):
         super().__init__(groups)
@@ -63,7 +64,8 @@ class Player(Entity):
         self.gameover_index=0
         self.game_over_screen=False
         #shield
-        self.activate=False
+        self.activate7=False
+        self.activate8=False
         
 
 
@@ -165,9 +167,15 @@ class Player(Entity):
 
                         self.magic = list(magic_data.keys())[self.magic_index]
                     if keys[pygame.K_a] and self.can_switch_weapon:
+                        if level.current_enemy and level.enemy_list:
+                            print(level.current_enemy.distance,'----',level.near_enemy_list)
                         if self.weapon_index==6 and level.ui.frame_index==8:
-                            self.activate=True
+                            self.activate7=True
                             level.shield=Tile((self.rect.centerx-170,self.rect.centery-160),[level.nothing,level.visible_sprites,level.obstacle_sprites_ennemie],'shield',pygame.image.load('shield/shield.png').convert_alpha())
+                            level.shield_timer=pygame.time.get_ticks()
+                        if self.weapon_index==7 and level.ui.frame_index==8:
+                            self.activate8=True
+                            level.enemy8th=Enemy('boss_ally',(self.rect.centerx-100,self.rect.centery-100),[level.visible_sprites,level.attackable_sprites,level.attacker_sprites],level.nothing,level.damage_player,level.number,'enemy_ally','boss_ally')
                             level.shield_timer=pygame.time.get_ticks()
                         if level.ui.frame_index==8:
                             level.ui.frame_index=0

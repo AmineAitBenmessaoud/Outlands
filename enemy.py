@@ -3,12 +3,13 @@ from settings import *
 from entity import Entity
 from support import *
 class Enemy(Entity):
-    def __init__(self,monster_name,pos,groups,obstacle_sprites,damage_player,map):
+    def __init__(self,monster_name,pos,groups,obstacle_sprites,damage_player,map,sprite_type,id):
 
+        self.id=id
         # general setup
         super().__init__(groups)
-        self.sprite_type = 'enemy'
-
+        self.sprite_type = sprite_type
+        
         # graphics setup
         self.import_graphics(monster_name)
         self.status = 'idle_left'
@@ -16,7 +17,7 @@ class Enemy(Entity):
             self.status = 'down'
         elif monster_name=='bat': 
             self.status = 'left'
-        elif monster_name=='ghost'or monster_name=='boss' :
+        elif monster_name=='ghost'or monster_name=='boss' or monster_name=='boss_ally' :
             self.status = 'idle_left'
         self.frame_index=0
 
@@ -49,7 +50,7 @@ class Enemy(Entity):
         #player interaction
         self.can_attack = True
         self.attack_time = None
-        self.attack_cooldown = 400
+        self.attack_cooldown = 10 ########important when you change the speed of the game!!!!!
         self.damage_player = damage_player
 
         #invinsibility timer
@@ -64,8 +65,19 @@ class Enemy(Entity):
         self.dist_vect_sign= pygame.math.Vector2()
         self.directionx= pygame.math.Vector2() 
         self.num=0
-
+        #list of enemies
+        self.enemy_list=[]
+        
         self.map=map
+        self.near=False#if the enemies is near enough to the player to be shown on the screen
+        self.dead=False#True if the enemy is not yet dead
+    
+    def __eq__(self, other):
+        if isinstance(other, Enemy):
+            return self.id == other.id
+        return False
+    def __hash__(self):
+        return hash(self.id)
 
     def import_graphics(self,name):
         self.animations = {'idle_left':[] , 'move_left':[] ,'attack_left':[],
@@ -73,7 +85,7 @@ class Enemy(Entity):
         main_path = f'Graphics/{name}/'
         
         if name=='dark_fairy':
-            self.animations = {'down':[],'up':[],'right':[],'left':[],}
+            self.animations = {'down':[],'up':[],'right':[],'left':[]}
             for animation in self.animations.keys():
                 self.animations[animation] = import_folder(main_path + animation +'/images/')
 
@@ -81,9 +93,9 @@ class Enemy(Entity):
             self.animations = {'right':[],'left':[]}
             for animation in self.animations.keys():
                 self.animations[animation] = import_folder(main_path + animation+'/images/')  
-        elif name=='ghost' or name=='boss':
+        elif name=='ghost' or name=='boss'or name=='boss_ally':
             self.animations = {'idle_right':[],'idle_left':[],'right':[],'left':[],'right_attack':[],'left_attack':[],
-            'left_damage':[],'right_damage':[],'left_gameover':[],'right_gameover':[],}
+            'left_damage':[],'right_damage':[],'left_gameover':[],'right_gameover':[]}
             for animation in self.animations.keys():
                 self.animations[animation] = import_folder(main_path + animation+'/images/')   
         
@@ -121,10 +133,10 @@ class Enemy(Entity):
         self.distance_vect=self.get_player_distance_direction(player)[2]
         if self.vulnerable:
             self.direction= self.get_player_distance_direction(player)[1]
-        if self.map==4:
+        if self.map==4 or self.monster_name=='boss_ally':
             if self.vulnerable:
 		
-
+                
                 if self.distance <= self.attack_radius and self.can_attack:
                     if  'attack' not in self.status:
                         self.frame_index = 0
@@ -160,7 +172,7 @@ class Enemy(Entity):
                             self.status = 'right_attack'
                         else:
                             self.status = 'right_attack'
-                    if self.monster_name=='boss':
+                    if self.monster_name=='boss'or self.monster_name=='boss_ally' :
                         if     self.direction[0]>0 :
                             self.status = 'right_attack'
                             self.olddirection=self.direction[0]
@@ -209,7 +221,7 @@ class Enemy(Entity):
                             self.status = 'right'
                         else:
                             self.status = 'right'
-                    if self.monster_name=='boss':
+                    if self.monster_name=='boss'or self.monster_name=='boss_ally':
                         if     self.direction[0]>0 :
                             self.status = 'right'
                             self.olddirection=self.direction[0]
@@ -257,7 +269,7 @@ class Enemy(Entity):
                             self.status = 'idle_right'
                         else:
                             self.status = 'idle_right'
-                    if self.monster_name=='boss':
+                    if self.monster_name=='boss'or self.monster_name=='boss_ally':
                         if     self.direction[0]>0 :
                             self.status = 'idle_right'
                             self.olddirection=self.direction[0]
@@ -271,7 +283,7 @@ class Enemy(Entity):
                         else:
                             self.status = 'idle_right'
             else:
-                if self.monster_name=='boss'or self.monster_name=='ghost':
+                if self.monster_name=='boss'or self.monster_name=='ghost'or self.monster_name=='boss_ally':
                     if     self.dist_vect_sign[0]>0:
                         self.status = 'right_damage'
                     else:
@@ -296,10 +308,12 @@ class Enemy(Entity):
                     self.status = 'idle_right'
 
     def actions(self,player):
+        
         if  'attack' in self.status or self.distance<=self.near_distance :
             if self.vulnerable:
                 self.attack_time = pygame.time.get_ticks()
-                self.damage_player(self.attack_damage,self.attack_type)
+                if not self.monster_name=='boss_ally':
+                    self.damage_player(self.attack_damage,self.attack_type)
         if self.vulnerable:
             if self.ismoving or 'move' in self.status:
                 self.direction = self.get_player_distance_direction(player)[1]
@@ -308,6 +322,7 @@ class Enemy(Entity):
        
 
     def animate(self):
+        print(self.monster_name,self.status)
         animation = self.animations[self.status]
         self.frame_index += self.animation_speed
         if self.frame_index >= len(animation):
@@ -328,7 +343,9 @@ class Enemy(Entity):
 
     def cooldowns(self):
         current_time = pygame.time.get_ticks()
+        
         if not self.can_attack:
+            
             if current_time - self.attack_time >= self.attack_cooldown :
                 self.can_attack = True
         if not self.vulnerable :
@@ -338,11 +355,21 @@ class Enemy(Entity):
     def get_damage(self,player,level):
         if self.vulnerable :
             self.direction = self.get_player_distance_direction(player)[1]
-            if player.attacking :
+            if player.attacking and self.monster_name!='boss_ally':
                 if ('right' in player.status and 'left' in self.status) or ('left' in player.status and 'right' in self.status) :
                     if  level.ui.frame_index!=8:
                         level.ui.frame_index+=1
                     self.health -= player.get_full_weapon_damage()
+                    self.hit_time = pygame.time.get_ticks()
+                    self.vulnerable = False
+    def get_damage_by_8th(self,eight,level):
+        if self.vulnerable :
+            self.direction = self.get_player_distance_direction(eight)[1]
+            if 'attack'in eight.status :
+                if ('right' in eight.status and 'left' in self.status) or ('left' in eight.status and 'right' in self.status) :
+                    if  level.ui.frame_index!=8:
+                        level.ui.frame_index+=1
+                    self.health -= eight.attack_damage
                     self.hit_time = pygame.time.get_ticks()
                     self.vulnerable = False
 
@@ -352,8 +379,18 @@ class Enemy(Entity):
     def check_death(self):
         if self.health <= 0 :
             self.kill()
+            self.dead=True
+
+    def in_the_list(self,list):
+        for enemy in list:
+            if enemy.id==self.id:
+                return True
+        return False
     def update(self):
         if self.distance<=1100:
+            
+            self.near=True
+            
             self.hit_reaction()
             self.animate()
             self.cooldowns()
