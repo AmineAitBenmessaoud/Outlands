@@ -67,7 +67,12 @@ class Level:
         if level_number == 2:
             self.create_map2()
         if level_number == 3: #This is Amine level (it will have also a slight modification on the size of the tiles)
-            self.create_map3()
+            if scene_number == 1:
+                self.create_map3()
+            if scene_number == 2:
+                self.create_map3_scene2()
+            if scene_number == 3:
+                self.create_map3_scene3()
         # creation de la map4
         if level_number==4:
             if scene_number == 1:
@@ -123,7 +128,7 @@ class Level:
                         if style == 'ennemies' :
                             if col == '4150' :
                                 monster_name = 'dragon'
-                           
+                            
                             else :
                                 monster_name = 'flying_rock'
                             
@@ -292,8 +297,6 @@ class Level:
                                     # self.create_magic,
                                     self.number,'enemy',monster_name+str(x+y)
                                 )
-                                if self.enemy  :
-                                    self.enemy_list.append(self.enemy)
     def create_map4_scene1(self):
         TILESIZE=32
         layouts = {
@@ -717,7 +720,14 @@ class YSortCameraGroup(pygame.sprite.Group):
         if level_number == 2:
             self.floor_surface = pygame.image.load('Level 2\BIGMAP.png').convert()
         if level_number == 3:
-            self.floor_surface = pygame.image.load("Graphics\passage\map.png").convert()
+            if scene_number == 1:
+                self.floor_surface = pygame.image.load("Graphics\passage\map.png").convert()
+            if scene_number == 2:
+                image = pygame.image.load("Graphics/boss_map/map.png").convert() 
+                tr_image = pygame.transform.scale(image,(480*3.75,480*3.75))
+                self.floor_surface = tr_image.convert()   
+            if scene_number == 3:
+                self.floor_surface = pygame.image.load("Graphics/boss_map_2/boss.png").convert()
         if level_number == 4:
             if scene_number == 1:
                 self.floor_surface = pygame.image.load('maps/fairy.png').convert()

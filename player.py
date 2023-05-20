@@ -3,6 +3,8 @@ from settings import *
 from support import import_folder
 from entity import Entity
 from tile import Tile
+from particles import AnimationPlayer
+from random import randint
 from enemy import Enemy
 class Player(Entity):
     def __init__(self, pos, groups, obstacle_sprites,create_attack,destroy_attack,create_magic,health):
@@ -167,8 +169,8 @@ class Player(Entity):
 
                         self.magic = list(magic_data.keys())[self.magic_index]
                     if keys[pygame.K_a] and self.can_switch_weapon:
-                        if level.current_enemy and level.enemy_list:
-                            print(level.current_enemy.distance,'----',level.near_enemy_list)
+                        #gem 0 
+                        self.animation_player = AnimationPlayer(level)
                         if self.weapon_index==6 and level.ui.frame_index==8:
                             self.activate7=True
                             level.shield=Tile((self.rect.centerx-170,self.rect.centery-160),[level.nothing,level.visible_sprites,level.obstacle_sprites_ennemie],'shield',pygame.image.load('shield/shield.png').convert_alpha())
