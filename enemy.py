@@ -67,6 +67,9 @@ class Enemy(Entity):
         self.num=0
         #list of enemies
         self.enemy_list=[]
+
+        #game_over
+        self.game_over_index=0
         
         self.map=map
         self.near=False#if the enemies is near enough to the player to be shown on the screen
@@ -95,7 +98,7 @@ class Enemy(Entity):
                 self.animations[animation] = import_folder(main_path + animation+'/images/')  
         elif name=='ghost' or name=='boss'or name=='boss_ally':
             self.animations = {'idle_right':[],'idle_left':[],'right':[],'left':[],'right_attack':[],'left_attack':[],
-            'left_damage':[],'right_damage':[],'left_gameover':[],'right_gameover':[]}
+            'left_damage':[],'right_damage':[],'left_game_over':[],'right_game_over':[]}
             for animation in self.animations.keys():
                 self.animations[animation] = import_folder(main_path + animation+'/images/')   
         
@@ -131,6 +134,7 @@ class Enemy(Entity):
     def get_status(self,player):
         self.distance = self.get_player_distance_direction(player)[0]
         self.distance_vect=self.get_player_distance_direction(player)[2]
+        
         if self.vulnerable:
             self.direction= self.get_player_distance_direction(player)[1]
         if self.map==4 or self.monster_name=='boss_ally':
@@ -306,6 +310,13 @@ class Enemy(Entity):
                     self.status = 'idle_left'
                 else :
                     self.status = 'idle_right'
+        if self.health<=0:
+            self.game_over_index+=1
+            if self.monster_name=='ghost'or self.monster_name=='boss':
+                if self.olddirectionx<0:
+                    self.status='left_game_over'
+                else:
+                    self.status='right_game_over'
 
     def actions(self,player):
         
@@ -377,8 +388,12 @@ class Enemy(Entity):
         if not self.vulnerable:
             self.direction *= -self.resistance
     def check_death(self):
-        if self.health <= 0 :
-            self.kill()
+        if self.health <= 0:
+            if self.monster_name=='ghost'or self.monster_name=='boss':
+                if self.game_over_index>=15:
+                    self.kill()
+            else:
+                self.kill()
             self.dead=True
 
     def in_the_list(self,list):
