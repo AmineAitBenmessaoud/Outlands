@@ -69,6 +69,31 @@ monster_data = {
     'boss': {'health': 300,'exp':10,'damage':30,'attack_type': 'leaf_attack', 'attack_sound':'../audio/attack/slash.wav', 
                            'speed': 12, 'resistance': 60, 'attack_radius': 140,'notice_radius': 1000,'animation_speed':0.5,'near_distance':80},
     'lv1_boss' : {'health': 300,'exp':10,'damage':30,'attack_type': 'leaf_attack', 'attack_sound':'../audio/attack/slash.wav', 
-                           'speed': 12, 'resistance': 60, 'attack_radius': 140,'notice_radius': 1000,'animation_speed':0.5,'near_distance':80}
+                           'speed': 12, 'resistance': 60, 'attack_radius': 140,'notice_radius': 1000,'animation_speed':0.5,'near_distance':80},
+    'boss_ally': {'health': 300,'exp':10,'damage':300,'attack_type': 'leaf_attack', 'attack_sound':'../audio/attack/slash.wav', 
+                           'speed': 12, 'resistance': 60, 'attack_radius': 140,'notice_radius': 100000,'animation_speed':0.5,'near_distance':80},
+    'lv1_boss' : {'health': 300,'exp':10,'damage':30,'attack_type': 'leaf_attack', 'attack_sound':'../audio/attack/slash.wav', 
+                           'speed': 12, 'resistance': 60, 'attack_radius': 140,'notice_radius': 1000,'animation_speed':0.5,'near_distance':80},
+    'dragon' : {'health': 400,'exp':10,'damage':30,'attack_type': 'leaf_attack', 'attack_sound':'../audio/attack/slash.wav', 
+                           'speed': 5, 'resistance': 60, 'attack_radius': 140,'notice_radius': 1000,'animation_speed':0.2,'near_distance':80},
+    'demon' : {'health': 300,'exp':10,'damage':30,'attack_type': 'leaf_attack', 'attack_sound':'../audio/attack/slash.wav', 
+                           'speed':5, 'resistance': 60, 'attack_radius': 140,'notice_radius': 1000,'animation_speed':0.2,'near_distance':80},
+    'gardien_eau' : {'health': 300,'exp':10,'damage':30,'attack_type': 'leaf_attack', 'attack_sound':'../audio/attack/slash.wav', 
+                           'speed':5, 'resistance': 60, 'attack_radius': 140,'notice_radius': 1000,'animation_speed':0.2,'near_distance':80},
+    'knight2' : {'health': 70,'exp':10,'damage':30,'attack_type': 'leaf_attack', 'attack_sound':'../audio/attack/slash.wav', 
+                           'speed': 7, 'resistance': 60, 'attack_radius': 140,'notice_radius': 1000,'animation_speed':0.2,'near_distance':80},
+    'knight3' : {'health': 90,'exp':10,'damage':30,'attack_type': 'leaf_attack', 'attack_sound':'../audio/attack/slash.wav', 
+                           'speed': 7, 'resistance': 60, 'attack_radius': 140,'notice_radius': 1000,'animation_speed':0.2,'near_distance':80}
+}
+ally_data={
+    'fairy_green':{'health': 90,'damage':30, 'attack_sound':'../audio/attack/slash.wav', 
+                           'speed': 7, 'animation_speed':0.2,'text':[],'resistance':30
+            },
+    'fairy_princ':{'health': 90,'damage':30, 'attack_sound':'../audio/attack/slash.wav', 
+                           'speed': 7, 'animation_speed':0.2,'text':[],'resistance':30
+            },
+    'fairy_queen':{'health': 90,'damage':30, 'attack_sound':'../audio/attack/slash.wav', 
+                           'speed': 7, 'animation_speed':0.2,'text':[],'resistance':30
+            }
 }
 

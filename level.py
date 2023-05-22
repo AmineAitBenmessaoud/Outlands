@@ -11,17 +11,20 @@ from rock import Rock
 from Object_level import Object_level
 from math import *
 from settings import *
+from Ally import *
 
 class Level:
 
     def __init__(self,main,level_number,init=(0,0),scene_number=1):
         # surface principale
         self.player = None
+        self.enemy=None
         self.display_surface = pygame.display.get_surface()
         # types des sprites :
         self.visible_sprites = YSortCameraGroup(level_number,scene_number)
         self.obstacle_sprites = pygame.sprite.Group()
         self.obstacle_sprites_ennemie=pygame.sprite.Group()
+        self.anything=pygame.sprite.Group()
         #attack sprites
         self.current_attack = None
         self.attack_sprites = pygame.sprite.Group()
@@ -38,9 +41,24 @@ class Level:
         self.number = level_number
         self.scene = scene_number
         self.init=init
+        #point de depart dans differents scene après mort
+        if self.number==1 and self.scene==1: 
+            self.initial_point=(984,670)
+        if self.number==1 and self.scene==3: 
+            self.initial_point=(2200,3038)
+        if self.number==3: 
+            self.initial_point=(5004,1410)
         if self.number==4: 
-            self.initial_point=(1056,1536)
-
+            if self.scene==1:
+                self.initial_point=(1056,1536)
+            if self.scene==3:
+                self.initial_point=(2136,2046)
+            if self.scene==4:
+                self.initial_point=(2040,2974)
+            if self.scene==5:
+                self.initial_point=(2040,2974)
+            if self.scene==7:
+                self.initial_point=(1424,1181)
         self.game=main
         #user interface
         self.ui = UI()
@@ -48,6 +66,12 @@ class Level:
         self.shield=None
         self.shield_timer=0
         self.coef=180
+        #stuff of the 8th gemme
+        self.enemy_list=[]#list of enmies on the screen that the monster of the 8th gem can attack
+        self.near_enemy_list=[]
+        self.killed=[]
+        self.current_enemy=None#the nemie that should be attacked by the monster of the 8th gemme
+        self.enemy8th=None#the monster of the 8th gem
         # creation de la map
         if level_number == 1:
             if scene_number == 1:
@@ -122,7 +146,9 @@ class Level:
                                 monster_name = 'dragon'
                             else :
                                 monster_name = 'flying_rock'
-                            Enemy(monster_name, (x,y), [self.visible_sprites,self.attackable_sprites], self.obstacle_sprites_ennemie, self.damage_player,1)
+                            self.enemy=Enemy(monster_name, (x,y), [self.visible_sprites,self.attackable_sprites], self.obstacle_sprites_ennemie, self.damage_player,1,'enemy',monster_name+str(x+y))
+                            if self.enemy  :
+                                    self.enemy_list.append(self.enemy)
 
 
                             
@@ -188,7 +214,10 @@ class Level:
                                                  self.create_magic,self.game.health)
                         if style == 'boss' :
                             if col == '1' :
-                                Enemy('lv1_boss', (x,y), [self.visible_sprites,self.attackable_sprites], self.obstacle_sprites_ennemie, self.damage_player,1)
+                                self.enemy=Enemy('lv1_boss', (x,y), [self.visible_sprites,self.attackable_sprites], self.obstacle_sprites_ennemie, self.damage_player,1,'enemy','lv1_boss'+str(x+y))
+                                if self.enemy  :
+                                    self.enemy_list.append(self.enemy)
+
  
                         
                             
@@ -222,9 +251,9 @@ class Level:
 
                             i = 1
                         if style == 'ennemi' and col == '10':
-                            Enemy('bamboo', (x, y),
-                                  [self.visible_sprites, self.attackable_sprites],
-                                  self.obstacle_sprites_ennemie, self.damage_player)
+                            self.enemy=Enemy('bamboo', (x, y),[self.visible_sprites, self.attackable_sprites],self.obstacle_sprites_ennemie, self.damage_player,2,'enemy','bamboo'+str(x+y))
+                            if self.enemy  :
+                                    self.enemy_list.append(self.enemy)
     def create_map3(self):
         TILESIZE = 60
         layouts = {
@@ -273,7 +302,7 @@ class Level:
                                  #   monster_name = "raccoon"
                                 #else:
                                   #  monster_name = "squid"
-                                Enemy(
+                                self.enemy=Enemy(
                                     monster_name,
                                     (x, y),
                                     [self.visible_sprites, self.attackable_sprites],
@@ -281,8 +310,10 @@ class Level:
                                     self.damage_player,
                                     # self.destroy_attack,
                                     # self.create_magic,
-                                    self.number
+                                    self.number,'enemy',monster_name+str(x+y)
                                 )
+                                if self.enemy  :
+                                    self.enemy_list.append(self.enemy)
     def create_map3_scene2(self):
         TILESIZE = 60
         layouts = {
@@ -330,7 +361,7 @@ class Level:
                                  #   monster_name = "raccoon"
                                 #else:
                                   #  monster_name = "squid"
-                                Enemy(
+                                self.enemy=Enemy(
                                     monster_name,
                                     (x, y),
                                     [self.visible_sprites, self.attackable_sprites],
@@ -338,8 +369,10 @@ class Level:
                                     self.damage_player,
                                     # self.destroy_attack,
                                     # self.create_magic,
-                                    self.number
+                                    self.number,'enemy',monster_name+str(x+y)
                                 )
+                                if self.enemy  :
+                                    self.enemy_list.append(self.enemy)
     def create_map4_scene1(self):
         TILESIZE=32
         layouts = {
@@ -370,13 +403,19 @@ class Level:
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
                                         self.create_magic,self.game.health)
+                            elif col == '1575':ally('fairy_princ',(x,y),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_princ'+str(x+y))
                             else:
+                                
                                 if col == '1': monster_name = 'ghost'
                                 elif col == '4': monster_name = 'dark_fairy'
                                 elif col == '2': monster_name ='bat'
                                 
                                 else: monster_name = 'boss'
-                                Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player,self.number)
+                                
+                                self.enemy=Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player,self.number,'enemy',monster_name+str(x+y))
+                                
+                                if self.enemy  :
+                                    self.enemy_list.append(self.enemy)#si le joueur active la huitieme gemme on selectionne les enmies proches
     def create_map4_scene2(self):
         TILESIZE=32
         layouts = {
@@ -444,13 +483,15 @@ class Level:
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
                                         self.create_magic,self.game.health)
-                            #else:
-                                #if col == '1': monster_name = 'ghost'
-                                #elif col == '4': monster_name = 'dark_fairy'
-                                #elif col == '2': monster_name ='bat'
+                            else:
+                                if col == '1534': 
+                                    monster_name = 'knight2'
+                                    self.enemy=Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player,self.number,'enemy',monster_name+str(x+y))
                                 
-                                #else: monster_name = 'boss'
-                                #Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player)
+                                    if self.enemy  :
+                                        self.enemy_list.append(self.enemy)#si le joueur active la huitieme gemme on selectionne les enmies proches
+                                
+                                
     def create_map4_scene4(self):
         TILESIZE=32
         layouts = {
@@ -481,13 +522,14 @@ class Level:
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
                                         self.create_magic,self.game.health)
-                            #else:
-                                #if col == '1': monster_name = 'ghost'
-                                #elif col == '4': monster_name = 'dark_fairy'
-                                #elif col == '2': monster_name ='bat'
+                            else:
+                                if col == '1530': 
+                                    monster_name = 'knight3'
+                                    self.enemy=Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player,self.number,'enemy',monster_name+str(x+y))
                                 
-                                #else: monster_name = 'boss'
-                                #Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player)
+                                    if self.enemy  :
+                                        self.enemy_list.append(self.enemy)#si le joueur active la huitieme gemme on selectionne les enmies proches
+                                
     def create_map4_scene5(self):
         TILESIZE=32
         layouts = {
@@ -521,13 +563,18 @@ class Level:
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
                                         self.create_magic,self.game.health)
-                                #else:
-                                #if col == '1': monster_name = 'ghost'
-                                #elif col == '4': monster_name = 'dark_fairy'
-                                #elif col == '2': monster_name ='bat'
-                                
-                                #else: monster_name = 'boss'
-                                #Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player)
+                            else:
+                                if col == '1530': 
+                                    monster_name = 'gardien_eau'
+                                    self.enemy=Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player,self.number,'enemy',monster_name+str(x+y))
+
+                                if col == '1534': 
+                                    monster_name = 'demon'
+                                    self.enemy=Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player,self.number,'enemy',monster_name+str(x+y))
+                            
+                                if self.enemy  :
+                                    self.enemy_list.append(self.enemy)#si le joueur active la huitieme gemme on selectionne les enmies proches
+                        
     def create_map4_scene6(self):
         TILESIZE=32
         layouts = {
@@ -595,16 +642,15 @@ class Level:
                                         self.obstacle_sprites,self.create_attack,
                                         self.destroy_attack,
                                         self.create_magic,self.game.health)
-                            #else:
-                                #if col == '1': monster_name = 'ghost'
-                                #elif col == '4': monster_name = 'dark_fairy'
-                                #elif col == '2': monster_name ='bat'
+                            else:
+                                if col == '1532': 
+                                    monster_name = 'dragon'
+                                    self.enemy=Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player,self.number,'enemy',monster_name+str(x+y))
                                 
-                                #else: monster_name = 'boss'
-                                #Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player)
-
-    
-
+                                    if self.enemy  :
+                                        self.enemy_list.append(self.enemy)#si le joueur active la huitieme gemme on selectionne les enmies proches
+                                
+  
 
     def create_attack(self):
         self.current_attack = Weapon(self.player,[self.visible_sprites,self.attack_sprites])
@@ -629,6 +675,18 @@ class Level:
                     
                     for target_sprite in collision_sprites:
                         target_sprite.get_damage(self.player,self)
+
+    def eight_attack_logic(self):
+        
+        if self.attacker_sprites and 'attack' in self.enemy8th.status:#################################################################################
+            
+            for attack_sprite in self.attacker_sprites:
+                collision_sprites = pygame.sprite.spritecollide(attack_sprite,self.attackable_sprites,False)
+                if collision_sprites :
+                    
+                    for target_sprite in collision_sprites:
+                        if type(target_sprite).__name__=='Enemy':
+                            target_sprite.get_damage_by_8th(self.enemy8th,self)
 
     def damage_player(self,amount,attack_type):
         if self.player.vulnerable and not self.player.attacking:
@@ -687,7 +745,7 @@ class Level:
             self.player.status='right'
             #self.player.rect.topleft=self.initial_point
         
-        if self.player.activate:
+        if self.player.activate7:
             self.coef-=0.5
             alpha= ((0.6*self.wave_value2(1/1600,255,0,0))/153)*40+self.coef
             
@@ -697,8 +755,8 @@ class Level:
             self.shield.hitbox.centerx=self.player.rect.centerx-10
             self.shield.hitbox.centery=self.player.rect.centery
             
-        if ((pygame.time.get_ticks()-self.shield_timer))>10000 and self.player.activate:
-            self.player.activate=False
+        if ((pygame.time.get_ticks()-self.shield_timer))>10000 and self.player.activate7:
+            self.player.activate7=False
             self.shield.kill()
             self.coef=180
 
@@ -708,9 +766,12 @@ class Level:
         
         self.player.input(self)
         self.visible_sprites.update()
-        self.visible_sprites.enemy_update(self.player)
+        self.visible_sprites.enemy_update(self.player,self)
+        self.visible_sprites.ally_update(self.player,self)
         
         self.player_attack_logic()
+        if self.player.activate8:
+            self.eight_attack_logic()
         self.ui.display(self.player)
         self.collect_object()
         if self.player.game_over_screen:
@@ -785,11 +846,73 @@ class YSortCameraGroup(pygame.sprite.Group):
             offset_pos = sprite.rect.topleft - self.offset
             self.display_surface.blit(sprite.image, offset_pos)
 
-    def enemy_update(self, player):
+    def enemy_update(self, player,level):
+
+        
+        for enemy_inex in range(len(level.enemy_list)):# extraire les enemies les plus proche
+            
+            if level.enemy_list[enemy_inex].distance>0 and level.enemy_list[enemy_inex].distance<=1100 and level.enemy_list[enemy_inex] not in level.near_enemy_list and level.enemy_list[enemy_inex]!=level.current_enemy and level.enemy_list[enemy_inex] not in level.killed  :
+                 
+                 level.near_enemy_list.append(level.enemy_list[enemy_inex])
+                 
+                 
+        enemy_inex=0
+        Taille_near_enemy_list=len(level.near_enemy_list)
+        while enemy_inex <Taille_near_enemy_list:#eliminer les ennemies qui sont devenu loin
+            if level.near_enemy_list[enemy_inex].distance>1100  or level.near_enemy_list[enemy_inex].in_the_list(level.killed)  :
+                 level.near_enemy_list.pop(enemy_inex)
+                 Taille_near_enemy_list-=1
+            else: 
+                enemy_inex+=1
+        #on trie maintenant ces enemies par ordre de proximité
+        if len(level.near_enemy_list)>1:
+            for i in range(len(level.near_enemy_list)):
+                min=level.near_enemy_list[i].distance
+                min_index=i
+                for j in range(i,len(level.near_enemy_list)):
+                    
+                    if level.near_enemy_list[j].distance<min:
+                        min=level.near_enemy_list[j].distance
+                        min_index=j
+                level.near_enemy_list[i],level.near_enemy_list[min_index]=level.near_enemy_list[min_index],level.near_enemy_list[i]
+        if level.near_enemy_list and level.current_enemy!=None:
+            if level.current_enemy.distance>level.near_enemy_list[0].distance:
+                a=level.current_enemy
+                level.current_enemy=level.near_enemy_list[0]
+                level.near_enemy_list[0]=a
+
         enemy_sprites = [sprite for sprite in self.sprites() if
-                         hasattr(sprite, 'sprite_type') and sprite.sprite_type == 'enemy']
-        for enemy in enemy_sprites:
+                         hasattr(sprite, 'sprite_type') and (sprite.sprite_type == 'enemy') ]
+        if  level.current_enemy==None:
+                if level.near_enemy_list:
+                    level.current_enemy=level.near_enemy_list.pop(0)
+        
+        if  level.current_enemy!=None and level.current_enemy.distance>1100: 
+            level.current_enemy=None
+        if level.near_enemy_list==[]and  level.enemy8th!=None and level.current_enemy==None:
+            player.activate8=False
+            level.enemy8th.kill()
+        #if level.current_enemy!= None:
+        if level.current_enemy!= None and level.current_enemy.dead :
+                level.killed.append(level.current_enemy)
+                level.current_enemy=None
+        for enemy in enemy_sprites:  
             enemy.enemy_update(player)
+            
+        
+        if player.activate8:
+            if player.activate8!=None and level.current_enemy!=None:
+                level.enemy8th.enemy_update(level.current_enemy)
+            if pygame.time.get_ticks()-level.shield_timer>=10000 and level.enemy8th and player.activate8:
+                    player.activate8=False
+                    level.enemy8th.kill()
+    def ally_update(self, player,level):
+        ally_sprites = [sprite for sprite in self.sprites() if
+                         hasattr(sprite, 'sprite_type') and (sprite.sprite_type == 'ally') ]
+        for ally in ally_sprites:  
+            ally.ally_update(player)
+                
+
 
 
 
