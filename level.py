@@ -250,11 +250,15 @@ class Level:
                                                  self.create_magic,self.game.health) 
 
                             i = 1
-                        if style == 'ennemi' and col == '10':
+                        if style == 'ennemi' :
+                            if col == '56':
                             
-                            self.enemy=Enemy('bamboo', (x, y),[self.visible_sprites, self.attackable_sprites],self.obstacle_sprites_ennemie, self.damage_player,2,'enemy','bamboo'+str(x+y))
+                                self.enemy=Enemy('raccoon', (x, y),[self.visible_sprites, self.attackable_sprites],self.obstacle_sprites_ennemie, self.damage_player,2,'enemy','bamboo'+str(x+y))
+                            if col == '10':
+                            
+                                self.enemy=Enemy('squeleton', (x, y),[self.visible_sprites, self.attackable_sprites],self.obstacle_sprites_ennemie, self.damage_player,2,'enemy','bamboo'+str(x+y))
                             if self.enemy  :
-                                    self.enemy_list.append(self.enemy)
+                                self.enemy_list.append(self.enemy)
     def create_map3(self):
         TILESIZE = 60
         layouts = {
