@@ -403,7 +403,9 @@ class Level:
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
                                         self.create_magic,self.game.health)
-                            elif col == '1575':ally('fairy_princ',(x,y),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_princ'+str(x+y))
+                            elif col == '1575':
+                               
+                                ally('fairy_princ',(x,y),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_princ'+str(x+y))
                             elif col == '1578':ally('fairy_green',(x,y),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_green'+str(x+y))
                             else:
                                 
@@ -769,7 +771,7 @@ class Level:
 
 
         self.visible_sprites.custom_draw(self.player)
-        
+        print('oki')
         self.player.input(self)
         self.visible_sprites.update()
         self.visible_sprites.enemy_ally_update(self.player,self)
@@ -909,7 +911,7 @@ class YSortCameraGroup(pygame.sprite.Group):
         for enemy in enemy_sprites:  
             enemy.enemy_update(player)
         for ally in ally_sprites:
-            ally.ally_update(player)
+            ally.ally_update(player,self)
             
         
         if player.activate8:

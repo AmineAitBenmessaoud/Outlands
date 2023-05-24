@@ -262,6 +262,7 @@ class Player(Entity):
 
 
     def animate(self):
+        
         animation = self.animations[self.status]
 
         # loop over the frame index 

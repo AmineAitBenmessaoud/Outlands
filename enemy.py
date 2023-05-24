@@ -340,6 +340,7 @@ class Enemy(Entity):
                 self.can_attack = False
             self.frame_index = 0
 
+        print(self.monster_name,self.status)
         self.image = animation[int(self.frame_index)]
         self.rect = self.image.get_rect(center = self.hitbox.center)
 
@@ -398,6 +399,7 @@ class Enemy(Entity):
         return False
     def update(self):
         if self.distance<=1100:
+            print('ok')
             self.near=True
             self.hit_reaction()
             self.animate()
@@ -405,6 +407,7 @@ class Enemy(Entity):
             self.check_death()
 
     def enemy_update(self,player):
+        self.distance=self.get_player_distance_direction(player)[0]
         if self.distance<=1100:
             self.get_status(player)
             if self.distance<=self.notice_radius:

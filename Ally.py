@@ -53,7 +53,7 @@ class ally(Entity):
 
         self.background_color = (251, 251, 219)
         self.current_dialogue=dialogue[self.ally_name][self.dialogue_index]
-        self.discution_pos=dialogue[self.ally_name][self.dialogue_index][-1]
+        self.discution_pos=dialogue[self.ally_name][self.dialogue_index][-2]
         self.text=dialogue[self.ally_name][self.dialogue_index][0]
         self.ligne=0
         self.page=1
@@ -181,11 +181,12 @@ class ally(Entity):
             self.cooldowns()
             self.check_death()
 
-    def ally_update(self,player):
+    def ally_update(self,player,level):
         if self.distance<=1100:
             self.get_status(player)
             self.actions(player)
             self.move(self.speed)
+            self.positionnement(level)
             self.Dialogue(player)
     def Dialogue(self,player):
         
@@ -207,15 +208,14 @@ class ally(Entity):
                         self.display_surface.blit(text_surf,text_rect)
                         text_message_0 = pygame.font.Font('font/Pixeltype.ttf', 80)
                         if self.adding_text:
+                            
                             self.previous_letters[self.ligne]+=self.text[self.ligne][self.letter_index]
                         for line in range(self.ligne+1):
-                            print(line,self.ligne)
                             game_message_0 = text_message_0.render(self.previous_letters[line],False,(0, 9, 94))
                             game_message_rect_0 = game_message_0.get_rect(topleft = (WIDTH*1/7 ,HEIGHT*25/32+line*45))
                             self.display_surface.blit(game_message_0,game_message_rect_0)
                         
                         self.letter_index+=1
-                        print(self.letter_index,self.text[self.ligne],'**')
                         if self.letter_index>=len(self.text[self.ligne]):
                             self.letter_index=0
                             self.ligne+=1
@@ -231,7 +231,7 @@ class ally(Entity):
                                 self.letter_index=len(self.text[self.ligne])-1
                                 self.adding_text=False
                                 self.ligne=len(self.text)-1
-                            elif self.page< len(self.current_dialogue)-1:
+                            elif self.page< len(self.current_dialogue)-2:
                                 self.text=dialogue[self.ally_name][self.dialogue_index][self.page]
                                 self.page+=1
                                 self.return_index=0
@@ -245,7 +245,9 @@ class ally(Entity):
                             else:
                                 if self.return_index==6 :
                                     self.can_talk=False
-                                    self.dialogue_index+=1
+                                    if self.dialogue_index +1< len(dialogue[self.ally_name].keys()):
+                                        self.dialogue_index+=1
+                                        self.current_dialogue=dialogue[self.ally_name][self.dialogue_index]
                                     player.Stop_moving=False
                                     player.discussing=False
                                     self.return_index=0
@@ -272,6 +274,10 @@ class ally(Entity):
             self.rect2 = self.image.get_rect(center = (WIDTH*6/7 ,HEIGHT*25/32))
             self.display_surface.blit(self.image2, self.rect2)
     
-    
+    def positionnement(self,level):
+        #if self.ally_name=='fairy_princ':
+            #level.display_surface.blit(self.image,self.current_dialogue[-2])
+        
+        pass
 
     
