@@ -5,6 +5,7 @@ from entity import Entity
 from tile import Tile
 from particles import AnimationPlayer
 from random import randint
+from enemy import Enemy
 class Player(Entity):
     def __init__(self, pos, groups, obstacle_sprites,create_attack,destroy_attack,create_magic,health):
         super().__init__(groups)
@@ -24,7 +25,7 @@ class Player(Entity):
         self.numattack=-1
         self.attack_cooldown = 400
         self.animation_speed=0.5
-        
+        self.Stop_moving=False
         self.attack_time = None
 
         #weapon
@@ -65,7 +66,10 @@ class Player(Entity):
         self.gameover_index=0
         self.game_over_screen=False
         #shield
-        self.activate=False
+        self.activate7=False
+        self.activate8=False
+
+        self.discussing=False
         
 
 
@@ -170,7 +174,7 @@ class Player(Entity):
                         #gem 0 
                         self.animation_player = AnimationPlayer(level)
                         if self.weapon_index==6 and level.ui.frame_index==8:
-                            self.activate=True
+                            self.activate7=True
                             level.shield=Tile((self.rect.centerx-170,self.rect.centery-160),[level.nothing,level.visible_sprites,level.obstacle_sprites_ennemie],'shield',pygame.image.load('shield/shield.png').convert_alpha())
                             level.shield_timer=pygame.time.get_ticks()
                         if self.weapon_index==0 and level.ui.frame_index==8:
@@ -181,6 +185,10 @@ class Player(Entity):
                                 self.animation_player.create_projectile_left((pos[0]+player_width//2,pos[1]),[level.visible_sprites],level)
                             else :
                                 self.animation_player.create_projectile_right((pos[0]-player_width//2,pos[1]),[level.visible_sprites],level)
+                        if self.weapon_index==7 and level.ui.frame_index==8:
+                            self.activate8=True
+                            level.enemy8th=Enemy('boss_ally',(self.rect.centerx-100,self.rect.centery-100),[level.visible_sprites,level.attackable_sprites,level.attacker_sprites],level.nothing,level.damage_player,level.number,'enemy_ally','boss_ally')
+                            level.shield_timer=pygame.time.get_ticks()
                         if level.ui.frame_index==8:
                             level.ui.frame_index=0
                     
@@ -254,6 +262,7 @@ class Player(Entity):
 
 
     def animate(self):
+        
         animation = self.animations[self.status]
 
         # loop over the frame index 
@@ -310,5 +319,11 @@ class Player(Entity):
         
         self.cooldowns()
         self.get_status()
+        if self.discussing:
+            if self.direction[0]<0:
+                self.status='left_idle'
+            else:
+                self.status='right_idle'
         self.animate()
-        self.move(self.speed)
+        if not self.Stop_moving:
+            self.move(self.speed)
