@@ -44,7 +44,7 @@ class Game:
 
         self.number_gameover=0
 
-        self.level = Level(self,3,(0,0),2)
+        self.level = Level(self,2,(0,0))
     def run(self):
         while True:
             keys = pygame.key.get_pressed()
@@ -76,10 +76,11 @@ class Game:
 
                     if not self.level.attackable_sprites :
                         if self.playerx >= 2100 and self.playerx <= 2256 and self.playery <= 374 :
-                            self.level = Level(self,3,(0,0),1)
-                #if self.level == 2:
-                #   if self.playerx >= 15*TILESIZE and self.playerx <= 21*TILESIZE :
-                #      self.level = Level(3)
+                            self.level = Level(self,2,(0,0),1)
+                if self.level.number == 2:
+                   print(7)
+                   if (self.playerx >= 3500 and self.playerx <= 4500) and (self.playery >= 4450 and self.playery <= 4700):
+                        self.level = Level(self,3,(0,0))
                 if (self.playery<=12 and self.level.scene ==1  and self.level.number==3):
                     self.level = Level(self,3,(0,0),2)
                 elif (self.playery<=25 and self.level.scene ==2  and self.level.number==3):
