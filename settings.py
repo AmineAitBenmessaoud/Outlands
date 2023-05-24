@@ -70,7 +70,53 @@ monster_data = {
                            'speed': 12, 'resistance': 60, 'attack_radius': 140,'notice_radius': 1000,'animation_speed':0.5,'near_distance':80},
     'lv1_boss' : {'health': 300,'exp':10,'damage':30,'attack_type': 'leaf_attack', 'attack_sound':'../audio/attack/slash.wav', 
                            'speed': 12, 'resistance': 60, 'attack_radius': 140,'notice_radius': 1000,'animation_speed':0.5,'near_distance':80},
-    'phontom' : {'health': 300,'exp':10,'damage':30,'attack_type': 'leaf_attack', 'attack_sound':'../audio/attack/slash.wav', 
-                           'speed': 12, 'resistance': 60, 'attack_radius': 140,'notice_radius': 1000,'animation_speed':0.5,'near_distance':80}
+    'boss_ally': {'health': 300,'exp':10,'damage':300,'attack_type': 'leaf_attack', 'attack_sound':'../audio/attack/slash.wav', 
+                           'speed': 12, 'resistance': 60, 'attack_radius': 140,'notice_radius': 100000,'animation_speed':0.5,'near_distance':80},
+    'lv1_boss' : {'health': 300,'exp':10,'damage':30,'attack_type': 'leaf_attack', 'attack_sound':'../audio/attack/slash.wav', 
+                           'speed': 12, 'resistance': 60, 'attack_radius': 140,'notice_radius': 1000,'animation_speed':0.5,'near_distance':80},
+    'dragon' : {'health': 400,'exp':10,'damage':30,'attack_type': 'leaf_attack', 'attack_sound':'../audio/attack/slash.wav', 
+                           'speed': 5, 'resistance': 60, 'attack_radius': 140,'notice_radius': 1000,'animation_speed':0.2,'near_distance':80},
+    'demon' : {'health': 300,'exp':10,'damage':30,'attack_type': 'leaf_attack', 'attack_sound':'../audio/attack/slash.wav', 
+                           'speed':5, 'resistance': 60, 'attack_radius': 140,'notice_radius': 1000,'animation_speed':0.2,'near_distance':80},
+    'gardien_eau' : {'health': 300,'exp':10,'damage':30,'attack_type': 'leaf_attack', 'attack_sound':'../audio/attack/slash.wav', 
+                           'speed':5, 'resistance': 60, 'attack_radius': 140,'notice_radius': 1000,'animation_speed':0.2,'near_distance':80},
+    'knight2' : {'health': 70,'exp':10,'damage':30,'attack_type': 'leaf_attack', 'attack_sound':'../audio/attack/slash.wav', 
+                           'speed': 7, 'resistance': 60, 'attack_radius': 140,'notice_radius': 1000,'animation_speed':0.2,'near_distance':80},
+    'knight3' : {'health': 90,'exp':10,'damage':30,'attack_type': 'leaf_attack', 'attack_sound':'../audio/attack/slash.wav', 
+                           'speed': 7, 'resistance': 60, 'attack_radius': 140,'notice_radius': 1000,'animation_speed':0.2,'near_distance':80}
 }
+ally_data={
+    'fairy_green':{'health': 9000,'damage':30, 'attack_sound':'../audio/attack/slash.wav', 
+                           'speed': 7, 'animation_speed':0.2,'text':[],'resistance':30
+            },
+    'fairy_princ':{'health': 9000,'damage':30, 'attack_sound':'../audio/attack/slash.wav', 
+                           'speed': 7, 'animation_speed':0.2,'text':[],'resistance':30
+            },
+    'fairy_queen':{'health': 9000,'damage':30, 'attack_sound':'../audio/attack/slash.wav', 
+                           'speed': 7, 'animation_speed':0.2,'resistance':30
+            }
+}
+#dialogue est structurée comme ca: {'ally_name':{numero_dialogue:[[ligne_0_page_0,ligne_1_page_0],[ligne_0_page_1,ligne_1_page_1],[surface_declanchement_discution],position de l'allier pendant ce dialogie n numero_dialogue]}}
+dialogue={
+    'fairy_princ':{0:[['hi  there!  you  seem  quite  strong  .  I  like  it  .  I  am  Liza ',
+                      'a  fairy  ,  and  i  am  lost  ,  and  i  am  afraid  that  the   ',
+                      'ghosts   attack   me  .'],
+                      ['can  you  help  me  . Oh  !  great   i  remeber  that  i  was  going ',
+                      'up  from the beginning  ,  can  you  go  south  i  ll  follow  you ',
+                      'back!'],
+                      [(1900,2000),(1400,1700)],(1984, 1504)],
+                    1:[['oh  !  I came  before  you  , thank  you  for  protecting  me  from ',
+                      'these  monsters.  This  is  the  tree of  fairies  .  Can  I  ask  you   ',
+                      'request  .  We have  abig  problem  ,  our  garden  is  attacked  by  monsters',
+                      'and  we  the  fairies  are  too  weak  to  defend  ourself.  The monsters  ',
+                      'have  already  took  control  of  more  than  the  half  of  the  garden ',
+                      'I  just  talked  with  my  mom  ,  and  told  her  how  you  are  strong,  so  she  want  to ',
+                      ' so  she  want  to  talk  with  you  .  She  is  inside  the  tree  waiting  ',
+                      'for  you  !!!!'],
+                      [(2000,3600),(5600,7000)],(2665, 6015)]},
+    'fairy_green':{0:[[],[]]},
+    'fairy_queen':{0:[[],[]]}
+
+}
+
 
