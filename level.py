@@ -120,9 +120,14 @@ class Level:
                         if style == 'ennemies' :
                             if col == '4150' :
                                 monster_name = 'dragon'
+                                group = [self.visible_sprites,self.attackable_sprites]
+                            elif col == '3308' :
+                                monster_name = 'squeleton'
+                                group = [self.visible_sprites,self.attackable_sprites]
                             else :
                                 monster_name = 'flying_rock'
-                            Enemy(monster_name, (x,y), [self.visible_sprites,self.attackable_sprites], self.obstacle_sprites_ennemie, self.damage_player,1)
+                                group = [self.visible_sprites,self.attackable_sprites,self.obstacle_sprites]
+                            Enemy(monster_name, (x,y), group, self.obstacle_sprites_ennemie, self.damage_player,1)
 
 
                             
