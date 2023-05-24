@@ -354,7 +354,7 @@ class Level:
                                 )
                             else:
                                 if col == "305":
-                                    monster_name = "squeleton"
+                                    monster_name = "phontom"
                                 #elif col == "391":
                                  #   monster_name = "spirit"
                                 #elif col == "31":
