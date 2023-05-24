@@ -151,7 +151,8 @@ class Level:
                             else :
                                 monster_name = 'flying_rock'
                                 group = [self.visible_sprites,self.attackable_sprites,self.obstacle_sprites]
-                            Enemy(monster_name, (x,y), group, self.obstacle_sprites_ennemie, self.damage_player,1)
+
+                            Enemy(monster_name, (x,y), group, self.obstacle_sprites_ennemie, self.damage_player,1,'enemy',monster_name+str(x+y))
 
 
                             
