@@ -89,7 +89,7 @@ class Enemy(Entity):
         
         else:
             for animation in self.animations.keys():
-                if name == 'lv1_boss' :
+                if name == 'lv1_boss' or name== 'phontom':
                     folder = import_folder(main_path + animation)
                     for image in  folder :
                         image2 = pygame.transform.rotozoom(image, 0, 4)
