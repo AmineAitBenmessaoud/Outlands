@@ -44,7 +44,7 @@ class Game:
 
         self.number_gameover=0
 
-        self.level = Level(self,4,(0,0),7)
+        self.level = Level(self,1,(0,0),1)
 
     def run(self):
         while True:
