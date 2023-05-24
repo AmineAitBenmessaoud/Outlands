@@ -15,6 +15,7 @@ class ally(Entity):
         self.status = 'idle_left'
         if 'fairy' in ally_name:self.status = 'left'
         self.frame_index=0
+        self.frame_index2=0
 
         self.image = self.animations[self.status][self.frame_index]
         self.rect = self.image.get_rect(topleft = pos)
@@ -41,7 +42,26 @@ class ally(Entity):
         self.speed = ally_info['speed']
         self.resistance = ally_info['resistance']
         self.animation_speed = ally_info['animation_speed']
-        self.text=ally_info['text']
+        #self.dialogue=dialogue[self.ally_name]
+
+        #text
+        self.dialogue_index=0
+        self.letter_index=0
+        self.stop_editing=False
+
+        self.display_surface = pygame.display.get_surface()
+
+        self.background_color = (251, 251, 219)
+        self.current_dialogue=dialogue[self.ally_name][self.dialogue_index]
+        self.discution_pos=dialogue[self.ally_name][self.dialogue_index][-1]
+        self.text=dialogue[self.ally_name][self.dialogue_index][0]
+        self.ligne=0
+        self.page=1
+        self.previous_letters = ['' for i in range(100)]
+        self.can_talk=True
+        self.adding_text=True
+        self.return_index=0
+        
 
         self.vulnerable = True
         self.hit_time = None
@@ -82,11 +102,7 @@ class ally(Entity):
             self.distance = self.get_player_distance_direction(player)[0]
             self.distance_vect=self.get_player_distance_direction(player)[2]
             
-            if self.vulnerable:
-                self.direction= self.get_player_distance_direction(player)[1]
             if self.map==4 :
-                if self.vulnerable: 
-                    self.frame_index = 0
                 if 'fairy'in self.ally_name:
                         # movement input
                     if     self.direction[0]>0 and float(self.distance_vect[0])>200 :
@@ -110,12 +126,10 @@ class ally(Entity):
        
 
     def animate(self):
-        print(self.frame_index,'****')
+        
         animation = self.animations[self.status]
-        self.frame_index += self.animation_speed
+        self.frame_index = self.animation_speed +self.frame_index
         if self.frame_index >= len(animation):
-            if 'attack' in self.status :
-                self.can_attack = False
             self.frame_index = 0
         self.image = animation[int(self.frame_index)]
         self.rect = self.image.get_rect(center = self.hitbox.center)
@@ -168,6 +182,96 @@ class ally(Entity):
             self.check_death()
 
     def ally_update(self,player):
-        self.get_status(player)
-        self.actions(player)
-        self.move(self.speed)
+        if self.distance<=1100:
+            self.get_status(player)
+            self.actions(player)
+            self.move(self.speed)
+            self.Dialogue(player)
+    def Dialogue(self,player):
+        
+        
+        if self.can_talk:
+
+            keys = pygame.key.get_pressed()
+
+        
+            if self.ally_name=='fairy_princ':
+                if player.rect.centerx>=self.discution_pos[0][0] and player.rect.centerx<=self.discution_pos[0][1] :
+                    if player.rect.centery>=self.discution_pos[1][0]  and player.rect.centery<=self.discution_pos[1][1] :
+
+                        player.discussing=True
+                        player.Stop_moving=True
+                        text_surf=pygame.Surface((WIDTH, HEIGHT/4))
+                        text_surf.fill(self.background_color)
+                        text_rect=text_surf.get_rect(topleft=(0,HEIGHT*3/4))
+                        self.display_surface.blit(text_surf,text_rect)
+                        text_message_0 = pygame.font.Font('font/Pixeltype.ttf', 80)
+                        if self.adding_text:
+                            self.previous_letters[self.ligne]+=self.text[self.ligne][self.letter_index]
+                        for line in range(self.ligne+1):
+                            print(line,self.ligne)
+                            game_message_0 = text_message_0.render(self.previous_letters[line],False,(0, 9, 94))
+                            game_message_rect_0 = game_message_0.get_rect(topleft = (WIDTH*1/7 ,HEIGHT*25/32+line*45))
+                            self.display_surface.blit(game_message_0,game_message_rect_0)
+                        
+                        self.letter_index+=1
+                        print(self.letter_index,self.text[self.ligne],'**')
+                        if self.letter_index>=len(self.text[self.ligne]):
+                            self.letter_index=0
+                            self.ligne+=1
+                        if self.ligne>=len(self.text):
+                            self.ligne-=1
+                            self.letter_index=len(self.text[self.ligne])-1
+                            self.adding_text=False
+                        if keys[pygame.K_RETURN]:
+                            self.return_index+=1
+                            if self.return_index<4:
+                                
+                                self.previous_letters=self.text
+                                self.letter_index=len(self.text[self.ligne])-1
+                                self.adding_text=False
+                                self.ligne=len(self.text)-1
+                            elif self.page< len(self.current_dialogue)-1:
+                                self.text=dialogue[self.ally_name][self.dialogue_index][self.page]
+                                self.page+=1
+                                self.return_index=0
+                                self.previous_letters = ['' for i in range(100)]
+                                self.letter_index=0
+                                self.adding_text=True
+                                self.ligne=0
+                                
+
+
+                            else:
+                                if self.return_index==6 :
+                                    self.can_talk=False
+                                    self.dialogue_index+=1
+                                    player.Stop_moving=False
+                                    player.discussing=False
+                                    self.return_index=0
+                        self.animate_discution()
+    def scale_surface(self,surface, scale_factor):
+        # Calculate the new width and height based on the scale factor
+        new_width = int(surface.get_width() * scale_factor)
+        new_height = int(surface.get_height() * scale_factor)
+        
+        # Use pygame.transform.scale() to resize the surface
+        scaled_surface = pygame.transform.scale(surface, (new_width, new_height))
+        
+        return scaled_surface
+    
+    def animate_discution(self):
+            if self.ally_name=='fairy_princ':
+                status='down'
+        #animation part 
+            animation = self.animations[status]
+            self.frame_index2 = self.animation_speed +self.frame_index2
+            if self.frame_index2 >= len(animation):
+                self.frame_index2 = 0
+            self.image2 =self.scale_surface( animation[int(self.frame_index2)],4)
+            self.rect2 = self.image.get_rect(center = (WIDTH*6/7 ,HEIGHT*25/32))
+            self.display_surface.blit(self.image2, self.rect2)
+    
+    
+
+    

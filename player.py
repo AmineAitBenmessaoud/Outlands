@@ -25,7 +25,7 @@ class Player(Entity):
         self.numattack=-1
         self.attack_cooldown = 400
         self.animation_speed=0.5
-        
+        self.Stop_moving=False
         self.attack_time = None
 
         #weapon
@@ -68,6 +68,8 @@ class Player(Entity):
         #shield
         self.activate7=False
         self.activate8=False
+
+        self.discussing=False
         
 
 
@@ -316,5 +318,11 @@ class Player(Entity):
         
         self.cooldowns()
         self.get_status()
+        if self.discussing:
+            if self.direction[0]<0:
+                self.status='left_idle'
+            else:
+                self.status='right_idle'
         self.animate()
-        self.move(self.speed)
+        if not self.Stop_moving:
+            self.move(self.speed)

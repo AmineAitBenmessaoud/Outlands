@@ -86,14 +86,26 @@ monster_data = {
                            'speed': 7, 'resistance': 60, 'attack_radius': 140,'notice_radius': 1000,'animation_speed':0.2,'near_distance':80}
 }
 ally_data={
-    'fairy_green':{'health': 90,'damage':30, 'attack_sound':'../audio/attack/slash.wav', 
+    'fairy_green':{'health': 9000,'damage':30, 'attack_sound':'../audio/attack/slash.wav', 
                            'speed': 7, 'animation_speed':0.2,'text':[],'resistance':30
             },
-    'fairy_princ':{'health': 90,'damage':30, 'attack_sound':'../audio/attack/slash.wav', 
+    'fairy_princ':{'health': 9000,'damage':30, 'attack_sound':'../audio/attack/slash.wav', 
                            'speed': 7, 'animation_speed':0.2,'text':[],'resistance':30
             },
-    'fairy_queen':{'health': 90,'damage':30, 'attack_sound':'../audio/attack/slash.wav', 
-                           'speed': 7, 'animation_speed':0.2,'text':[],'resistance':30
+    'fairy_queen':{'health': 9000,'damage':30, 'attack_sound':'../audio/attack/slash.wav', 
+                           'speed': 7, 'animation_speed':0.2,'resistance':30
             }
+}
+dialogue={
+    'fairy_princ':{0:[['hi  there!  you  seem  quite  strong  .  I  like  it  .  I  am  Liza ',
+                      'a  fairy  ,  and  i  am  lost  ,  and  i  am  afraid  that  the   ',
+                      'ghosts   attack   me  .'],
+                      ['can  you  help  me  . Oh  !  great   i  remeber  that  i  was  going ',
+                      'up  from the beginning  ,  can  you  go  south  i  ll  follow  you ',
+                      'back!'],
+                      [(1900,2000),(1400,1700)]]},
+    'fairy_green':{0:['',[]]},
+    'fairy_queen':{0:['',[]]}
+
 }
 

@@ -404,6 +404,7 @@ class Level:
                                     self.destroy_attack,
                                         self.create_magic,self.game.health)
                             elif col == '1575':ally('fairy_princ',(x,y),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_princ'+str(x+y))
+                            elif col == '1578':ally('fairy_green',(x,y),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_green'+str(x+y))
                             else:
                                 
                                 if col == '1': monster_name = 'ghost'
@@ -446,13 +447,18 @@ class Level:
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
                                         self.create_magic,self.game.health)
-                            #else:
+                            elif col == '1530':ally('fairy_green',(x,y),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_green'+str(x+y))
+                            elif col == '1528':ally('fairy_queen',(x,y),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_queen'+str(x+y))
+                            else:
                                 #if col == '1': monster_name = 'ghost'
                                 #elif col == '4': monster_name = 'dark_fairy'
-                                #elif col == '2': monster_name ='bat'
+                                if col == '1532': 
+                                    monster_name ='bat'
                                 
-                                #else: monster_name = 'boss'
-                                #Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player)
+                                    self.enemy=Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player,self.number,'enemy',monster_name+str(x+y))
+                                
+                                    if self.enemy  :
+                                        self.enemy_list.append(self.enemy)#si le joueur active la huitieme gemme on selectionne les enmies proches
     def create_map4_scene3(self):
         TILESIZE=32
         layouts = {
@@ -766,8 +772,7 @@ class Level:
         
         self.player.input(self)
         self.visible_sprites.update()
-        self.visible_sprites.enemy_update(self.player,self)
-        self.visible_sprites.ally_update(self.player,self)
+        self.visible_sprites.enemy_ally_update(self.player,self)
         
         self.player_attack_logic()
         if self.player.activate8:
@@ -846,7 +851,7 @@ class YSortCameraGroup(pygame.sprite.Group):
             offset_pos = sprite.rect.topleft - self.offset
             self.display_surface.blit(sprite.image, offset_pos)
 
-    def enemy_update(self, player,level):
+    def enemy_ally_update(self, player,level):
 
         
         for enemy_inex in range(len(level.enemy_list)):# extraire les enemies les plus proche
@@ -880,9 +885,14 @@ class YSortCameraGroup(pygame.sprite.Group):
                 a=level.current_enemy
                 level.current_enemy=level.near_enemy_list[0]
                 level.near_enemy_list[0]=a
-
-        enemy_sprites = [sprite for sprite in self.sprites() if
-                         hasattr(sprite, 'sprite_type') and (sprite.sprite_type == 'enemy') ]
+        enemy_sprites=[]
+        ally_sprites=[]
+        for sprite in self.sprites():
+            if hasattr(sprite, 'sprite_type'):
+                if (sprite.sprite_type == 'enemy'):
+                    enemy_sprites.append(sprite)
+                if (sprite.sprite_type == 'ally'):
+                    ally_sprites.append(sprite)
         if  level.current_enemy==None:
                 if level.near_enemy_list:
                     level.current_enemy=level.near_enemy_list.pop(0)
@@ -898,6 +908,8 @@ class YSortCameraGroup(pygame.sprite.Group):
                 level.current_enemy=None
         for enemy in enemy_sprites:  
             enemy.enemy_update(player)
+        for ally in ally_sprites:
+            ally.ally_update(player)
             
         
         if player.activate8:
@@ -906,11 +918,7 @@ class YSortCameraGroup(pygame.sprite.Group):
             if pygame.time.get_ticks()-level.shield_timer>=10000 and level.enemy8th and player.activate8:
                     player.activate8=False
                     level.enemy8th.kill()
-    def ally_update(self, player,level):
-        ally_sprites = [sprite for sprite in self.sprites() if
-                         hasattr(sprite, 'sprite_type') and (sprite.sprite_type == 'ally') ]
-        for ally in ally_sprites:  
-            ally.ally_update(player)
+    
                 
 
 

@@ -334,8 +334,7 @@ class Enemy(Entity):
         
         animation = self.animations[self.status]
         self.frame_index += self.animation_speed
-        if self.monster_name=='ghost':print( self.animations['left_game_over'],'***********^')
-        print(self.monster_name,self.frame_index,self.status,animation)
+        
         if  self.frame_index >= len(animation):
             if 'attack' in self.status :
                 self.can_attack = False
@@ -406,7 +405,8 @@ class Enemy(Entity):
             self.check_death()
 
     def enemy_update(self,player):
-        self.get_status(player)
-        if self.distance<=self.notice_radius:
-            self.actions(player)
-            self.move(self.speed)
+        if self.distance<=1100:
+            self.get_status(player)
+            if self.distance<=self.notice_radius:
+                self.actions(player)
+                self.move(self.speed)
