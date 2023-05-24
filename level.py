@@ -652,7 +652,7 @@ class Level:
                                         self.create_magic,self.game.health)
                             else:
                                 if col == '1532': 
-                                    monster_name = 'dragon'
+                                    monster_name = 'dragon1'
                                     self.enemy=Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player,self.number,'enemy',monster_name+str(x+y))
                                 
                                     if self.enemy  :

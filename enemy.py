@@ -17,7 +17,7 @@ class Enemy(Entity):
             self.status = 'down'
         elif monster_name=='bat': 
             self.status = 'left'
-        elif monster_name=='ghost'or monster_name=='boss' or monster_name=='boss_ally' or monster_name=='knight2'or monster_name=='knight3'or monster_name=='gardien_eau'or monster_name=='demon'or monster_name=='dragon' :
+        elif monster_name=='ghost'or monster_name=='boss' or monster_name=='boss_ally' or monster_name=='knight2'or monster_name=='knight3'or monster_name=='gardien_eau'or monster_name=='demon'or monster_name=='dragon1' :
             self.status = 'idle_left'
         self.frame_index=0
 
@@ -96,7 +96,7 @@ class Enemy(Entity):
             self.animations = {'right':[],'left':[]}
             for animation in self.animations.keys():
                 self.animations[animation] = import_folder(main_path + animation+'/images/')  
-        elif name=='ghost' or name=='boss'or name=='boss_ally'or name=='knight2'or name=='knight3'or name=='gardien_eau'or name=='demon'or name=='dragon':
+        elif name=='ghost' or name=='boss'or name=='boss_ally'or name=='knight2'or name=='knight3'or name=='gardien_eau'or name=='demon'or name=='dragon1':
             self.animations = {'idle_right':[],'idle_left':[],'right':[],'left':[],'right_attack':[],'left_attack':[],
             'left_damage':[],'right_damage':[],'left_game_over':[],'right_game_over':[]}
             for animation in self.animations.keys():
@@ -175,7 +175,7 @@ class Enemy(Entity):
                             self.status = 'right_attack'
                         else:
                             self.status = 'right_attack'
-                    if self.monster_name=='boss'or self.monster_name=='boss_ally' or self.monster_name=='knight2'or self.monster_name=='knight3'or self.monster_name=='gardien_eau'or self.monster_name=='demon'or self.monster_name=='dragon':
+                    if self.monster_name=='boss'or self.monster_name=='boss_ally' or self.monster_name=='knight2'or self.monster_name=='knight3'or self.monster_name=='gardien_eau'or self.monster_name=='demon'or self.monster_name=='dragon1':
                         if     self.direction[0]>0 :
                             self.status = 'right_attack'
                             self.olddirection=self.direction[0]
@@ -224,7 +224,7 @@ class Enemy(Entity):
                             self.status = 'right'
                         else:
                             self.status = 'right'
-                    if self.monster_name=='boss'or self.monster_name=='boss_ally'or self.monster_name=='knight2'or self.monster_name=='knight3'or self.monster_name=='gardien_eau'or self.monster_name=='demon'or self.monster_name=='dragon':
+                    if self.monster_name=='boss'or self.monster_name=='boss_ally'or self.monster_name=='knight2'or self.monster_name=='knight3'or self.monster_name=='gardien_eau'or self.monster_name=='demon'or self.monster_name=='dragon1':
                         if     self.direction[0]>0 :
                             self.status = 'right'
                             self.olddirection=self.direction[0]
@@ -272,7 +272,7 @@ class Enemy(Entity):
                             self.status = 'idle_right'
                         else:
                             self.status = 'idle_right'
-                    if self.monster_name=='boss'or self.monster_name=='boss_ally'or self.monster_name=='knight2'or self.monster_name=='knight3'or self.monster_name=='gardien_eau'or self.monster_name=='demon'or self.monster_name=='dragon':
+                    if self.monster_name=='boss'or self.monster_name=='boss_ally'or self.monster_name=='knight2'or self.monster_name=='knight3'or self.monster_name=='gardien_eau'or self.monster_name=='demon'or self.monster_name=='dragon1':
                         if     self.direction[0]>0 :
                             self.status = 'idle_right'
                             self.olddirection=self.direction[0]
@@ -286,7 +286,7 @@ class Enemy(Entity):
                         else:
                             self.status = 'idle_right'
             else:
-                if self.monster_name=='boss'or self.monster_name=='ghost'or self.monster_name=='boss_ally'or self.monster_name=='knight2'or self.monster_name=='knight3'or self.monster_name=='gardien_eau'or self.monster_name=='demon'or self.monster_name=='dragon':
+                if self.monster_name=='boss'or self.monster_name=='ghost'or self.monster_name=='boss_ally'or self.monster_name=='knight2'or self.monster_name=='knight3'or self.monster_name=='gardien_eau'or self.monster_name=='demon'or self.monster_name=='dragon1':
                     if     self.dist_vect_sign[0]>0:
                         self.status = 'right_damage'
                     else:
@@ -311,7 +311,7 @@ class Enemy(Entity):
                     self.status = 'idle_right'
         if self.health<=0:
             self.game_over_index+=1
-            if self.monster_name=='ghost'or self.monster_name=='boss'or self.monster_name=='knight2'or self.monster_name=='knight3'or self.monster_name=='gardien_eau'or self.monster_name=='demon'or self.monster_name=='dragon':
+            if self.monster_name=='ghost'or self.monster_name=='boss'or self.monster_name=='knight2'or self.monster_name=='knight3'or self.monster_name=='gardien_eau'or self.monster_name=='demon'or self.monster_name=='dragon1':
                 if self.olddirectionx<0:
                     self.status='left_game_over'
                 else:
@@ -331,7 +331,7 @@ class Enemy(Entity):
        
 
     def animate(self):
-        
+        print(self.monster_name,self.status)
         animation = self.animations[self.status]
         self.frame_index += self.animation_speed
         
@@ -386,7 +386,7 @@ class Enemy(Entity):
             self.direction *= -self.resistance
     def check_death(self):
         if self.health <= 0:
-            if self.monster_name=='ghost'or self.monster_name=='boss'or self.monster_name=='knight2'or self.monster_name=='knight3'or self.monster_name=='gardien_eau'or self.monster_name=='demon'or self.monster_name=='dragon':
+            if self.monster_name=='ghost'or self.monster_name=='boss'or self.monster_name=='knight2'or self.monster_name=='knight3'or self.monster_name=='gardien_eau'or self.monster_name=='demon'or self.monster_name=='dragon1':
                 if self.game_over_index>=15:
                     self.kill()
             else:

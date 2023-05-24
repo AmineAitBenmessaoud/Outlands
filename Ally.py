@@ -252,6 +252,7 @@ class ally(Entity):
                                     player.discussing=False
                                     self.return_index=0
                         self.animate_discution()
+    
     def scale_surface(self,surface, scale_factor):
         # Calculate the new width and height based on the scale factor
         new_width = int(surface.get_width() * scale_factor)
@@ -275,9 +276,9 @@ class ally(Entity):
             self.display_surface.blit(self.image2, self.rect2)
     
     def positionnement(self,level):
-        #if self.ally_name=='fairy_princ':
-            #level.display_surface.blit(self.image,self.current_dialogue[-2])
+        if self.ally_name=='fairy_princ':
+            level.display_surface.blit(self.image,self.current_dialogue[-2])
         
-        pass
+        
 
     
