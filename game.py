@@ -5,7 +5,6 @@ from level import Level
 from settings import *
 from debug import debug
 from math import *
-#import pyglet
 #import pygame.movie
 
 #kiilimi
@@ -42,6 +41,10 @@ class Game:
 
         #health
         self.health=100
+        self.start_game=False
+        self.screen_intro_index=0
+        self.pas=False
+        self.alpha1=0
 
 
         self.number_gameover=0
@@ -58,84 +61,168 @@ class Game:
             if keys[pygame.K_l]:
                 pygame.quit()
                 sys.exit()
-            if self.game_active:
-
+            if not self.start_game:
                 self.screen.fill('black')
-
-                self.level.run(self,self.number_gameover)
-                #changement de maps
-                self.playerx = self.level.player.rect.centerx
-                self.playery = self.level.player.rect.centery
-                print(self.playerx ,self.playery )
-
-                if self.level.number == 1 and self.level.scene == 1 :
-                    if self.playerx >= 5276 and self.playerx <= 5590 and self.playery == 7803 :
-                       self.level = Level(self,1,(0,0),2)
-                if self.level.number == 1 and self.level.scene == 2 :
-                    if self.playerx >= 1100 and self.playerx <= 1200 and self.playery >= 120 and self.playery <= 140 :
-                        self.level = Level(self,1,(0,0),3)
-                if self.level.number == 1 and self.level.scene == 3 :
-
-                    if not self.level.attackable_sprites :
-                        if self.playerx >= 2100 and self.playerx <= 2256 and self.playery <= 374 :
-                            self.level = Level(self,2,(0,0),1)
-                if self.level.number == 2:
-                   print(7)
-                   if (self.playerx >= 3500 and self.playerx <= 4500) and (self.playery >= 4450 and self.playery <= 4700):
-                        self.level = Level(self,3,(0,0))
-                if (self.playery<=12 and self.level.scene ==1  and self.level.number==3):
-                    self.level = Level(self,3,(0,0),2)
-                elif (self.playery<=25 and self.level.scene ==2  and self.level.number==3):
-                   self.level = Level(self,4,(0,0),1)
-                if (self.playerx>=2610 and self.playerx<=2748 ) and self.level.scene == 1 and self.level.number==4:
-                    if self.playery >= 5500 and self.playery <= 5550 :
-                        self.level = Level(self,4,(0,0),2)
-                        self.playerx = 1336
-                        self.playery = 2954
-                if self.level.scene == 2 and self.level.number==4:
-                    if   self.playery >= 3100 :
-                        self.screen.fill((69,174,116))
-                        self.screen.blit(self.game_message_0,self.game_message_rect_0)
-                        self.screen.blit(self.player_wait,self.player_wait_rect)
-                        self.playery+=60
-                    if self.playery >=3200:
-                        self.level = Level(self,4,(2690,5650))
-                if (self.playerx>=22600 and self.playerx<=22808 ) and self.level.scene == 1 and self.level.number==4:
-                    if self.playery >= 4900 and self.playery <= 5190 :
-                        self.level = Level(self,4,(0,0),3)
-                        self.playerx = 1624
-                        self.playery = 2046
-                if (self.playerx>=2100 and self.playerx<=2200 ) and self.level.scene == 3 and self.level.number==4:
-                    if  self.playery <= 1450 :
-                        self.level = Level(self,4,(0,0),4)
-                        self.playerx = 1016
-                        self.playery = 1438
-                if (self.playerx>=1900 and self.playerx<=2200 ) and self.level.scene == 4 and self.level.number==4:
-                    if  self.playery >= 3110 :
-                        self.level = Level(self,4,(2150,1510),3)
-                if (self.playerx>=1900 and self.playerx<=2200 ) and self.level.scene == 4 and self.level.number==4:
-                    if  self.playery <= 1780 :
-                        self.level = Level(self,4,(0,0),5)
-                if (self.playerx>=1900 and self.playerx<=2200 ) and self.level.scene == 5 and self.level.number==4:
-                    if  self.playery >= 3050 :
-                        self.level = Level(self,4,(2000,1840),4)
-                if (self.playerx>=1900 and self.playerx<=2200 ) and self.level.scene == 5 and self.level.number==4:
-                    if  self.playery <= 1760 :
-                        self.level = Level(self,4,(0,0),6)
-                if (self.playerx>=2800 and self.playerx<=2990 ) and self.level.scene == 6 and self.level.number==4:
-                    if  self.playery >= 4190 :
-                        self.level = Level(self,4,(2000,1840),5)
-                if (self.playerx>=2800 and self.playerx<=2950 ) and self.level.scene == 6 and self.level.number==4:
-                    if  self.playery <= 1380 :
-                        self.level = Level(self,4,(0,0),7)
-                if (self.playerx>=1500 and self.playerx<=1700 ) and self.level.scene == 7 and self.level.number==4:
-                    if  self.playery >= 2070 :
-                        self.level = Level(self,4,(2820,1450),6)
-
-                if self.number_gameover:
-                    self.number_gameover=0
+                
+                alpha=self.wave_value(1/10000,255,1,-pi*3/16)
+                
+                if self.screen_intro_index==0:
+                    imt_stand = pygame.image.load('intro/imt.png').convert_alpha()
+                    imt_stand.set_alpha(alpha)
+                    imt_stand_rect = imt_stand.get_rect(center = (WIDTH/2,HEIGHT/2))
+                    self.screen.blit(imt_stand,imt_stand_rect)
+                    if alpha<=15:
+                        self.screen_intro_index+=1
+                if self.screen_intro_index==1:
+                    test_font= pygame.font.Font('font/Pixeltype.ttf', 50)
+                    if alpha>=60:
+                        self.pas =True
+                    created =test_font.render('Creted  by  :',False,'white')
+                    created_rect= created.get_rect(center = (WIDTH/2,HEIGHT/2-200))
+                    
+                    std_0 = test_font.render('Adam  LAGSSAIBI',False,'white')
+                    std_0_rect= std_0.get_rect(center = (WIDTH/2,HEIGHT/2-100))
+                    
+                    std_1 = test_font.render('Mohammed  El  Mehdi  Alaoui',False,'white')
+                    std_1_rect= std_0.get_rect(center = (WIDTH/2,HEIGHT/2))
+                    
+                    std_2 = test_font.render('Amine  AIT  BENMESSAOUD',False,'white')
+                    std_2_rect= std_0.get_rect(center = (WIDTH/2,HEIGHT/2+100))
+                    
+                    std_3 = test_font.render('Damien  BONNETON',False,'white')
+                    std_3_rect= std_0.get_rect(center = (WIDTH/2,HEIGHT/2+200))
+                    created.set_alpha(alpha)
+                    std_0.set_alpha(alpha)
+                    std_1.set_alpha(alpha)
+                    std_2.set_alpha(alpha)
+                    std_3.set_alpha(alpha)
+                    self.screen.blit(created,created_rect)
+                    self.screen.blit(std_0,std_0_rect)
+                    self.screen.blit(std_1,std_1_rect)
+                    self.screen.blit(std_2,std_2_rect)
+                    self.screen.blit(std_3,std_3_rect)
+                    if self.pas and alpha<=20:
+                        self.screen_intro_index+=1
+                        self.pas=False
+                if self.screen_intro_index==2:
+                    test_font= pygame.font.Font('font/Pixeltype.ttf', 50)
+                    if alpha>=50:
+                        self.pas =True
+                    created =test_font.render('Directed  by  :',False,'white')
+                    created_rect= created.get_rect(center = (WIDTH/2,HEIGHT/2-200))
+                    
+                    std_0 = test_font.render('Gregory  SMITS',False,'white')
+                    std_0_rect= std_0.get_rect(center = (WIDTH/2,HEIGHT/2-100))
+                    created.set_alpha(alpha)
+                    std_0.set_alpha(alpha)
+                    self.screen.blit(created,created_rect)
+                    self.screen.blit(std_0,std_0_rect)
+                    if self.pas and alpha<=15:
+                        self.screen_intro_index+=1
+                        self.pas=False
+                if self.screen_intro_index==3:
+                    print(alpha)
+                    if alpha>=254 or self.alpha1==255:
+                        self.alpha1=255
+                    print(alpha,'*')
+                    imt_stand = pygame.image.load('intro/logo.png').convert_alpha()
+                    if alpha>=254 or self.alpha1==255:imt_stand.set_alpha(self.alpha1)
+                    else:imt_stand.set_alpha(alpha)
+                    
+                    imt_stand_rect = imt_stand.get_rect(center = (WIDTH/2,HEIGHT/2))
+                    self.screen.blit(imt_stand,imt_stand_rect)
+                    std_3 = test_font.render('Cliquez sur  ENTREZ  pour  commencer',False,'white')
+                    std_3.set_alpha(self.wave_value(1/1000,255,1,-pi*3/16))
+                    std_3_rect= std_3.get_rect(center = (WIDTH/2,HEIGHT/2+300))
+                    self.screen.blit(std_3,std_3_rect)
+                    if keys[pygame.K_RETURN]:
+                        self.start_game=True
+                    
+                
                 pygame.display.update()
                 self.clock.tick(FPS)
+
+            if self.game_active:
+                if self.start_game:
+
+               
+
+                    self.screen.fill('black')
+
+                    self.level.run(self,self.number_gameover)
+                    #changement de maps
+                    self.playerx = self.level.player.rect.centerx
+                    self.playery = self.level.player.rect.centery
+                    print(self.playerx ,self.playery )
+
+                    if self.level.number == 1 and self.level.scene == 1 :
+                        if self.playerx >= 5276 and self.playerx <= 5590 and self.playery == 7803 :
+                            self.level = Level(self,1,(0,0),2)
+                    if self.level.number == 1 and self.level.scene == 2 :
+                        if self.playerx >= 1100 and self.playerx <= 1200 and self.playery >= 120 and self.playery <= 140 :
+                            self.level = Level(self,1,(0,0),3)
+                    if self.level.number == 1 and self.level.scene == 3 :
+
+                        if not self.level.attackable_sprites :
+                            if self.playerx >= 2100 and self.playerx <= 2256 and self.playery <= 374 :
+                                self.level = Level(self,2,(0,0),1)
+                    if self.level.number == 2:
+                        print(7)
+                    if (self.playerx >= 3500 and self.playerx <= 4500) and (self.playery >= 4450 and self.playery <= 4700):
+                            self.level = Level(self,3,(0,0))
+                    if (self.playery<=12 and self.level.scene ==1  and self.level.number==3):
+                        self.level = Level(self,3,(0,0),2)
+                    elif (self.playery<=25 and self.level.scene ==2  and self.level.number==3):
+                        self.level = Level(self,4,(0,0),1)
+                    if (self.playerx>=2610 and self.playerx<=2748 ) and self.level.scene == 1 and self.level.number==4:
+                        if self.playery >= 5500 and self.playery <= 5550 :
+                            self.level = Level(self,4,(0,0),2)
+                            self.playerx = 1336
+                            self.playery = 2954
+                    if self.level.scene == 2 and self.level.number==4:
+                        if   self.playery >= 3100 :
+                            self.screen.fill((69,174,116))
+                            self.screen.blit(self.game_message_0,self.game_message_rect_0)
+                            self.screen.blit(self.player_wait,self.player_wait_rect)
+                            self.playery+=60
+                        if self.playery >=3200:
+                            self.level = Level(self,4,(2690,5650))
+                    if (self.playerx>=22600 and self.playerx<=22808 ) and self.level.scene == 1 and self.level.number==4:
+                        if self.playery >= 4900 and self.playery <= 5190 :
+                            self.level = Level(self,4,(0,0),3)
+                            self.playerx = 1624
+                            self.playery = 2046
+                    if (self.playerx>=2100 and self.playerx<=2200 ) and self.level.scene == 3 and self.level.number==4:
+                        if  self.playery <= 1450 :
+                            self.level = Level(self,4,(0,0),4)
+                            self.playerx = 1016
+                            self.playery = 1438
+                    if (self.playerx>=1900 and self.playerx<=2200 ) and self.level.scene == 4 and self.level.number==4:
+                        if  self.playery >= 3110 :
+                            self.level = Level(self,4,(2150,1510),3)
+                    if (self.playerx>=1900 and self.playerx<=2200 ) and self.level.scene == 4 and self.level.number==4:
+                        if  self.playery <= 1780 :
+                            self.level = Level(self,4,(0,0),5)
+                    if (self.playerx>=1900 and self.playerx<=2200 ) and self.level.scene == 5 and self.level.number==4:
+                        if  self.playery >= 3050 :
+                            self.level = Level(self,4,(2000,1840),4)
+                    if (self.playerx>=1900 and self.playerx<=2200 ) and self.level.scene == 5 and self.level.number==4:
+                        if  self.playery <= 1760 :
+                            self.level = Level(self,4,(0,0),6)
+                    if (self.playerx>=2800 and self.playerx<=2990 ) and self.level.scene == 6 and self.level.number==4:
+                        if  self.playery >= 4190 :
+                            self.level = Level(self,4,(2000,1840),5)
+                    if (self.playerx>=2800 and self.playerx<=2950 ) and self.level.scene == 6 and self.level.number==4:
+                        if  self.playery <= 1380 :
+                            self.level = Level(self,4,(0,0),7)
+                    if (self.playerx>=1500 and self.playerx<=1700 ) and self.level.scene == 7 and self.level.number==4:
+                        if  self.playery >= 2070 :
+                            self.level = Level(self,4,(2820,1450),6)
+
+                    if self.number_gameover:
+                        self.number_gameover=0
+                    pygame.display.update()
+                    self.clock.tick(FPS)
             else:
                 if keys[pygame.K_RETURN]:
                     self.game_active=True
