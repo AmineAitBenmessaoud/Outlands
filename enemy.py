@@ -17,11 +17,12 @@ class Enemy(Entity):
             self.status = 'down'
         elif monster_name=='bat': 
             self.status = 'left'
-        elif monster_name=='ghost'or monster_name=='boss' or monster_name=='boss_ally' or monster_name=='knight2'or monster_name=='knight3'or monster_name=='gardien_eau'or monster_name=='demon'or monster_name=='dragon1' :
+        elif monster_name=='ghost'or monster_name=='boss' or monster_name=='boss_ally' or monster_name=='knight2'or monster_name=='knight3'or monster_name=='gardien_eau'or monster_name=='demon'or monster_name=='dragon1' or monster_name == 'squelance':
             self.status = 'idle_left'
         self.frame_index=0
 
         
+
         self.image = self.animations[self.status][self.frame_index]
         self.rect = self.image.get_rect(topleft = pos)
 
@@ -71,6 +72,7 @@ class Enemy(Entity):
 
         #game_over
         self.game_over_index=0
+        self.counter = 0
 
         self.map=map
         self.near=False#if the enemies is near enough to the player to be shown on the screen
@@ -96,18 +98,21 @@ class Enemy(Entity):
             self.animations = {'right':[],'left':[]}
             for animation in self.animations.keys():
                 self.animations[animation] = import_folder(main_path + animation+'/images/')  
-        elif name=='ghost' or name=='boss'or name=='boss_ally'or name=='knight2'or name=='knight3'or name=='gardien_eau'or name=='demon'or name=='dragon1':
+        elif name=='ghost' or name=='boss'or name=='boss_ally'or name=='knight2'or name=='knight3'or name=='gardien_eau'or name=='demon'or name=='dragon1' or name == 'squelance':
             self.animations = {'idle_right':[],'idle_left':[],'right':[],'left':[],'right_attack':[],'left_attack':[],
             'left_damage':[],'right_damage':[],'left_game_over':[],'right_game_over':[]}
             for animation in self.animations.keys():
-                self.animations[animation] = import_folder(main_path + animation+'/images/')
+                if name == 'squelance' :
+                    self.animations[animation] = import_folder(main_path + animation)
+                else :
+                    self.animations[animation] = import_folder(main_path + animation+'/images/')
             
         else:
             for animation in self.animations.keys():
                 if name == 'lv1_boss' or name== 'phontom':
                     folder = import_folder(main_path + animation)
                     for image in  folder :
-                        image2 = pygame.transform.rotozoom(image, 0, 4)
+                        image2 = self.scale_surface(image,4)
                         self.animations[animation].append(image2)
                 else :
                     self.animations[animation] = import_folder(main_path + animation)
@@ -136,7 +141,7 @@ class Enemy(Entity):
         self.distance_vect=self.get_player_distance_direction(player)[2]
         if self.vulnerable:
             self.direction= self.get_player_distance_direction(player)[1]
-        if self.map==4 or self.monster_name=='boss_ally':
+        if self.map==4 or self.monster_name=='boss_ally' or self.monster_name == 'squelance':
             if self.vulnerable:
 		
 
@@ -175,7 +180,7 @@ class Enemy(Entity):
                             self.status = 'right_attack'
                         else:
                             self.status = 'right_attack'
-                    if self.monster_name=='boss'or self.monster_name=='boss_ally' or self.monster_name=='knight2'or self.monster_name=='knight3'or self.monster_name=='gardien_eau'or self.monster_name=='demon'or self.monster_name=='dragon1':
+                    if self.monster_name=='boss'or self.monster_name=='boss_ally' or self.monster_name=='knight2'or self.monster_name=='knight3'or self.monster_name=='gardien_eau'or self.monster_name=='demon'or self.monster_name=='dragon1' or self.monster_name == 'squelance':
                         if     self.direction[0]>0 :
                             self.status = 'right_attack'
                             self.olddirection=self.direction[0]
@@ -224,7 +229,7 @@ class Enemy(Entity):
                             self.status = 'right'
                         else:
                             self.status = 'right'
-                    if self.monster_name=='boss'or self.monster_name=='boss_ally'or self.monster_name=='knight2'or self.monster_name=='knight3'or self.monster_name=='gardien_eau'or self.monster_name=='demon'or self.monster_name=='dragon1':
+                    if self.monster_name=='boss'or self.monster_name=='boss_ally'or self.monster_name=='knight2'or self.monster_name=='knight3'or self.monster_name=='gardien_eau'or self.monster_name=='demon'or self.monster_name=='dragon1' or self.monster_name == 'squelance':
                         if     self.direction[0]>0 :
                             self.status = 'right'
                             self.olddirection=self.direction[0]
@@ -272,7 +277,7 @@ class Enemy(Entity):
                             self.status = 'idle_right'
                         else:
                             self.status = 'idle_right'
-                    if self.monster_name=='boss'or self.monster_name=='boss_ally'or self.monster_name=='knight2'or self.monster_name=='knight3'or self.monster_name=='gardien_eau'or self.monster_name=='demon'or self.monster_name=='dragon1':
+                    if self.monster_name=='boss'or self.monster_name=='boss_ally'or self.monster_name=='knight2'or self.monster_name=='knight3'or self.monster_name=='gardien_eau'or self.monster_name=='demon'or self.monster_name=='dragon1' or self.monster_name == 'squelance':
                         if     self.direction[0]>0 :
                             self.status = 'idle_right'
                             self.olddirection=self.direction[0]
@@ -286,7 +291,7 @@ class Enemy(Entity):
                         else:
                             self.status = 'idle_right'
             else:
-                if self.monster_name=='boss'or self.monster_name=='ghost'or self.monster_name=='boss_ally'or self.monster_name=='knight2'or self.monster_name=='knight3'or self.monster_name=='gardien_eau'or self.monster_name=='demon'or self.monster_name=='dragon1':
+                if self.monster_name=='boss'or self.monster_name=='ghost'or self.monster_name=='boss_ally'or self.monster_name=='knight2'or self.monster_name=='knight3'or self.monster_name=='gardien_eau'or self.monster_name=='demon'or self.monster_name=='dragon1' or self.monster_name == 'squelance':
                     if     self.dist_vect_sign[0]>0:
                         self.status = 'right_damage'
                     else:
@@ -309,10 +314,14 @@ class Enemy(Entity):
                     self.status = 'idle_left'
                 else :
                     self.status = 'idle_right'
-        if self.health<=0:
+        if self.health<=0: 
+            if self.counter == 0 :
+                self.death_direction = self.direction[0]
+                print(self.death_direction)
+                self.counter += 1
             self.game_over_index+=1
-            if self.monster_name=='ghost'or self.monster_name=='boss'or self.monster_name=='knight2'or self.monster_name=='knight3'or self.monster_name=='gardien_eau'or self.monster_name=='demon'or self.monster_name=='dragon1':
-                if self.olddirectionx<0:
+            if self.monster_name=='ghost'or self.monster_name=='boss'or self.monster_name=='knight2'or self.monster_name=='knight3'or self.monster_name=='gardien_eau'or self.monster_name == 'squelance':
+                if -100 > self.death_direction or 0<self.death_direction<100:
                     self.status='left_game_over'
                 else:
                     self.status='right_game_over'
@@ -331,7 +340,6 @@ class Enemy(Entity):
        
 
     def animate(self):
-        print(self.monster_name,self.status)
         animation = self.animations[self.status]
         self.frame_index += self.animation_speed
         
@@ -340,14 +348,15 @@ class Enemy(Entity):
                 self.can_attack = False
             self.frame_index = 0
 
-        print(self.monster_name,self.status)
         self.image = animation[int(self.frame_index)]
         self.rect = self.image.get_rect(center = self.hitbox.center)
         if self.monster_name=='gardien_eau'or self.monster_name=='demon':
             self.image = animation[int(self.frame_index)]
             self.image=self.scale_surface(self.image , 3)
             self.rect = self.image.get_rect(center = self.hitbox.center)
-
+        if self.monster_name == 'squelance' :
+            self.image = self.scale_surface(self.image,2)
+            self.rect = self.image.get_rect(center = self.hitbox.center)
 
         if not self.vulnerable:
             alpha = self.wave_value()
@@ -390,7 +399,7 @@ class Enemy(Entity):
             self.direction *= -self.resistance
     def check_death(self):
         if self.health <= 0:
-            if self.monster_name=='ghost'or self.monster_name=='boss'or self.monster_name=='knight2'or self.monster_name=='knight3'or self.monster_name=='gardien_eau'or self.monster_name=='demon'or self.monster_name=='dragon1':
+            if self.monster_name=='ghost'or self.monster_name=='boss'or self.monster_name=='knight2'or self.monster_name=='knight3'or self.monster_name=='gardien_eau'or self.monster_name=='demon'or self.monster_name=='dragon1' or self.monster_name == 'squelance':
                 if self.game_over_index>=15:
                     self.kill()
             else:
@@ -412,7 +421,6 @@ class Enemy(Entity):
         return scaled_surface
     def update(self):
         if self.distance<=1100:
-            print('ok')
             self.near=True
             self.hit_reaction()
             self.animate()
