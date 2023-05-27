@@ -5,6 +5,8 @@ from level import Level
 from settings import *
 from debug import debug
 from math import *
+#import pyglet
+#import pygame.movie
 
 #kiilimi
 

@@ -403,12 +403,6 @@ class Enemy(Entity):
             if enemy.id==self.id:
                 return True
         return False
-    def scale_surface(self,surface, scale_factor):
-    
-        new_width = int(surface.get_width() * scale_factor)
-        new_height = int(surface.get_height() * scale_factor)
-        scaled_surface = pygame.transform.scale(surface, (new_width, new_height))
-        return scaled_surface
     def update(self):
         if self.distance<=1100:
             print('ok')
