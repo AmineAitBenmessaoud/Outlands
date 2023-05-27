@@ -146,7 +146,7 @@ class Level:
                                 monster_name = 'dragon'
                                 group = [self.visible_sprites,self.attackable_sprites]
                             elif col == '3308' :
-                                monster_name = 'squeleton'
+                                monster_name = 'squelance'
                                 group = [self.visible_sprites,self.attackable_sprites]
                             else :
                                 monster_name = 'flying_rock'
