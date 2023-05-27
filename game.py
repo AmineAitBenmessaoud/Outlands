@@ -50,7 +50,7 @@ class Game:
 
         self.number_gameover=0
 
-        self.level = Level(self,5,(0,0),1)
+        self.level = Level(self,3,(0,0),2)
     def run(self):
         while True:
             keys = pygame.key.get_pressed()

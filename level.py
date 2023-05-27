@@ -48,8 +48,10 @@ class Level:
             self.initial_point=(2200,3038)
         if self.number==2 and self.scene==1:
             self.initial_point=(60*16,40*16)
-        if self.number==3: 
+        if self.number==3 and self.scene == 1: 
             self.initial_point=(5004,1410)
+        if self.number==3 and self.scene == 2: 
+            self.initial_point=(934,1556)
         if self.number==4: 
             if self.scene==1:
                 self.initial_point=(1056,1536)
