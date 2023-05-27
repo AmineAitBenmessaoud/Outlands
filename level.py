@@ -41,11 +41,13 @@ class Level:
         self.number = level_number
         self.scene = scene_number
         self.init=init
-        #point de depart dans differents scene après mort
+        #point de depart dans differents scene après mort           
         if self.number==1 and self.scene==1: 
             self.initial_point=(984,670)
         if self.number==1 and self.scene==3: 
             self.initial_point=(2200,3038)
+        if self.number==2 and self.scene==1:
+            self.initial_point=(60*16,40*16)
         if self.number==3: 
             self.initial_point=(5004,1410)
         if self.number==4: 
@@ -73,6 +75,8 @@ class Level:
         self.current_enemy=None#the nemie that should be attacked by the monster of the 8th gemme
         self.enemy8th=None#the monster of the 8th gem
         # creation de la map
+        if level_number==5:
+            self.create_intro()
         if level_number == 1:
             if scene_number == 1:
                 self.create_map1_scene1()
@@ -87,8 +91,8 @@ class Level:
                 self.create_map3()
             if scene_number == 2:
                 self.create_map3_scene2()
-            #if scene_number == 3:
-             #   self.create_map3_scene3()
+            if scene_number == 3:
+               self.create_map3_scene3()
         # creation de la map4
         if level_number==4:
             if scene_number == 1:
@@ -105,10 +109,19 @@ class Level:
                 self.create_map4_scene6()
             if scene_number == 7 :
                 self.create_map4_scene7()
+            
 
 
 
-
+    def create_intro(self) :
+        self.player = Player((2110,1876),
+                                [self.visible_sprites,self.attacker_sprites],
+                                self.obstacle_sprites,
+                                self.create_attack,
+                                self.destroy_attack,
+                                self.create_magic,self.game.health,map=5)
+        print(self.player)
+        
     def create_map1_scene1(self):
         TILESIZE = 32
         layouts = {
@@ -761,7 +774,7 @@ class Level:
             self.player.game_over_screen=False
             self.player.status='right'
             #self.player.rect.topleft=self.initial_point
-        
+        print(self.player)
         if self.player.activate7:
             self.coef-=0.5
             alpha= ((0.6*self.wave_value2(1/1600,255,0,0))/153)*40+self.coef
@@ -807,6 +820,10 @@ class YSortCameraGroup(pygame.sprite.Group):
         self.offset = pygame.math.Vector2()
 
         # floor
+        if level_number == 5:
+            image = pygame.image.load('Graphics\map.png')
+            tr_image = pygame.transform.scale(image,(4000,4000))
+            self.floor_surface = tr_image.convert()
         if level_number == 1:
             if scene_number == 1:
                 image = pygame.image.load('real level/Level_1 map.png')

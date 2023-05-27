@@ -67,6 +67,7 @@ class Game:
                 self.playerx = self.level.player.rect.centerx
                 self.playery = self.level.player.rect.centery
 
+                print(self.playerx,self.playery)
                 if self.level.number == 1 and self.level.scene == 1 :
                     if self.playerx >= 5276 and self.playerx <= 5590 and self.playery == 7803 :
                        self.level = Level(self,1,(0,0),2)

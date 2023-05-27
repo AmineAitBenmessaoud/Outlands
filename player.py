@@ -7,7 +7,7 @@ from particles import AnimationPlayer
 from random import randint
 from enemy import Enemy
 class Player(Entity):
-    def __init__(self, pos, groups, obstacle_sprites,create_attack,destroy_attack,create_magic,health):
+    def __init__(self, pos, groups, obstacle_sprites,create_attack,destroy_attack,create_magic,health,map=2):
         super().__init__(groups)
         self.image = pygame.image.load('player/caracter_main.png').convert_alpha()
         self.rect = self.image.get_rect(topleft=pos)
@@ -70,6 +70,8 @@ class Player(Entity):
         self.activate8=False
 
         self.discussing=False
+
+        self.map = map
         
 
 
@@ -89,6 +91,8 @@ class Player(Entity):
             full_path = character_path + animation + '/images'
             self.animations[animation] = import_folder(full_path)
 
+    def make_invisble(self) :
+        self.image.set_alpha(5)
     def input(self,level):
             if not self.game_over:
                 
@@ -327,3 +331,5 @@ class Player(Entity):
         self.animate()
         if not self.Stop_moving:
             self.move(self.speed)
+        if self.map == 5:
+            self.make_invisble(True)

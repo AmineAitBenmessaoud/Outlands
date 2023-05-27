@@ -117,8 +117,34 @@ dialogue={
                       ' so  she  want  to  talk  with  you  .  She  is  inside  the  tree  waiting  ',
                       'for  you  !!!!'],
                       [(2000,3600),(5600,7000)],(2665, 6015)]},
-    'fairy_green':{0:[[],[]]},
-    'fairy_queen':{0:[[],[]]}
+    'fairy_queen':{0:[["L'histoire se déroule dans une majestueuse capitale d'un vaste empire,",
+                        "où un destin extraordinaire attend notre jeune héros. Depuis la récente",
+                        "disparition de l'empereur, son fils aîné a hérité du trône. Nous suivons ",
+                        "les pas d'un courageux petit garçon vivant avec sa sœur et leur mère, dans",
+                        "une modeste demeure qui abrite également un bar en périphérie de la ville."
+                        ],
+                        ["Un jour, un mystérieux carrosse s'arrête devant la porte du restaurant." ,
+                        "À son bord, un individu à l'allure noble et fortunée pénètre à l'intérieur",
+                        "pour engager une conversation confidentielle avec la mère et la fille.",
+                        "Après son départ, il est révélé que le nouvel empereur souhaite épouser la ",
+                        "jeune fille, les pressant d'accepter cette proposition. Toutefois, méfiante,",
+                        "la fille choisit de rester proche des siens."
+                        ],
+                        ["Le lendemain, l'empereur en personne se présente avec ses puissants gardes pour",
+                        "emmener de force la jeune fille, ne lui laissant aucun répit pour réfléchir.",
+                        "Malgré les efforts désespérés du petit garçon pour l'arrêter, il se retrouve ",
+                        "impuissant face à la puissance des gardes impériaux. Avant de partir, l'empereur",
+                        "lance d'une voix sinistre : ",
+                        "Si tu veux que ta famille reste en vie, épouse-moi sans poser de question.",
+                        "Un désastre s'abat sur la maison."
+                        ],["Le lendemain, il est annoncé que le mariage aura lieu dans une ville lointaine.",
+                            "Le jeune garçon entame son périple vers cette destination, après avoir fait ses",
+                            "adieux émouvants à sa mère. "
+                        ],
+                        ["Préparez-vous à une quête épique remplie de dangers, de mystères et de révélations",
+                         "surprenantes !"],
+                        [(0,0),(0,0)],(0, 0)]},
+    'fairy_green':{0:[[],[]]}
 
 }
 
