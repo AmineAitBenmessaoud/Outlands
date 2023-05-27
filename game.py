@@ -46,10 +46,11 @@ class Game:
         self.pas=False
         self.alpha1=0
 
+        self.smth = None
 
         self.number_gameover=0
 
-        self.level = Level(self,1,(0,0),1)
+        self.level = Level(self,5,(0,0),1)
     def run(self):
         while True:
             keys = pygame.key.get_pressed()
@@ -77,7 +78,7 @@ class Game:
                     test_font= pygame.font.Font('font/Pixeltype.ttf', 50)
                     if alpha>=60:
                         self.pas =True
-                    created =test_font.render('Creted  by  :',False,'white')
+                    created =test_font.render('Created  by  :',False,'white')
                     created_rect= created.get_rect(center = (WIDTH/2,HEIGHT/2-200))
                     
                     std_0 = test_font.render('Adam  LAGSSAIBI',False,'white')
@@ -154,7 +155,9 @@ class Game:
                     self.playerx = self.level.player.rect.centerx
                     self.playery = self.level.player.rect.centery
                     print(self.playerx ,self.playery )
-
+                    if self.level.number == 5 :
+                        if self.smth :
+                            self.level = Level(self,1,(0,0),1)
                     if self.level.number == 1 and self.level.scene == 1 :
                         if self.playerx >= 5276 and self.playerx <= 5590 and self.playery == 7803 :
                             self.level = Level(self,1,(0,0),2)

@@ -63,7 +63,10 @@ class Level:
                 self.initial_point=(1424,1181)
         self.game=main
         #user interface
-        self.ui = UI()
+        if level_number == 5 :
+            self.ui = None
+        else : 
+            self.ui = UI()
         #shield
         self.shield=None
         self.shield_timer=0
@@ -120,6 +123,9 @@ class Level:
                                 self.create_attack,
                                 self.destroy_attack,
                                 self.create_magic,self.game.health,map=5)
+
+        self.ally = ally('fairy_queen',(2110, 1700),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_princ878')
+        
         print(self.player)
         
     def create_map1_scene1(self):
@@ -760,6 +766,11 @@ class Level:
 
     def run(self,main,num):
 		# update and draw the game
+        if self.number == 5 :
+            if self.ally :
+                main.smth = not self.ally.can_talk
+            else :
+                print("erreur")
         if num:
             self.player.kill()
             self.player = Player(
@@ -800,7 +811,8 @@ class Level:
         self.player_attack_logic()
         if self.player.activate8:
             self.eight_attack_logic()
-        self.ui.display(self.player)
+        if self.number != 5 :
+            self.ui.display(self.player)
         self.collect_object()
         if self.player.game_over_screen:
             main.game_active=False

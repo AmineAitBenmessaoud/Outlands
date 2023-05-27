@@ -99,7 +99,7 @@ ally_data={
                            'speed': 7, 'animation_speed':0.2,'resistance':30
             }
 }
-#dialogue est structurée comme ca: {'ally_name':{numero_dialogue:[[ligne_0_page_0,ligne_1_page_0],[ligne_0_page_1,ligne_1_page_1],[surface_declanchement_discution],position de l'allier pendant ce dialogie n numero_dialogue]}}
+#dialogue est structuree comme ca: {'ally_name':{numero_dialogue:[[ligne_0_page_0,ligne_1_page_0],[ligne_0_page_1,ligne_1_page_1],[surface_declanchement_discution],position de l'allier pendant ce dialogie n numero_dialogue]}}
 dialogue={
     'fairy_princ':{0:[['hi  there!  you  seem  quite  strong  .  I  like  it  .  I  am  Liza ',
                       'a  fairy  ,  and  i  am  lost  ,  and  i  am  afraid  that  the   ',
@@ -117,33 +117,47 @@ dialogue={
                       ' so  she  want  to  talk  with  you  .  She  is  inside  the  tree  waiting  ',
                       'for  you  !!!!'],
                       [(2000,3600),(5600,7000)],(2665, 6015)]},
-    'fairy_queen':{0:[["L'histoire se déroule dans une majestueuse capitale d'un vaste empire,",
-                        "où un destin extraordinaire attend notre jeune héros. Depuis la récente",
-                        "disparition de l'empereur, son fils aîné a hérité du trône. Nous suivons ",
-                        "les pas d'un courageux petit garçon vivant avec sa sœur et leur mère, dans",
-                        "une modeste demeure qui abrite également un bar en périphérie de la ville."
+    'fairy_queen':{0:[["L'histoire se deroule dans une majestueuse capitale",
+                        "d'un vaste empire, ou un destin extraordinaire atte-",
+                        "nd notre jeune heros. Depuis la recente disparition ",
+                        "de l'empereur, son fils aine a herite du trone. Nous ",
+                        "suivons les pas d'un courageux petit garcon vivant "
                         ],
-                        ["Un jour, un mystérieux carrosse s'arrête devant la porte du restaurant." ,
-                        "À son bord, un individu à l'allure noble et fortunée pénètre à l'intérieur",
-                        "pour engager une conversation confidentielle avec la mère et la fille.",
-                        "Après son départ, il est révélé que le nouvel empereur souhaite épouser la ",
-                        "jeune fille, les pressant d'accepter cette proposition. Toutefois, méfiante,",
+                        [
+                        "avec sa soeur et leur mere, dans une modeste demeure",
+                        "qui abrite egalement un bar en peripherie de la ville."
+                        ],
+                        ["Un jour, un mysterieux carrosse s'arrete devant la",
+                        "porte du restaurant.A son bord, un individu a l'allure",
+                        "noble et fortunee penetre a l'interieur pour engager ",
+                        "une conversation confidentielle avec la mere et la " ,
+                        "fille. Apres son depart, il est revele que le nouvel",
+                        ],
+                        [
+                        "empereur souhaite epouser la jeune fille, les pressant",
+                        "d'accepter cette proposition. Toutefois, mefiante,",
                         "la fille choisit de rester proche des siens."
                         ],
-                        ["Le lendemain, l'empereur en personne se présente avec ses puissants gardes pour",
-                        "emmener de force la jeune fille, ne lui laissant aucun répit pour réfléchir.",
-                        "Malgré les efforts désespérés du petit garçon pour l'arrêter, il se retrouve ",
-                        "impuissant face à la puissance des gardes impériaux. Avant de partir, l'empereur",
-                        "lance d'une voix sinistre : ",
-                        "Si tu veux que ta famille reste en vie, épouse-moi sans poser de question.",
-                        "Un désastre s'abat sur la maison."
-                        ],["Le lendemain, il est annoncé que le mariage aura lieu dans une ville lointaine.",
-                            "Le jeune garçon entame son périple vers cette destination, après avoir fait ses",
-                            "adieux émouvants à sa mère. "
+                        ["Le lendemain, l'empereur en personne se presente",
+                        "avec ses puissants gardes pour emmener de force ",
+                        "la jeune fille, ne lui laissant aucun repit pour",
+                        "reflechir. Malgre les efforts desesperes du petit",
+                        "garcon pour l'arreter, il se retrouve impuissant"
                         ],
-                        ["Préparez-vous à une quête épique remplie de dangers, de mystères et de révélations",
-                         "surprenantes !"],
-                        [(0,0),(0,0)],(0, 0)]},
+                        [
+                        "face a la puissance des gardes imperiaux. Avant de",
+                        "partir, l'empereur lance d'une voix sinistre : ",
+                        "Si tu veux que ta famille reste en vie, epouse-moi",
+                        "sans poser de question. Un desastre s'abat sur la maison."
+                        ],
+                        ["Le lendemain, il est annonce que le mariage aura", 
+                        "lieu dans une ville lointaine. Le jeune garcon ",
+                        "entame son periple vers cette destination, apres",
+                        "avoir fait ses adieux emouvants a sa mere. "
+                        ],
+                        ["Preparez-vous a une quete epique remplie de ",
+                        "dangers, de mysteres et de revelations surprenantes !"],
+                        [(0,20000),(0,20000)],(2110, 1700)]},#(2110,1876)
     'fairy_green':{0:[[],[]]}
 
 }

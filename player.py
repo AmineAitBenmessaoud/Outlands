@@ -332,4 +332,4 @@ class Player(Entity):
         if not self.Stop_moving:
             self.move(self.speed)
         if self.map == 5:
-            self.make_invisble(True)
+            self.make_invisble()

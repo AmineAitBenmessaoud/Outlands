@@ -196,7 +196,7 @@ class ally(Entity):
             keys = pygame.key.get_pressed()
 
         
-            if self.ally_name=='fairy_princ':
+            if self.ally_name=='fairy_princ' or self.ally_name=='fairy_queen':
                 if player.rect.centerx>=self.discution_pos[0][0] and player.rect.centerx<=self.discution_pos[0][1] :
                     if player.rect.centery>=self.discution_pos[1][0]  and player.rect.centery<=self.discution_pos[1][1] :
 
@@ -264,7 +264,7 @@ class ally(Entity):
         return scaled_surface
     
     def animate_discution(self):
-            if self.ally_name=='fairy_princ':
+            if self.ally_name=='fairy_princ' or self.ally_name=='fairy_queen':
                 status='down'
         #animation part 
             animation = self.animations[status]
@@ -276,7 +276,7 @@ class ally(Entity):
             self.display_surface.blit(self.image2, self.rect2)
     
     def positionnement(self,level):
-        if self.ally_name=='fairy_princ':
+        if self.ally_name=='fairy_princ' or self.ally_name=='fairy_queen':
             level.display_surface.blit(self.image,self.current_dialogue[-2])
         
         
