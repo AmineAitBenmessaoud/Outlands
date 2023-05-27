@@ -343,6 +343,10 @@ class Enemy(Entity):
         print(self.monster_name,self.status)
         self.image = animation[int(self.frame_index)]
         self.rect = self.image.get_rect(center = self.hitbox.center)
+        if self.monster_name=='gardien_eau'or self.monster_name=='demon':
+            self.image = animation[int(self.frame_index)]
+            self.image=self.scale_surface(self.image , 3)
+            self.rect = self.image.get_rect(center = self.hitbox.center)
 
 
         if not self.vulnerable:
@@ -397,6 +401,15 @@ class Enemy(Entity):
             if enemy.id==self.id:
                 return True
         return False
+    def scale_surface(self,surface, scale_factor):
+        # Calculate the new width and height based on the scale factor
+        new_width = int(surface.get_width() * scale_factor)
+        new_height = int(surface.get_height() * scale_factor)
+        
+        # Use pygame.transform.scale() to resize the surface
+        scaled_surface = pygame.transform.scale(surface, (new_width, new_height))
+        
+        return scaled_surface
     def update(self):
         if self.distance<=1100:
             print('ok')

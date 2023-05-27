@@ -5,6 +5,8 @@ from level import Level
 from settings import *
 from debug import debug
 from math import *
+#import pyglet
+#import pygame.movie
 
 #kiilimi
 
@@ -44,7 +46,7 @@ class Game:
 
         self.number_gameover=0
 
-        self.level = Level(self,2,(0,0))
+        self.level = Level(self,4,(0,0),5)
     def run(self):
         while True:
             keys = pygame.key.get_pressed()
