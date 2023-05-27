@@ -85,7 +85,7 @@ monster_data = {
     'knight3' : {'health': 90,'exp':10,'damage':30,'attack_type': 'leaf_attack', 'attack_sound':'../audio/attack/slash.wav', 
                            'speed': 7, 'resistance': 60, 'attack_radius': 140,'notice_radius': 1000,'animation_speed':0.2,'near_distance':80},
     'squelance' : {'health': 50,'exp':10,'damage':10,'attack_type': 'leaf_attack', 'attack_sound':'../audio/attack/slash.wav', 
-                           'speed': 7, 'resistance': 30, 'attack_radius': 70,'notice_radius': 1000,'animation_speed':0.2,'near_distance':80},
+                           'speed': 7, 'resistance': 30, 'attack_radius': 70,'notice_radius': 100,'animation_speed':0.1,'near_distance':80},
 
 }
 ally_data={

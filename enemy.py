@@ -22,7 +22,7 @@ class Enemy(Entity):
         self.frame_index=0
 
         
-        print(self.animations[self.status], monster_name, self.status)
+
         self.image = self.animations[self.status][self.frame_index]
         self.rect = self.image.get_rect(topleft = pos)
 
@@ -72,6 +72,7 @@ class Enemy(Entity):
 
         #game_over
         self.game_over_index=0
+        self.counter = 0
 
         self.map=map
         self.near=False#if the enemies is near enough to the player to be shown on the screen
@@ -313,10 +314,14 @@ class Enemy(Entity):
                     self.status = 'idle_left'
                 else :
                     self.status = 'idle_right'
-        if self.health<=0:
+        if self.health<=0: 
+            if self.counter == 0 :
+                self.death_direction = self.direction[0]
+                print(self.death_direction)
+                self.counter += 1
             self.game_over_index+=1
             if self.monster_name=='ghost'or self.monster_name=='boss'or self.monster_name=='knight2'or self.monster_name=='knight3'or self.monster_name=='gardien_eau'or self.monster_name == 'squelance':
-                if self.olddirectionx<0:
+                if -100 > self.death_direction or 0<self.death_direction<100:
                     self.status='left_game_over'
                 else:
                     self.status='right_game_over'
@@ -416,7 +421,6 @@ class Enemy(Entity):
         return scaled_surface
     def update(self):
         if self.distance<=1100:
-            print('ok')
             self.near=True
             self.hit_reaction()
             self.animate()

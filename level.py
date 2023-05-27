@@ -780,7 +780,6 @@ class Level:
 
 
         self.visible_sprites.custom_draw(self.player)
-        print('oki')
         self.player.input(self)
         self.visible_sprites.update()
         self.visible_sprites.enemy_ally_update(self.player,self)

@@ -66,7 +66,6 @@ class Game:
                 #changement de maps
                 self.playerx = self.level.player.rect.centerx
                 self.playery = self.level.player.rect.centery
-                print(self.playerx ,self.playery )
 
                 if self.level.number == 1 and self.level.scene == 1 :
                     if self.playerx >= 5276 and self.playerx <= 5590 and self.playery == 7803 :
@@ -80,7 +79,6 @@ class Game:
                         if self.playerx >= 2100 and self.playerx <= 2256 and self.playery <= 374 :
                             self.level = Level(self,2,(0,0),1)
                 if self.level.number == 2:
-                   print(7)
                    if (self.playerx >= 3500 and self.playerx <= 4500) and (self.playery >= 4450 and self.playery <= 4700):
                         self.level = Level(self,3,(0,0))
                 if (self.playery<=12 and self.level.scene ==1  and self.level.number==3):
