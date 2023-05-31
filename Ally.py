@@ -2,8 +2,8 @@ import pygame
 from settings import *
 from entity import Entity
 from support import *
-class ally(Entity):
-    def __init__(self,ally_name,pos,groups,obstacle_sprites,map,sprite_type,id):
+class Ally(Entity):
+    def __init__(self,ally_name,pos,groups,obstacle_sprites,map,sprite_type,id,status,dialogue_index):
 
         self.id=id
         # general setup
@@ -12,8 +12,7 @@ class ally(Entity):
         
         # graphics setup
         self.import_graphics(ally_name)
-        self.status = 'idle_left'
-        if 'fairy' in ally_name:self.status = 'left'
+        self.status = status
         self.frame_index=0
         self.frame_index2=0
 
@@ -45,7 +44,7 @@ class ally(Entity):
         #self.dialogue=dialogue[self.ally_name]
 
         #text
-        self.dialogue_index=0
+        self.dialogue_index=dialogue_index
         self.letter_index=0
         self.stop_editing=False
 
@@ -61,12 +60,13 @@ class ally(Entity):
         self.can_talk=True
         self.adding_text=True
         self.return_index=0
-        
+        self.lancez_bat=False
 
         self.vulnerable = True
         self.hit_time = None
         self.invincibility_duration = 4500
         self.map=map
+        self.end_screen=False
 
     def import_graphics(self,name):
         self.animations = {'idle_left':[] , 'move_left':[] ,'attack_left':[],
@@ -182,6 +182,7 @@ class ally(Entity):
             self.check_death()
 
     def ally_update(self,player,level):
+        self.distance=self.get_player_distance_direction(player)[0]
         if self.distance<=1100:
             self.get_status(player)
             self.actions(player)
@@ -199,7 +200,7 @@ class ally(Entity):
             if self.ally_name=='fairy_princ' or self.ally_name=='fairy_queen':
                 if player.rect.centerx>=self.discution_pos[0][0] and player.rect.centerx<=self.discution_pos[0][1] :
                     if player.rect.centery>=self.discution_pos[1][0]  and player.rect.centery<=self.discution_pos[1][1] :
-
+                        
                         player.discussing=True
                         player.Stop_moving=True
                         text_surf=pygame.Surface((WIDTH, HEIGHT/4))
@@ -223,26 +224,28 @@ class ally(Entity):
                             self.ligne-=1
                             self.letter_index=len(self.text[self.ligne])-1
                             self.adding_text=False
-                        if keys[pygame.K_RETURN]:
+                        if keys[pygame.K_RETURN] :
                             self.return_index+=1
-                            if self.return_index<4:
+                            if self.return_index<12 :
+                                if self.return_index>7:
                                 
-                                self.previous_letters=self.text
-                                self.letter_index=len(self.text[self.ligne])-1
-                                self.adding_text=False
-                                self.ligne=len(self.text)-1
+                                    self.previous_letters=self.text
+                                    self.letter_index=len(self.text[self.ligne])-1
+                                    self.adding_text=False
+                                    self.ligne=len(self.text)-1
                             elif self.page< len(self.current_dialogue)-2:
-                                self.text=dialogue[self.ally_name][self.dialogue_index][self.page]
-                                self.page+=1
-                                self.return_index=0
-                                self.previous_letters = ['' for i in range(100)]
-                                self.letter_index=0
-                                self.adding_text=True
-                                self.ligne=0
+                                if self.return_index>16:
+                                    self.text=dialogue[self.ally_name][self.dialogue_index][self.page]
+                                    self.page+=1
+                                    self.return_index=0
+                                    self.previous_letters = ['' for i in range(100)]
+                                    self.letter_index=0
+                                    self.adding_text=True
+                                    self.ligne=0
                                 
 
 
-                            else:
+                            if self.page>= len(self.current_dialogue)-2:
                                 if self.return_index==6 :
                                     self.can_talk=False
                                     if self.dialogue_index +1< len(dialogue[self.ally_name].keys()):
@@ -251,6 +254,10 @@ class ally(Entity):
                                     player.Stop_moving=False
                                     player.discussing=False
                                     self.return_index=0
+                                    if self.ally_name=='fairy_queen'and self.dialogue_index==2:
+                                        self.lancez_bat=True
+                                    if self.ally_name=='fairy_queen'and self.dialogue_index==3:
+                                        self.end_screen=True
                         self.animate_discution()
     
     def scale_surface(self,surface, scale_factor):

@@ -101,12 +101,12 @@ ally_data={
 }
 #dialogue est structuree comme ca: {'ally_name':{numero_dialogue:[[ligne_0_page_0,ligne_1_page_0],[ligne_0_page_1,ligne_1_page_1],[surface_declanchement_discution],position de l'allier pendant ce dialogie n numero_dialogue]}}
 dialogue={
-    'fairy_princ':{0:[['hi  there!  you  seem  quite  strong  .  I  like  it  .  I  am  Liza ',
-                      'a  fairy  ,  and  i  am  lost  ,  and  i  am  afraid  that  the   ',
-                      'ghosts   attack   me  .'],
-                      ['can  you  help  me  . Oh  !  great   i  remeber  that  i  was  going ',
-                      'up  from the beginning  ,  can  you  go  south  i  ll  follow  you ',
-                      'back!'],
+    'fairy_princ':{0:[['Salut! ,  t  a  l  air  un  peu  fort,  je  m  appel  Liza',
+                      'je  suis  une  fee,  je  suis  perdu,  j  ai  peur  que ',
+                      'les  fantoms  m  attaquent.'],
+                      ['Peut  tu  m  aider  .  Oh!  genial,  je me  rapelle que  prenait',
+                      'toujours  le nord  au  debut,  peut tu te  deriger  vers  le sud,',
+                      'je  vais  te  suivre'],
                       [(1900,2000),(1400,1700)],(1984, 1504)],
                     1:[['oh  !  I came  before  you  , thank  you  for  protecting  me  from ',
                       'these  monsters.  This  is  the  tree of  fairies  .  Can  I  ask  you   ',
@@ -157,7 +157,76 @@ dialogue={
                         ],
                         ["Preparez-vous a une quete epique remplie de ",
                         "dangers, de mysteres et de revelations surprenantes !"],
-                        [(0,20000),(0,20000)],(2110, 1700)]},#(2110,1876)
+                        [(0,20000),(0,20000)],(2110, 1700)],
+                    1:[['oh!  regarder qui voila!!  je  t  attendais...  Merci Beaucoup ',
+                      'd avoir  sauver  ma  fille  adore ,  je suis  la  reine  de ce ',
+                      'jardin.  Notre  jardin  a  ete  envahit  par des  monstres  a ',
+                      'cause  du  roi.  Au  centre  du  jardin  se trouvait  un ',
+                      'chateau dans lequel  etait enfoui un cristal sacre, le roi  '],
+                      [
+                      'etaitvenu  pour  lever  le chateau  dans  le ciel pour   ',
+                      'avoir  leplus beau  des  marriages,  on  l  a  empeche ',
+                      'de  faire cela. '],
+                      ['car  cela  rendra  le cristal  instable,  mais il  n a pas  ',
+                      'ecoute,  maintenant  le  cristal  produit  des  monstres ',
+                      'des tenebres  qui  envahissent tout  le jardin. Nous  on  est ',
+                      'faible,  on ne  peut rien  y  faire ,  c  est  pourquoi  ',
+                      'nous avonsbesoin  de quelqu un de  fort. Voyons  si  tu '],
+                      ['es pret  a  affronter  les monstres. Soit  pret  on va  ',
+                      'lacher  un monctre  que  nous  avons  capture...'],
+                      [(1200,1500),(1900,2240)],(2665, 6015)],
+                    2:[['T  a  l  air  tres fort  en  effet...',
+                      'peut  tu  sauver  notre  jardin  en  battant  le  monstre  ',
+                      'ultime  du  cristal  et  en  redescandant  le chateau. ',
+                      'en  echange  je  te  donne  cette  gemme,  elle  generera',
+                      'un  bouclier pour te proteger  des  monstres,  utilise ',
+                      ' la  bien'],
+                      
+                      [(1200,1500),(1900,2240)],(2665, 6015)],
+                      #(2110,1876)
+                    3:[['Apres avoir remporte la bataille contre le dragon,',
+                      'le jeune garcon recupera la derniere gemme que ce',
+                      'dernier portait. Cette gemme etait precieuse, la',
+                      'derniere de son espece. Cependant, sa joie fut de',
+                      'courte duree lorsque sa soeur, blessee lors du combat,'],
+                      [
+                      'succomba a ses blessures. Accable de tristesse et de',
+                      'melancolie, le garcon contemplait les neuf gemmes qui',
+                      'brillaient devant lui, disposees de maniere ',
+                      'mysterieuse. Soudain, elles emirent une lueur',
+                      'eclatante et accorderent un voeu au jeune heros.'],
+                      ['Le coeur brise, le garcon formula le souhait de',
+                      'ramener sa soeur a la vie. A sa grande surprise,',
+                      'sa soeur s eveilla et ils furent submerges de bonheur.'
+                      ],
+                      ['La derniere gemme, celle qui avait le pouvoir de',
+                      'deplacer les objets, restaura le chateau dans',
+                      'le jardin et stabilisa le cristal.  Ensemble,',
+                      'le garcon et sa soeur  rentrerent chez eux. Ils',
+                      'retrouverent une vie paisible et heureuse a cote'],
+                      ['de leur mere, cherissant chaque instant passe',
+                      'ensemble. Les gemmes devinrent des souvenirs',
+                      'precieux de leur incroyable aventure.'],
+                      ['Ainsi, ils vecurent heureux jusqu a la fin de',
+                      'leurs jours, portant en eux les lecons',
+                      'apprises et la force puisee dans leur',
+                      'lien familial.'],
+                      [(0,20000),(0,20000)],(2665, 6015)]},
+                      
+
+                    #
+                    #   
+                    # 
+                    #  
+                    #  
+                    #   
+                    # 
+                    #  
+
+                    #
+                    #  
+                    #  
+                    #  lien familial.
     'fairy_green':{0:[[],[]]}
 
 }

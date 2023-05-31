@@ -41,6 +41,7 @@ class Level:
         self.number = level_number
         self.scene = scene_number
         self.init=init
+        self.get_bat=False#lancer l ennemie du monde 4 scene 2
         #point de depart dans differents scene après mort           
         if self.number==1 and self.scene==1: 
             self.initial_point=(984,670)
@@ -55,6 +56,8 @@ class Level:
         if self.number==4: 
             if self.scene==1:
                 self.initial_point=(1056,1536)
+            if self.scene==2:
+                self.initial_point=(1336,3000)
             if self.scene==3:
                 self.initial_point=(2136,2046)
             if self.scene==4:
@@ -65,7 +68,7 @@ class Level:
                 self.initial_point=(1424,1181)
         self.game=main
         #user interface
-        if level_number == 5 :
+        if level_number == 5 or level_number == 6:
             self.ui = None
         else : 
             self.ui = UI()
@@ -79,9 +82,18 @@ class Level:
         self.killed=[]
         self.current_enemy=None#the nemie that should be attacked by the monster of the 8th gemme
         self.enemy8th=None#the monster of the 8th gem
+
+        #bat
+        self.special_enemy=None
+        self.sepecial_ally=None
+        self.final_enemy=None
+        #end screen declancheur.
+        self.end_screen=False
         # creation de la map
         if level_number==5:
-            self.create_intro()
+            self.create_intro_end(0)
+        if level_number==6:
+            self.create_intro_end(3)
         if level_number == 1:
             if scene_number == 1:
                 self.create_map1_scene1()
@@ -117,18 +129,27 @@ class Level:
             
 
 
-
-    def create_intro(self) :
-        self.player = Player((2110,1876),
+    #def create_special():
+      #  self.sepecial_ally=
+    def create_intro_end(self,dialogue_index) :
+        self.player = Player((2080,1876),
                                 [self.visible_sprites,self.attacker_sprites],
                                 self.obstacle_sprites,
                                 self.create_attack,
                                 self.destroy_attack,
                                 self.create_magic,self.game.health,map=5)
 
-        self.ally = ally('fairy_queen',(2110, 1700),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_princ878')
-        
-        print(self.player)
+        self.ally = Ally('fairy_queen',(2080, 1700),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_princ878','down',dialogue_index)
+        Ally('fairy_green',(1910, 1800),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_princ878','up',0)
+        Ally('fairy_green',(1950, 1900),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_princ878','up',0)
+        Ally('fairy_green',(2000, 1800),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_princ878','up',0)
+        Ally('fairy_green',(2020, 1900),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_princ878','up',0)
+        Ally('fairy_green',(2090, 1800),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_princ878','up',0)
+        Ally('fairy_green',(2100, 1890),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_princ878','up',0)
+        Ally('fairy_green',(2140, 1850),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_princ878','up',0)
+        Ally('fairy_green',(2100, 1950),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_princ878','up',0)
+        Ally('fairy_green',(2160, 1800),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_princ878','up',0)
+        Ally('fairy_green',(2200, 1800),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_princ878','up',0)
         
     def create_map1_scene1(self):
         TILESIZE = 32
@@ -435,8 +456,8 @@ class Level:
                                         self.create_magic,self.game.health)
                             elif col == '1575':
                                
-                                ally('fairy_princ',(x,y),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_princ'+str(x+y))
-                            elif col == '1578':ally('fairy_green',(x,y),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_green'+str(x+y))
+                                Ally('fairy_princ',(x,y),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_princ'+str(x+y),'left',0)
+                            elif col == '1578':Ally('fairy_green',(x,y),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_green'+str(x+y),'left',0)
                             else:
                                 
                                 if col == '1': monster_name = 'ghost'
@@ -479,18 +500,21 @@ class Level:
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
                                         self.create_magic,self.game.health)
-                            elif col == '1530':ally('fairy_green',(x,y),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_green'+str(x+y))
-                            elif col == '1528':ally('fairy_queen',(x,y),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_queen'+str(x+y))
+                            elif col == '1530':Ally('fairy_green',(x,y),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_green'+str(x+y),'down',0)
+                            elif col == '1528':
+                                self.special_ally=Ally('fairy_queen',(x,y),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_queen'+str(x+y),'down',1)
+                                
                             else:
                                 #if col == '1': monster_name = 'ghost'
                                 #elif col == '4': monster_name = 'dark_fairy'
                                 if col == '1532': 
-                                    monster_name ='bat'
-                                
-                                    self.enemy=Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player,self.number,'enemy',monster_name+str(x+y))
-                                
-                                    if self.enemy  :
-                                        self.enemy_list.append(self.enemy)#si le joueur active la huitieme gemme on selectionne les enmies proches
+                                    if self.get_bat:
+                                        monster_name ='bat'
+                                    
+                                        self.enemy=Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player,self.number,'enemy',monster_name+str(x+y))
+                                    
+                                        if self.enemy  :
+                                            self.enemy_list.append(self.enemy)#si le joueur active la huitieme gemme on selectionne les enmies proches
     def create_map4_scene3(self):
         TILESIZE=32
         layouts = {
@@ -683,10 +707,10 @@ class Level:
                             else:
                                 if col == '1532': 
                                     monster_name = 'dragon1'
-                                    self.enemy=Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player,self.number,'enemy',monster_name+str(x+y))
+                                    self.final_enemy=Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player,self.number,'enemy',monster_name+str(x+y))
                                 
-                                    if self.enemy  :
-                                        self.enemy_list.append(self.enemy)#si le joueur active la huitieme gemme on selectionne les enmies proches
+                                    if self.final_enemy  :
+                                        self.enemy_list.append(self.final_enemy)#si le joueur active la huitieme gemme on selectionne les enmies proches
                                 
   
 
@@ -787,7 +811,6 @@ class Level:
             self.player.game_over_screen=False
             self.player.status='right'
             #self.player.rect.topleft=self.initial_point
-        print(self.player)
         if self.player.activate7:
             self.coef-=0.5
             alpha= ((0.6*self.wave_value2(1/1600,255,0,0))/153)*40+self.coef
@@ -813,7 +836,7 @@ class Level:
         self.player_attack_logic()
         if self.player.activate8:
             self.eight_attack_logic()
-        if self.number != 5 :
+        if self.number != 5 and self.number != 6 :
             self.ui.display(self.player)
         self.collect_object()
         if self.player.game_over_screen:
@@ -832,9 +855,10 @@ class YSortCameraGroup(pygame.sprite.Group):
         self.half_width = self.display_surface.get_size()[0] // 2
         self.half_height = self.display_surface.get_size()[1] // 2
         self.offset = pygame.math.Vector2()
-
+        #bat
+        self.index_one_time=0
         # floor
-        if level_number == 5:
+        if level_number == 5 or level_number == 6 :
             image = pygame.image.load('Graphics\map.png')
             tr_image = pygame.transform.scale(image,(4000,4000))
             self.floor_surface = tr_image.convert()
@@ -949,8 +973,28 @@ class YSortCameraGroup(pygame.sprite.Group):
                 level.current_enemy=None
         for enemy in enemy_sprites:  
             enemy.enemy_update(player)
+        
         for ally in ally_sprites:
             ally.ally_update(player,self)
+            if ally.ally_name=='fairy_queen':
+                level.end_screen=level.ally.end_screen
+            if ally.lancez_bat:
+                if self.index_one_time==0:
+                    self.index_one_time+=1
+
+                    monster_name ='bat'
+                                    
+                    level.special_enemy=Enemy(monster_name,(1300,2000),[level.visible_sprites,level.attackable_sprites],level.nothing,level.damage_player,level.number,'enemy',monster_name+str(1300+2000))
+            
+                    if level.enemy  :
+                        level.enemy_list.append(level.special_enemy)#si le joueur active la huitieme gemme on selectionne les enmies proches
+                if level.special_enemy.health<=0:
+                    print(level.special_ally,'7')
+                    level.special_ally.kill()
+                    level.special_ally=Ally('fairy_queen',(1344,1792),[level.visible_sprites,level.attackable_sprites],level.obstacle_sprites,level.number,'ally','fairy_queen','down',2)
+
+                
+
             
         
         if player.activate8:
