@@ -69,7 +69,8 @@ class Enemy(Entity):
 
         #list of enemies
         self.enemy_list=[]
-
+        #sound
+        self.attack_sound = pygame.mixer.Sound(monster_info['attack_sound'])
         #game_over
         self.game_over_index=0
         self.counter = 0

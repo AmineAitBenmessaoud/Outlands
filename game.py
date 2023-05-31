@@ -15,6 +15,11 @@ class Game:
         pygame.init()
         self.screen = pygame.display.set_mode((WIDTH,HEIGHT))
         pygame.display.set_caption('Outlands')
+        main_sound = pygame.mixer.Sound('audio/main.mp3')
+		
+        main_sound.set_volume(0.5)
+		
+        main_sound.play(loops = -1)
         self.clock = pygame.time.Clock()
         self.game_active=True
         self.player_stand = pygame.image.load('player/gameover_right_6.png').convert_alpha()

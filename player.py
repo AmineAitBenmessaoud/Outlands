@@ -183,6 +183,7 @@ class Player(Entity):
                             level.shield_timer=pygame.time.get_ticks()
                         if self.weapon_index==2 and level.ui.frame_index==8:
                             self.health = 100
+                            self.stats['health']=100
                             pos = self.rect.center
                             player_width = self.rect.width
                             player_height = self.rect.height
