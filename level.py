@@ -82,7 +82,7 @@ class Level:
         self.killed=[]
         self.current_enemy=None#the nemie that should be attacked by the monster of the 8th gemme
         self.enemy8th=None#the monster of the 8th gem
-
+        print(self.game.exp)
         #bat
         self.special_enemy=None
         self.sepecial_ally=None
@@ -137,7 +137,7 @@ class Level:
                                 self.obstacle_sprites,
                                 self.create_attack,
                                 self.destroy_attack,
-                                self.create_magic,self.game.health,map=5)
+                                self.create_magic,self.game.health,self.game.exp,self.game.level_bar,map=5)
 
         self.ally = Ally('fairy_queen',(2080, 1700),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_princ878','down',dialogue_index)
         Ally('fairy_green',(1910, 1800),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_princ878','up',0)
@@ -181,7 +181,7 @@ class Level:
                                                  self.obstacle_sprites,
                                                  self.create_attack,
                                                  self.destroy_attack,
-                                                 self.create_magic,self.game.health)
+                                                 self.create_magic,self.game.health,self.game.exp,self.game.level_bar)
                             i = 1                   
                         if style == 'ennemies' :
                             if col == '4150' :
@@ -227,7 +227,7 @@ class Level:
                                                  self.obstacle_sprites,
                                                  self.create_attack,
                                                  self.destroy_attack,
-                                                 self.create_magic,self.game.health)
+                                                 self.create_magic,self.game.health,self.game.exp,self.game.level_bar)
 
                             i = 1
 
@@ -257,7 +257,7 @@ class Level:
                                                  self.obstacle_sprites,
                                                  self.create_attack,
                                                  self.destroy_attack,
-                                                 self.create_magic,self.game.health)
+                                                 self.create_magic,self.game.health,self.game.exp,self.game.level_bar)
                         if style == 'boss' :
                             if col == '1' :
                                 self.enemy=Enemy('lv1_boss', (x,y), [self.visible_sprites,self.attackable_sprites], self.obstacle_sprites_ennemie, self.damage_player,1,'enemy','lv1_boss'+str(x+y))
@@ -293,7 +293,7 @@ class Level:
                                                  self.obstacle_sprites,
                                                  self.create_attack,
                                                  self.destroy_attack,
-                                                 self.create_magic,self.game.health) 
+                                                 self.create_magic,self.game.health,self.game.exp,self.game.level_bar) 
 
                             i = 1
                         if style == 'ennemi' :
@@ -342,7 +342,7 @@ class Level:
                                     self.obstacle_sprites,
                                     self.create_attack,
                                     self.destroy_attack,
-                                    self.create_magic,self.game.health
+                                    self.create_magic,self.game.health,self.game.exp,self.game.level_bar
                                 )
                             else:
                                 if col == "4":
@@ -401,7 +401,7 @@ class Level:
                                     self.obstacle_sprites,
                                     self.create_attack,
                                     self.destroy_attack,
-                                    self.create_magic,self.game.health
+                                    self.create_magic,self.game.health,self.game.exp,self.game.level_bar
                                 )
                             else:
                                 if col == "305":
@@ -446,14 +446,14 @@ class Level:
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
-                                        self.create_magic,self.game.health)
+                                        self.create_magic,self.game.health,self.game.exp,self.game.level_bar)
                                 else:
                                     self.player = Player(
                                         self.init,
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
-                                        self.create_magic,self.game.health)
+                                        self.create_magic,self.game.health,self.game.exp,self.game.level_bar)
                             elif col == '1575':
                                
                                 Ally('fairy_princ',(x,y),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_princ'+str(x+y),'left',0)
@@ -492,14 +492,14 @@ class Level:
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
-                                        self.create_magic,self.game.health)
+                                        self.create_magic,self.game.health,self.game.exp,self.game.level_bar)
                                 else:
                                     self.player = Player(
                                         self.init,
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
-                                        self.create_magic,self.game.health)
+                                        self.create_magic,self.game.health,self.game.exp,self.game.level_bar)
                             elif col == '1530':Ally('fairy_green',(x,y),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_green'+str(x+y),'down',0)
                             elif col == '1528':
                                 self.special_ally=Ally('fairy_queen',(x,y),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_queen'+str(x+y),'down',1)
@@ -537,14 +537,14 @@ class Level:
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
-                                        self.create_magic,self.game.health)
+                                        self.create_magic,self.game.health,self.game.exp,self.game.level_bar)
                                 else:
                                     self.player = Player(
                                         self.init,
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
-                                        self.create_magic,self.game.health)
+                                        self.create_magic,self.game.health,self.game.exp,self.game.level_bar)
                             else:
                                 if col == '1534': 
                                     monster_name = 'knight2'
@@ -576,14 +576,14 @@ class Level:
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
-                                        self.create_magic,self.game.health)
+                                        self.create_magic,self.game.health,self.game.exp,self.game.level_bar)
                                 else:
                                     self.player = Player(
                                         self.init,
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
-                                        self.create_magic,self.game.health)
+                                        self.create_magic,self.game.health,self.game.exp,self.game.level_bar)
                             else:
                                 if col == '1530': 
                                     monster_name = 'knight3'
@@ -616,7 +616,7 @@ class Level:
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
-                                        self.create_magic,self.game.health)
+                                        self.create_magic,self.game.health,self.game.exp,self.game.level_bar)
                                 else:
                                     
                                     self.player = Player(
@@ -624,7 +624,7 @@ class Level:
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
-                                        self.create_magic,self.game.health)
+                                        self.create_magic,self.game.health,self.game.exp,self.game.level_bar)
                             else:
                                 if col == '1530': 
                                     monster_name = 'gardien_eau'
@@ -659,14 +659,14 @@ class Level:
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
-                                        self.create_magic,self.game.health)
+                                        self.create_magic,self.game.health,self.game.exp,self.game.level_bar)
                                 else:
                                     self.player = Player(
                                         self.init,
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
-                                        self.create_magic,self.game.health)
+                                        self.create_magic,self.game.health,self.game.exp,self.game.level_bar)
                             #else:
                                 #if col == '1': monster_name = 'ghost'
                                 #elif col == '4': monster_name = 'dark_fairy'
@@ -696,14 +696,14 @@ class Level:
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
                                         self.destroy_attack,
-                                        self.create_magic,self.game.health)
+                                        self.create_magic,self.game.health,self.game.exp,self.game.level_bar)
                                 else:
                                     self.player = Player(
                                         self.init,
                                         [self.visible_sprites,self.attacker_sprites],
                                         self.obstacle_sprites,self.create_attack,
                                         self.destroy_attack,
-                                        self.create_magic,self.game.health)
+                                        self.create_magic,self.game.health,self.game.exp,self.game.level_bar)
                             else:
                                 if col == '1532': 
                                     monster_name = 'dragon1'
@@ -737,6 +737,7 @@ class Level:
                     
                     for target_sprite in collision_sprites:
                         target_sprite.get_damage(self.player,self)
+                        
 
     def eight_attack_logic(self):
         
@@ -804,7 +805,7 @@ class Level:
                                     [self.visible_sprites,self.attacker_sprites],
                                     self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
-                                    self.create_magic,self.game.health)
+                                    self.create_magic,self.game.health,self.game.exp,self.game.level_bar)
             self.player.game_over=False
             self.game.health=100
             self.player.health=100

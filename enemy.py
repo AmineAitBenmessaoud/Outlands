@@ -332,6 +332,8 @@ class Enemy(Entity):
                 self.attack_time = pygame.time.get_ticks()
                 if not self.monster_name=='boss_ally':
                     self.damage_player(self.attack_damage,self.attack_type)
+            if not self.can_attack:
+                self.attack_time = pygame.time.get_ticks()
         if self.vulnerable:
             if self.ismoving or 'move' in self.status:
                 self.direction = self.get_player_distance_direction(player)[1]
@@ -382,6 +384,12 @@ class Enemy(Entity):
                     if  level.ui.frame_index!=8:
                         level.ui.frame_index+=1
                     self.health -= player.get_full_weapon_damage()
+                    player.exp+=1
+                    if player.exp>60: 
+                        player.level_bar+=2
+                        player.exp=0
+                    level.game.exp=player.exp
+                    level.game.level_bar=player.level_bar
                     self.hit_time = pygame.time.get_ticks()
                     self.vulnerable = False
     def get_damage_by_8th(self,eight,level):

@@ -7,7 +7,7 @@ from particles import AnimationPlayer
 from random import randint
 from enemy import Enemy
 class Player(Entity):
-    def __init__(self, pos, groups, obstacle_sprites,create_attack,destroy_attack,create_magic,health,map=2):
+    def __init__(self, pos, groups, obstacle_sprites,create_attack,destroy_attack,create_magic,health,exp,level_bar,map=2):
         super().__init__(groups)
         self.image = pygame.image.load('player/caracter_main.png').convert_alpha()
         self.rect = self.image.get_rect(topleft=pos)
@@ -50,9 +50,9 @@ class Player(Entity):
         self.stats = {'health': 100,'energy': 60, 'attack': 10,'magic': 4,'speed': 20}
         self.health = health
         self.energy = self.stats['energy']
-        self.exp = 0
+        self.exp = exp
         self.speed = self.stats['speed']
-
+        self.level_bar=level_bar
         #damage timer
         self.already_vulnerable=False
         self.vulnerable = True

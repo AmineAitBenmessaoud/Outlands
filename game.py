@@ -41,6 +41,8 @@ class Game:
 
         #health
         self.health=100
+        self.exp=0
+        self.level_bar=1
         self.start_game=False
         self.screen_intro_index=0
         self.pas=False
@@ -53,7 +55,7 @@ class Game:
         self.ending=False
         self.ending_index=0
 
-        self.level = Level(self,1,(0,0),1)
+        self.level = Level(self,3,(0,0),2)
     def run(self):
         one_time=False
         one_time2=False

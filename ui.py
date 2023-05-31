@@ -108,9 +108,9 @@ class UI:
 
 
 		self.show_bar(player.health,player.stats['health'],self.health_bar_rect,self.HEALTH_COLOR,1)
-		self.show_bar(player.energy,player.stats['energy'],self.energy_bar_rect,ENERGY_COLOR,0)
+		self.show_bar(player.exp,player.stats['energy'],self.energy_bar_rect,ENERGY_COLOR,0)
 
-		self.show_exp(player.exp)
+		self.show_exp(player.level_bar)
 
 		self.weapon_overlay(player.weapon_index,not player.can_switch_weapon)
 		self.magic_overlay(player.magic_index,not player.can_switch_magic)
