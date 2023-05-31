@@ -55,7 +55,7 @@ class Game:
         self.ending=False
         self.ending_index=0
 
-        self.level = Level(self,3,(0,0),2)
+        self.level = Level(self,1,(0,0),1)
     def run(self):
         one_time=False
         one_time2=False

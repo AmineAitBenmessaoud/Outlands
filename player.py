@@ -181,6 +181,20 @@ class Player(Entity):
                             self.activate7=True
                             level.shield=Tile((self.rect.centerx-170,self.rect.centery-160),[level.nothing,level.visible_sprites,level.obstacle_sprites_ennemie],'shield',pygame.image.load('shield/shield.png').convert_alpha())
                             level.shield_timer=pygame.time.get_ticks()
+                        if self.weapon_index==2 and level.ui.frame_index==8:
+                            self.health = 100
+                            pos = self.rect.center
+                            player_width = self.rect.width
+                            player_height = self.rect.height
+                        if self.weapon_index==3 and level.ui.frame_index==8:
+                            self.speed = 40
+                            pos = self.rect.center
+                            player_width = self.rect.width
+                            player_height = self.rect.height
+                           # if 'right' in self.status :
+                            #    self.animation_player.create_projectile_left((pos[0]+player_width//2,pos[1]),[level.visible_sprites],level)
+                            #else :
+                             #   self.animation_player.create_projectile_right((pos[0]-player_width//2,pos[1]),[level.visible_sprites],level)
                         if self.weapon_index==0 and level.ui.frame_index==8:
                             pos = self.rect.center
                             player_width = self.rect.width
