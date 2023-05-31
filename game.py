@@ -62,6 +62,9 @@ class Game:
         one_time3=False
         one_time4=False
         while True:
+            if pygame.time.get_ticks()-self.level.timer>=10000 :
+                self.level.player.speed=20
+                print("tb")
             keys = pygame.key.get_pressed()
 
             for event in pygame.event.get():

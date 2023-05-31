@@ -16,6 +16,8 @@ from Ally import *
 class Level:
 
     def __init__(self,main,level_number,init=(0,0),scene_number=1):
+        #timer for  geme 3
+        self.timer=0
         # surface principale
         self.player = None
         self.enemy=None
@@ -1004,9 +1006,3 @@ class YSortCameraGroup(pygame.sprite.Group):
             if pygame.time.get_ticks()-level.shield_timer>=10000 and level.enemy8th and player.activate8:
                     player.activate8=False
                     level.enemy8th.kill()
-    
-                
-
-
-
-
