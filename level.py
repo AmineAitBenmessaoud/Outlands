@@ -15,7 +15,7 @@ from Ally import *
 
 class Level:
 
-    def __init__(self,main,level_number,init=(0,0),scene_number=1):
+    def __init__(self,main,level_number,init=(0,0),scene_number=1,version=0):
         #timer for  geme 3
         self.timer=0
         # surface principale
@@ -92,6 +92,8 @@ class Level:
         self.boss_enemy=None
         #end screen declancheur.
         self.end_screen=False
+        #dragon1
+        self.passez_scene7=False
         # creation de la map
         if level_number==5:
             self.create_intro_end(0)
@@ -115,8 +117,10 @@ class Level:
                self.create_map3_scene3()
         # creation de la map4
         if level_number==4:
-            if scene_number == 1:
+            if scene_number == 1 and not version:
                 self.create_map4_scene1()
+            if scene_number == 1 and  version:
+                self.create_map4_scene1_2()
             if scene_number == 2:
                 self.create_map4_scene2()
             if scene_number == 3 :
@@ -463,6 +467,61 @@ class Level:
                             elif col == '1575':
                                
                                 Ally('fairy_princ',(x,y),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_princ'+str(x+y),'left',0)
+                            elif col=='1617':
+                                Ally('fairy_princ',(x,y),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_princ'+str(x+y),'left',1)
+                            elif col == '1578':Ally('fairy_green',(x,y),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_green'+str(x+y),'left',0)
+                            else:
+                                
+                                if col == '1':
+                                    monster_name = 'ghost'
+                                    self.enemy=Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player,self.number,'enemy',monster_name+str(x+y))
+                                elif col == '4': 
+                                    monster_name = 'dark_fairy'
+                                    self.enemy=Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player,self.number,'enemy',monster_name+str(x+y))
+                                elif col == '2': 
+                                    monster_name ='bat'
+                                    self.enemy=Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player,self.number,'enemy',monster_name+str(x+y))
+                                
+                                elif col == '5':
+                                    monster_name = 'boss'
+                                    self.boss_enemy=Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player,self.number,'enemy',monster_name+str(x+y))
+                                    self.enemy_list.append(self.boss_enemy)
+                                
+                                if self.enemy  :
+                                    self.enemy_list.append(self.enemy)#si le joueur active la huitieme gemme on selectionne les enmies proches
+    def create_map4_scene1_2(self):
+        TILESIZE=32
+        layouts = {
+            'boundary': import_csv_layout('map_csv/scene1/fairy_floor_blocks_bare.csv'),
+            'entities': import_csv_layout('map_csv/scene1/fairy_Entity_pos_0.csv')
+        }
+        for style,layout in layouts.items():
+            for row_index,row in enumerate(layout):
+                for col_index, col in enumerate(row):
+                    if col != '-1':
+                        x = col_index * TILESIZE
+                        y = row_index * TILESIZE
+                        if style == 'boundary':
+                            Tile((x,y),[self.obstacle_sprites,self.obstacle_sprites_ennemie],'invisible',pygame.Surface((TILESIZE,TILESIZE)))
+                        if style == 'entities':
+                            if col == '0':
+                                if not(self.init[0] or self.init[1]):
+                                    self.player = Player(
+                                        (x,y),
+                                        [self.visible_sprites,self.attacker_sprites],
+                                        self.obstacle_sprites,self.create_attack,
+                                    self.destroy_attack,
+                                        self.create_magic,self.game.health,self.game.exp,self.game.level_bar)
+                                else:
+                                    self.player = Player(
+                                        self.init,
+                                        [self.visible_sprites,self.attacker_sprites],
+                                        self.obstacle_sprites,self.create_attack,
+                                    self.destroy_attack,
+                                        self.create_magic,self.game.health,self.game.exp,self.game.level_bar)
+                            
+                            elif col=='1617':
+                                Ally('fairy_princ',(x,y),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_princ'+str(x+y),'left',2)
                             elif col == '1578':Ally('fairy_green',(x,y),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_green'+str(x+y),'left',0)
                             else:
                                 
@@ -680,13 +739,13 @@ class Level:
                                         self.obstacle_sprites,self.create_attack,
                                     self.destroy_attack,
                                         self.create_magic,self.game.health,self.game.exp,self.game.level_bar)
-                            #else:
-                                #if col == '1': monster_name = 'ghost'
-                                #elif col == '4': monster_name = 'dark_fairy'
-                                #elif col == '2': monster_name ='bat'
+                            else:
+                                if col == '1532': monster_name = 'king'
+                                elif col == '1530': monster_name = 'fille'
+                                elif col == '1534': monster_name ='knight3'
                                 
-                                #else: monster_name = 'boss'
-                                #Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player)
+                                
+                                Ally(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally',monster_name+str(x+y),'idle_right',0)
     def create_map4_scene7(self):
         TILESIZE=32
         layouts = {
@@ -841,7 +900,7 @@ class Level:
             self.shield.kill()
             self.coef=180
 
-
+        
 
         self.visible_sprites.custom_draw(self.player)
         self.player.input(self)
@@ -873,6 +932,7 @@ class YSortCameraGroup(pygame.sprite.Group):
         self.offset = pygame.math.Vector2()
         #bat
         self.index_one_time=0
+        self.index_one_time2=0
         # floor
         if level_number == 5 or level_number == 6 :
             image = pygame.image.load('Graphics\map.png')
@@ -1012,13 +1072,8 @@ class YSortCameraGroup(pygame.sprite.Group):
             
                     if level.enemy  :
                         level.enemy_list.append(level.special_enemy)#si le joueur active la huitieme gemme on selectionne les enmies proches
-            if level.number==4 and level.scene==7:
-                if level.special_enemy.health<=0:
-                    print(level.special_ally,'7')
-                    level.special_ally.kill()
-                    level.special_ally=Ally('fairy_queen',(1344,1792),[level.visible_sprites,level.attackable_sprites],level.obstacle_sprites,level.number,'ally','fairy_queen','down',2)
-              
-
+            if ally.lancez_dragon:
+                level.passez_scene7=True
                 
 
             

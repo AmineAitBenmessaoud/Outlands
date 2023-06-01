@@ -61,6 +61,7 @@ class Ally(Entity):
         self.adding_text=True
         self.return_index=0
         self.lancez_bat=False
+        self.lancez_dragon=False
 
         self.vulnerable = True
         self.hit_time = None
@@ -69,15 +70,17 @@ class Ally(Entity):
         self.end_screen=False
 
     def import_graphics(self,name):
-        self.animations = {'idle_left':[] , 'move_left':[] ,'attack_left':[],
-                           'idle_right':[] , 'move_right':[] ,'attack_right':[]}
+        self.animations = {'idle_left':[] ,
+                           'idle_right':[] }
         main_path = f'Graphics/{name}/'
         
         if 'fairy'in name:
             self.animations = {'down':[],'up':[],'right':[],'left':[]}
             for animation in self.animations.keys():
                 self.animations[animation] = import_folder(main_path + animation +'/images/') 
-        
+        else:
+            for animation in self.animations.keys():
+                self.animations[animation] = import_folder(main_path + animation +'/images/') 
 
     def get_player_distance_direction(self,player):
         enemy_vec = pygame.math.Vector2(self.rect.center)
@@ -115,6 +118,18 @@ class Ally(Entity):
                         self.status = 'up'
                     else:
                         self.status = 'down'
+                else:
+                        # movement input
+                    if     self.direction[0]>0 and float(self.distance_vect[0])>200 :
+                        self.status = 'idle_right'
+                    elif    self.direction[0]<0 and float(self.distance_vect[0])>200:
+                        self.status = 'idle_left'
+                    elif     float(self.distance_vect[0])<200 and self.direction[1]>0 :
+                        self.status = 'idle_right'
+                    elif    self.direction[1]<0 and float(self.distance_vect[0])<200:
+                        self.status = 'idle_right'
+                    else:
+                        self.status = 'idle_right'
         else:#follow path
             pass   
     def actions(self,player):
@@ -196,8 +211,8 @@ class Ally(Entity):
 
             keys = pygame.key.get_pressed()
 
-        
-            if self.ally_name=='fairy_princ' or self.ally_name=='fairy_queen':
+            if self.ally_name in ['fairy_princ','fairy_queen','king']:
+                print(self.ally_name)
                 if player.rect.centerx>=self.discution_pos[0][0] and player.rect.centerx<=self.discution_pos[0][1] :
                     if player.rect.centery>=self.discution_pos[1][0]  and player.rect.centery<=self.discution_pos[1][1] :
                         
@@ -256,6 +271,8 @@ class Ally(Entity):
                                     self.return_index=0
                                     if self.ally_name=='fairy_queen'and self.dialogue_index==2:
                                         self.lancez_bat=True
+                                    if self.ally_name=='king':
+                                        self.lancez_dragon=True
                                     if self.ally_name=='fairy_queen'and self.dialogue_index==3:
                                         self.end_screen=True
                         self.animate_discution()
@@ -273,6 +290,9 @@ class Ally(Entity):
     def animate_discution(self):
             if self.ally_name=='fairy_princ' or self.ally_name=='fairy_queen':
                 status='down'
+            else:
+                status='idle_right'
+
         #animation part 
             animation = self.animations[status]
             self.frame_index2 = self.animation_speed +self.frame_index2

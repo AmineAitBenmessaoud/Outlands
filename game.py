@@ -67,7 +67,7 @@ class Game:
         self.ending_index=0
         self.passto_scene5=0
 
-        self.level = Level(self,4,(5000,5000),1)
+        self.level = Level(self,4,(0,0),1)
     def run(self):
         one_time=False
         one_time2=False
@@ -93,6 +93,9 @@ class Game:
                     print(alpha)
                     if alpha<=5:
                         one_time=True
+                    if keys[pygame.K_RETURN]:
+                        self.screen_intro_index=3
+                        test_font= pygame.font.Font('font/Pixeltype.ttf', 50)
                     if self.screen_intro_index==0 and one_time:
                         
                         imt_stand = pygame.image.load('intro/imt.png').convert_alpha()
@@ -251,7 +254,7 @@ class Game:
                             self.screen.blit(self.player_wait,self.player_wait_rect)
                             self.playery+=60
                         if self.playery >=3200:
-                            self.level = Level(self,4,(2690,5650))
+                            self.level = Level(self,4,(2690,5650),1,1)
                     if (self.playerx>=22600 and self.playerx<=22808 ) and self.level.scene == 1 and self.level.number==4:
                         if self.level.boss_enemy.health<=0:
                             if self.playery >= 4900 and self.playery <= 5190 :
@@ -278,8 +281,8 @@ class Game:
                     if (self.playerx>=2800 and self.playerx<=2990 ) and self.level.scene == 6 and self.level.number==4:
                         if  self.playery >= 4190 :
                             self.level = Level(self,4,(2000,1840),5)
-                    if (self.playerx>=2800 and self.playerx<=2950 ) and self.level.scene == 6 and self.level.number==4:
-                        if  self.playery <= 1380 :
+                    if self.level.scene == 6 and self.level.number==4:
+                        if  self.level.passez_scene7:
                             self.main_sound.stop()
                             self.main_sound4.play(loops = -1)
                             self.level = Level(self,4,(0,0),7)
