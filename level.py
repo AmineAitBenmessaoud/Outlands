@@ -89,6 +89,7 @@ class Level:
         self.special_enemy=None
         self.sepecial_ally=None
         self.final_enemy=None
+        self.boss_enemy=None
         #end screen declancheur.
         self.end_screen=False
         # creation de la map
@@ -129,7 +130,10 @@ class Level:
             if scene_number == 7 :
                 self.create_map4_scene7()
             
-
+        #music
+        self.weapon_hit_sound = pygame.mixer.Sound('audio/hit.wav')
+        self.weapon_hit_sound.set_volume(0.2)
+        self.sound2_zone=False
 
     #def create_special():
       #  self.sepecial_ally=
@@ -462,13 +466,20 @@ class Level:
                             elif col == '1578':Ally('fairy_green',(x,y),[self.visible_sprites,self.attackable_sprites],self.obstacle_sprites,self.number,'ally','fairy_green'+str(x+y),'left',0)
                             else:
                                 
-                                if col == '1': monster_name = 'ghost'
-                                elif col == '4': monster_name = 'dark_fairy'
-                                elif col == '2': monster_name ='bat'
+                                if col == '1':
+                                    monster_name = 'ghost'
+                                    self.enemy=Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player,self.number,'enemy',monster_name+str(x+y))
+                                elif col == '4': 
+                                    monster_name = 'dark_fairy'
+                                    self.enemy=Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player,self.number,'enemy',monster_name+str(x+y))
+                                elif col == '2': 
+                                    monster_name ='bat'
+                                    self.enemy=Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player,self.number,'enemy',monster_name+str(x+y))
                                 
-                                else: monster_name = 'boss'
-                                
-                                self.enemy=Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player,self.number,'enemy',monster_name+str(x+y))
+                                elif col == '5':
+                                    monster_name = 'boss'
+                                    self.boss_enemy=Enemy(monster_name,(x,y),[self.visible_sprites,self.attackable_sprites],self.nothing,self.damage_player,self.number,'enemy',monster_name+str(x+y))
+                                    self.enemy_list.append(self.boss_enemy)
                                 
                                 if self.enemy  :
                                     self.enemy_list.append(self.enemy)#si le joueur active la huitieme gemme on selectionne les enmies proches
@@ -759,6 +770,7 @@ class Level:
             self.player.health -= amount
             self.player.vulnerable = False
             self.player.hurt_time = pygame.time.get_ticks()
+            self.weapon_hit_sound.play()
             #spawn particles
 
 
@@ -835,6 +847,7 @@ class Level:
         self.player.input(self)
         self.visible_sprites.update()
         self.visible_sprites.enemy_ally_update(self.player,self)
+        main.sound2_zone=self.sound2_zone
         
         self.player_attack_logic()
         if self.player.activate8:
@@ -976,10 +989,18 @@ class YSortCameraGroup(pygame.sprite.Group):
                 level.current_enemy=None
         for enemy in enemy_sprites:  
             enemy.enemy_update(player)
+            if enemy.monster_name=='boss' :
+                print(enemy.distance,'963369')
+                if enemy.health<200:
+                    level.boss_enemy=enemy
+                if enemy.distance<=3500:
+                    level.sound2_zone=True
+                elif enemy.distance>3500:
+                    level.sound2_zone=False
         
         for ally in ally_sprites:
             ally.ally_update(player,self)
-            if ally.ally_name=='fairy_queen':
+            if ally.ally_name=='fairy_queen' and level.scene!=2:
                 level.end_screen=level.ally.end_screen
             if ally.lancez_bat:
                 if self.index_one_time==0:
@@ -991,10 +1012,12 @@ class YSortCameraGroup(pygame.sprite.Group):
             
                     if level.enemy  :
                         level.enemy_list.append(level.special_enemy)#si le joueur active la huitieme gemme on selectionne les enmies proches
+            if level.number==4 and level.scene==7:
                 if level.special_enemy.health<=0:
                     print(level.special_ally,'7')
                     level.special_ally.kill()
                     level.special_ally=Ally('fairy_queen',(1344,1792),[level.visible_sprites,level.attackable_sprites],level.obstacle_sprites,level.number,'ally','fairy_queen','down',2)
+              
 
                 
 
