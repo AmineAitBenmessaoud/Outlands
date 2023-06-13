@@ -72,6 +72,20 @@ class Player(Entity):
         self.discussing=False
 
         self.map = map
+
+        # import a sound
+        self.weapon_attack_sound = pygame.mixer.Sound('audio/sword.wav')
+        self.weapon_attack_sound.set_volume(0.2)
+        self.weapon_heal_sound = pygame.mixer.Sound('audio/heal.wav')
+        self.weapon_heal_sound.set_volume(0.2)
+        self.weapon_death_sound = pygame.mixer.Sound('audio/death.wav')
+        self.weapon_death_sound.set_volume(0.2)
+        self.weapon_fireball_sound = pygame.mixer.Sound('audio/fireball.wav')
+        self.weapon_fireball_sound.set_volume(0.2)
+        self.weapon_attack_sound = pygame.mixer.Sound('audio/sword.wav')
+        self.weapon_attack_sound.set_volume(0.2)
+        self.weapon_attack_sound = pygame.mixer.Sound('audio/sword.wav')
+        self.weapon_attack_sound.set_volume(0.2)
         
 
 
@@ -135,6 +149,7 @@ class Player(Entity):
                             self.numattack+=1
                         else:
                             self.numattack=0
+                        self.weapon_attack_sound.play()
                         self.attack_time = pygame.time.get_ticks()
                         
 
@@ -187,6 +202,7 @@ class Player(Entity):
                             pos = self.rect.center
                             player_width = self.rect.width
                             player_height = self.rect.height
+                            self.weapon_heal_sound.play()
                         if self.weapon_index==3 and level.ui.frame_index==8:
                             self.speed = 40
                             pos = self.rect.center
@@ -201,6 +217,7 @@ class Player(Entity):
                                 self.animation_player.create_projectile_left((pos[0]+player_width//2,pos[1]),[level.visible_sprites],level)
                             else :
                                 self.animation_player.create_projectile_right((pos[0]-player_width//2,pos[1]),[level.visible_sprites],level)
+                            self.weapon_fireball_sound.play()
                         if self.weapon_index==7 and level.ui.frame_index==8:
                             self.activate8=True
                             level.enemy8th=Enemy('boss_ally',(self.rect.centerx-100,self.rect.centery-100),[level.visible_sprites,level.attackable_sprites,level.attacker_sprites],level.nothing,level.damage_player,level.number,'enemy_ally','boss_ally')
@@ -247,6 +264,7 @@ class Player(Entity):
                     if 'attack' in self.status:
                         self.status = self.status.replace(self.status[self.status.index('_attack'):],'')
         if self.health<=0:
+            self.weapon_death_sound.play()
             self.game_over=True
             if self.past_direction.x==-1:
                 self.status='gameover_left'

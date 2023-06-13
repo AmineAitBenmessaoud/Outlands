@@ -15,11 +15,17 @@ class Game:
         pygame.init()
         self.screen = pygame.display.set_mode((WIDTH,HEIGHT))
         pygame.display.set_caption('Outlands')
-        main_sound = pygame.mixer.Sound('audio/main.mp3')
-		
-        main_sound.set_volume(0.5)
-		
-        main_sound.play(loops = -1)
+        self.main_sound = pygame.mixer.Sound('audio/main.ogg')
+        self.main_sound2 = pygame.mixer.Sound('audio/akaza.mp3')
+        self.main_sound3 = pygame.mixer.Sound('audio/intro.mp3')
+        self.main_sound4 = pygame.mixer.Sound('audio/finalboss.mp3')
+        self.main_sound.set_volume(0.5)
+        self.main_sound2.set_volume(0.5)
+        self.main_sound3.set_volume(0.5)
+        self.main_sound4.set_volume(0.5)
+        self.sound2_zone=False
+        self.sound2_activated=False
+        self.main_sound.play(loops = -1)
         self.clock = pygame.time.Clock()
         self.game_active=True
         self.player_stand = pygame.image.load('player/gameover_right_6.png').convert_alpha()
@@ -59,8 +65,9 @@ class Game:
         self.intro=1
         self.ending=False
         self.ending_index=0
+        self.passto_scene5=0
 
-        self.level = Level(self,1,(0,0),1)
+        self.level = Level(self,4,(0,0),1)
     def run(self):
         one_time=False
         one_time2=False
@@ -86,6 +93,9 @@ class Game:
                     print(alpha)
                     if alpha<=5:
                         one_time=True
+                    if keys[pygame.K_RETURN]:
+                        self.screen_intro_index=3
+                        test_font= pygame.font.Font('font/Pixeltype.ttf', 50)
                     if self.screen_intro_index==0 and one_time:
                         
                         imt_stand = pygame.image.load('intro/imt.png').convert_alpha()
@@ -186,7 +196,11 @@ class Game:
                     if  keys[pygame.K_RETURN] :
                         self.ending_index+=1
                     if self.ending_index>=10:
+                        self.main_sound3.stop()
+                        
                         self.level=Level(self,1,(0,0),1)
+                        self.main_sound.play(loops = -1)
+                        
                         self.start_game=True
                     pygame.display.update()
                     self.clock.tick(FPS)
@@ -203,8 +217,11 @@ class Game:
                     self.playery = self.level.player.rect.centery
                     print(self.playerx ,self.playery )
                     if self.level.number == 5 :
+                        self.main_sound.stop()
+                        self.main_sound3.play(loops = -1)
                         if self.smth :
-                            
+                            self.main_sound3.stop()
+                            self.main_sound.play(loops = -1)
                             self.level = Level(self,1,(0,0),1)
                     if self.level.number == 1 and self.level.scene == 1 :
                         if self.playerx >= 5276 and self.playerx <= 5590 and self.playery == 7803 :
@@ -237,12 +254,13 @@ class Game:
                             self.screen.blit(self.player_wait,self.player_wait_rect)
                             self.playery+=60
                         if self.playery >=3200:
-                            self.level = Level(self,4,(2690,5650))
+                            self.level = Level(self,4,(2690,5650),1,1)
                     if (self.playerx>=22600 and self.playerx<=22808 ) and self.level.scene == 1 and self.level.number==4:
-                        if self.playery >= 4900 and self.playery <= 5190 :
-                            self.level = Level(self,4,(0,0),3)
-                            self.playerx = 1624
-                            self.playery = 2046
+                        if self.level.boss_enemy.health<=0:
+                            if self.playery >= 4900 and self.playery <= 5190 :
+                                self.level = Level(self,4,(0,0),3)
+                                self.playerx = 1624
+                                self.playery = 2046
                     if (self.playerx>=2100 and self.playerx<=2200 ) and self.level.scene == 3 and self.level.number==4:
                         if  self.playery <= 1450 :
                             self.level = Level(self,4,(0,0),4)
@@ -263,13 +281,16 @@ class Game:
                     if (self.playerx>=2800 and self.playerx<=2990 ) and self.level.scene == 6 and self.level.number==4:
                         if  self.playery >= 4190 :
                             self.level = Level(self,4,(2000,1840),5)
-                    if (self.playerx>=2800 and self.playerx<=2950 ) and self.level.scene == 6 and self.level.number==4:
-                        if  self.playery <= 1380 :
+                    if self.level.scene == 6 and self.level.number==4:
+                        if  self.level.passez_scene7:
+                            self.main_sound.stop()
+                            self.main_sound4.play(loops = -1)
                             self.level = Level(self,4,(0,0),7)
-                            if self.level.final_enemy.health<=0:
-                                self.level = Level(self,6,(0,0),1)
+                            
                     if self.level.scene == 7 and self.level.number==4:
                         if self.level.final_enemy.health<=0:
+                                self.main_sound4.stop()
+                                self.main_sound3.play(loops = -1)
                                 self.level = Level(self,6,(0,0),1)
                     #if (self.playerx>=1500 and self.playerx<=1700 ) and self.level.scene == 7 and self.level.number==4:
                     #    if  self.playery >= 2070 :
@@ -281,6 +302,16 @@ class Game:
                         
                     if self.number_gameover:
                         self.number_gameover=0
+                    print(self.sound2_zone,'78954')
+                    if self.sound2_zone:
+                        self.sound2_activated=True
+                        self.main_sound.stop()
+                        self.main_sound2.play(loops = -1)
+                    else:
+                        if self.sound2_activated:
+                            self.sound2_activated=False
+                            self.main_sound2.stop()
+                            self.main_sound.play(loops = -1)
                     pygame.display.update()
                     self.clock.tick(FPS)
             else:
@@ -303,7 +334,7 @@ class Game:
 
 
 
-
+    
     def wave_value(self,f,a,boolean,phase):
         if boolean:
             return a*abs(sin(2*pi*f*pygame.time.get_ticks()+phase))

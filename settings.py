@@ -60,7 +60,7 @@ monster_data = {
 	'flying_rock': {'health': 150,'exp':0,'damage':0,'attack_type': 'none', 'attack_sound':'audio/slash.wav', 'speed': 0, 'resistance': 3, 'attack_radius': 0, 'notice_radius' : 0,'animation_speed':0.8,'near_distance':200},
 	'Tower': {'health': 150,'exp':0,'damage':0,'attack_type': 'none', 'attack_sound':'audio/slash.wav', 'speed': 0, 'resistance': 3, 'attack_radius': 0, 'notice_radius' : 0,'animation_speed':0.8,'near_distance':200},
 	'dragon': {'health' : 300 , 'exp': 100, 'damage': 10, 'attack_type': 'firebreath', 'attack_sound': 'audio/slash.wav','speed': 0.05, 'resistance': 3, 'attack_radius': 180, 'notice_radius': 500,'animation_speed':0.8,'near_distance':200},
-	'ghost': {'health': 600,'exp':1,'damage':15,'attack_type': 'slash', 'attack_sound':'audio/slash.wav',
+	'ghost': {'health': 100,'exp':1,'damage':15,'attack_type': 'slash', 'attack_sound':'audio/slash.wav',
                            'speed': 11, 'resistance':100 , 'attack_radius': 25, 'notice_radius': 600,'animation_speed':0.7,'near_distance':30},
     'dark_fairy': {'health': 30,'exp':0,'damage':2,'attack_type': 'claw',  'attack_sound':'audio/slash.wav',
                             'speed': 6, 'resistance': 30, 'attack_radius': 10, 'notice_radius': 250,'animation_speed':0.2,'near_distance':60},
@@ -74,7 +74,7 @@ monster_data = {
                            'speed': 12, 'resistance': 60, 'attack_radius': 140,'notice_radius': 100000,'animation_speed':0.5,'near_distance':80},
     'lv1_boss' : {'health': 300,'exp':10,'damage':30,'attack_type': 'leaf_attack', 'attack_sound':'audio/slash.wav', 
                            'speed': 12, 'resistance': 60, 'attack_radius': 140,'notice_radius': 1000,'animation_speed':0.5,'near_distance':80},
-    'dragon1' : {'health': 400,'exp':10,'damage':30,'attack_type': 'leaf_attack', 'attack_sound':'audio/slash.wav', 
+    'dragon1' : {'health': 700,'exp':10,'damage':30,'attack_type': 'leaf_attack', 'attack_sound':'audio/slash.wav', 
                            'speed': 5, 'resistance': 60, 'attack_radius': 140,'notice_radius': 1000,'animation_speed':0.2,'near_distance':80},
     'demon' : {'health': 300,'exp':10,'damage':30,'attack_type': 'leaf_attack', 'attack_sound':'audio/slash.wav', 
                            'speed':5, 'resistance': 60, 'attack_radius': 140,'notice_radius': 1000,'animation_speed':0.2,'near_distance':80},
@@ -96,27 +96,55 @@ ally_data={
                            'speed': 7, 'animation_speed':0.2,'text':[],'resistance':30
             },
     'fairy_queen':{'health': 9000,'damage':30, 'attack_sound':'../audio/attack/slash.wav', 
+                           'speed': 7, 'animation_speed':0.2,'resistance':30},
+    'fairy_queen':{'health': 9000,'damage':30, 'attack_sound':'../audio/attack/slash.wav', 
                            'speed': 7, 'animation_speed':0.2,'resistance':30
-            }
+                           },
+    'king':{'health': 9000,'damage':30, 'attack_sound':'../audio/attack/slash.wav', 
+    'speed': 7, 'animation_speed':0.2,'resistance':30},
+    'fille':{'health': 9000,'damage':30, 'attack_sound':'../audio/attack/slash.wav', 
+                           'speed': 7, 'animation_speed':0.2,'resistance':30},
+    'knight3':{'health': 9000,'damage':30, 'attack_sound':'../audio/attack/slash.wav', 
+                           'speed': 7, 'animation_speed':0.2,'resistance':30}
+
+
 }
 #dialogue est structuree comme ca: {'ally_name':{numero_dialogue:[[ligne_0_page_0,ligne_1_page_0],[ligne_0_page_1,ligne_1_page_1],[surface_declanchement_discution],position de l'allier pendant ce dialogie n numero_dialogue]}}
 dialogue={
-    'fairy_princ':{0:[['Salut! ,  t  a  l  air  un  peu  fort,  je  m  appel  Liza',
-                      'je  suis  une  fee,  je  suis  perdu,  j  ai  peur  que ',
-                      'les  fantoms  m  attaquent.'],
-                      ['Peut  tu  m  aider  .  Oh!  genial,  je me  rapelle que  prenait',
-                      'toujours  le nord  au  debut,  peut tu te  deriger  vers  le sud,',
-                      'je  vais  te  suivre'],
+    'fairy_princ':{0:[['Salut! ,  t  a  l  air  un  peu  fort,  je ',
+                      ' m  appel  Lizaje  suis  une  fee,  je  suis ',
+                      ' perdu,  j  ai  peur  que les  fantoms  m  attaquent.'],
+                      ['Peut  tu  m  aider  .  Oh!  genial,  je me  ',
+                      'rapelle que  prenait toujours  le nord  au  debut,'],
+                      [
+                      'peut tu te  deriger  vers  le sud,je  vais  te  suivre'],
                       [(1900,2000),(1400,1700)],(1984, 1504)],
-                    1:[['oh  !  I came  before  you  , thank  you  for  protecting  me  from ',
-                      'these  monsters.  This  is  the  tree of  fairies  .  Can  I  ask  you   ',
-                      'request  .  We have  abig  problem  ,  our  garden  is  attacked  by  monsters',
-                      'and  we  the  fairies  are  too  weak  to  defend  ourself.  The monsters  ',
-                      'have  already  took  control  of  more  than  the  half  of  the  garden ',
-                      'I  just  talked  with  my  mom  ,  and  told  her  how  you  are  strong,  so  she  want  to ',
-                      ' so  she  want  to  talk  with  you  .  She  is  inside  the  tree  waiting  ',
+                    1:[['oh  ! quand j ai vu l arbre je me suis presse ',
+                      'de courrir, desole .Voici l arbre des fees. Est ce',
+                      ' que je peut te demander une faveur On a un grand ',
+                      'problem: notre jardin est attaque par des monstres ',
+                      'et nous les fees sont trops faible pour combattre.'],
+                      [
+                      'ils ont prit le control de presque plus la moitie du jardin',
+                      'je viens de parler a maman, et je lui est dit que t etait fort',
+                      'Elle veut discuter avec toi, elle t attend a l interieur.'
                       'for  you  !!!!'],
-                      [(2000,3600),(5600,7000)],(2665, 6015)]},
+                      [(2000,3600),(5700,6000)],(2665, 6015)],
+                    2:[['j ai parle avec maman, elle a dit:',
+                        'T  a  l  air  tres fort  en  effet...',
+                      'peut  tu  sauver  notre  jardin  en  battant  le',
+                      'monstre ultime  du  cristal  et  en  redescandant',
+                      'le chateau. en  echange  je  te  donne  cette  ',
+                      'gemme,  elle  generera un  bouclier pour te proteger',
+                        'des  monstres,  utilise ',
+                      ],
+                      ['la  bien. Encore une chose, il y a des fees qui ont',
+                       'ete touche par le virus qui se propage, ne leur',
+                       'fait pas de mal s il te plait, il sont de bonnes',
+                       'personnes, utilise le bouclier pour te proteger.'],
+                       ['...  BONNE CHANCE.'],
+                      
+                      [(2400,2900),(5700,6000)],(1344, 1792)]},
     'fairy_queen':{0:[["L'histoire se deroule dans une majestueuse capitale",
                         "d'un vaste empire, ou un destin extraordinaire atte-",
                         "nd notre jeune heros. Depuis la recente disparition ",
@@ -180,9 +208,14 @@ dialogue={
                       'ultime  du  cristal  et  en  redescandant  le chateau. ',
                       'en  echange  je  te  donne  cette  gemme,  elle  generera',
                       'un  bouclier pour te proteger  des  monstres,  utilise ',
-                      ' la  bien'],
+                      ],
+                      ['la  bien. Encore une chose, il y a des fees qui ont',
+                       'ete touche par le virus qui se propage, ne leur',
+                       'fait pas de mal s il te plait, il sont de bonnes',
+                       'personnes, utilise le bouclier pour te proteger.'],
+                       ['...  BONNE CHANCE.'],
                       
-                      [(1200,1500),(1900,2240)],(2665, 6015)],
+                      [(1200,1500),(1900,2240)],(1344, 1792)],
                       #(2110,1876)
                     3:[['Apres avoir remporte la bataille contre le dragon,',
                       'le jeune garcon recupera la derniere gemme que ce',
@@ -227,7 +260,12 @@ dialogue={
                     #  
                     #  
                     #  lien familial.
-    'fairy_green':{0:[[],[]]}
+    'fairy_green':{0:[[],[]]},
+    'king':       {0:[['GRRR... tu m a suivit jusqu ici pour saboter',
+                       'mon magnifique marriage, tu va gouter a ma colere',
+                       'affronte donc mon dragon.'], [(2700,2990),(1400,1800)],(2665, 6015)]},
+    'knight3':{0:[[],[]]},
+    'fille':{0:[[],[]]}
 
 }
 
