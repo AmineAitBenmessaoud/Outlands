@@ -5,7 +5,7 @@ setup(
     packages=find_packages(),
     install_requires=["pygame"],
     description="My Python package",
-    author="3bass",
+    author="The team",
     author_email="your@email.com",
     url="",
     entrypoints={
