@@ -23,6 +23,9 @@ python game.py
 ## Jouer au Jeu
 
 Félicitations ! Vous avez maintenant accès à une expérience de jeu divertissante. Explorez le monde virtuel, relevez les défis et profitez de l'excitation du jeu. Que la meilleure stratégie gagne !
+## Diagramme de classe
+
+<img src="Diagramme de classes.png"></img>
 
 ## Besoin d'Aide ?
 
