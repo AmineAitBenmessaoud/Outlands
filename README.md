@@ -27,6 +27,28 @@ Félicitations ! Vous avez maintenant accès à une expérience de jeu divertiss
 
 <img src="Diagramme de classes.png"></img>
 
+## Environnement de test
+
+
+	Nous avons effectué trois types de tests pour le jeu : Tests de fonctionnalité, tests d'intégration et tests de performance.
+Test de fonctionnalité : vérifie que les méthodes font exactement ce qu’elles sont censées faire.
+Test d’intégration : vérifie que l’intégration des méthodes dans le corps du jeu se fait sans conflit avec d’autres méthodes.
+Test de performance : vérifie que les méthodes n’ont pas beaucoup de latence et ne ralentissent pas le jeu.
+Tests de fonctionnalité et d’intégration :
+Ces types sont faits au fur et à mesure de l'implémentation des fonctionnalités. Ces tests se font selon la structure suivante : 
+
+Exemple d’un test pour la fonctionnalité mouvement du joueur : 
+
+
+Tests de performances :
+Se fait qualitativement en testant le jeu dans plusieur PC différents et quantitativement grâce à la bibliothèque time[6] de python selon l’algorithme suivant : 
+debut = time.time()  # Temps au début de l'exécution de la méthode
+méthode testée()
+fin = time.time()  # Temps à la fin de l'exécution de la méthode
+temps execution = fin - début 
+Le calcul du temps d'exécution permet de valider que les fonctionnalités du jeu sont en accord avec les contraintes imposées dans le cahier de charge du jeu. Les fonctionnalitées qu’on a validées jusqu’à présent sont : 
+Le lancement du jeu, les contrôles du jeu, les interactions avec les obstacles et les ennemis.
+
 ## Besoin d'Aide ?
 
 Si vous avez des questions, des problèmes techniques ou des commentaires à propos du jeu, n'hésitez pas à créer une nouvelle issue dans ce dépôt. Notre équipe est là pour vous aider.
